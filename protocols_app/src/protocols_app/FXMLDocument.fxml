@@ -22,6 +22,8 @@
                               <Label layoutX="135.0" layoutY="69.0" text="THEN" />
                               <Label layoutX="272.0" layoutY="69.0" text="ELSE" />
                               <ComboBox layoutX="35.0" layoutY="110.0" prefWidth="150.0" />
+                              <Label layoutX="25.0" layoutY="14.0" text="Name:" />
+                              <Label fx:id="labelProtokolName" layoutX="74.0" layoutY="15.0" text="Protokol name" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="776.0" prefWidth="921.0" />

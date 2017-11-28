@@ -10,5 +10,24 @@ package protocol.enums;
  * @author Ondrej Urbanovsky
  */
 public enum Attributes {
-    LIFE, COMUNICATES, RESOURCES, BIGGER, WEAPONS, ACT_WEAPON, FAST;
+    LIFE ("Life"),
+    COMUNICATES ("Comunicates"), 
+    RESOURCES ("Resources"), 
+    BIGGER ("Bigger"), 
+    WEAPONS ("Weapons"), 
+    ACT_WEAPON ("Active weapons"), 
+    FAST ("Fast");
+    
+    String name;
+    
+    Attributes(String name){
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+    
+    
 }
