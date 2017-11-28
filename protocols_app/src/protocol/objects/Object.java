@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb162.protocols.objects;
+package protocol.objects;
 
-import cz.muni.fi.pb162.protocols.Action;
-import cz.muni.fi.pb162.protocols.exceptions.InvalidActionException;
+import protocol.enums.Action;
+import protocol.exceptions.InvalidActionException;
 
 /**
  *
@@ -21,6 +21,6 @@ public interface Object {
      */
     int doAction(Action action) throws InvalidActionException;
     
-    boolean enoughInformation (Action action) throws InvalidActionException;
+    
     
 }
