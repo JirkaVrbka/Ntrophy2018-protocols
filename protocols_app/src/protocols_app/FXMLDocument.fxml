@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="protocols_app.FXMLDocumentController">
+<AnchorPane id="AnchorPane" maxHeight="754.0" prefHeight="688.0" prefWidth="1300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="protocols_app.FXMLDocumentController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+      <SplitPane dividerPositions="0.1" orientation="VERTICAL" prefHeight="400.0" prefWidth="1300.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="1300.0" />
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="352.0" prefWidth="1298.0">
+               <children>
+                  <SplitPane dividerPositions="0.5" prefHeight="350.0" prefWidth="1300.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ChoiceBox fx:id="ifChoice" layoutX="35.0" layoutY="64.0" prefHeight="28.0" prefWidth="91.0" />
+                              <Label layoutX="14.0" layoutY="69.0" text="IF" />
+                              <Label layoutX="135.0" layoutY="69.0" text="THEN" />
+                              <Label layoutX="272.0" layoutY="69.0" text="ELSE" />
+                              <ComboBox layoutX="35.0" layoutY="110.0" prefWidth="150.0" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="776.0" prefWidth="921.0" />
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <SplitPane dividerPositions="0.8795180722891566" layoutY="385.0" orientation="VERTICAL" prefHeight="303.0" prefWidth="1300.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="160.0">
+               <children>
+                  <SplitPane dividerPositions="0.5" prefHeight="400.0" prefWidth="1300.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="198.0" prefWidth="641.0" />
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="101.0" prefWidth="1298.0" />
+        </items>
+      </SplitPane>
     </children>
 </AnchorPane>
