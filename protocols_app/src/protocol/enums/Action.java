@@ -10,5 +10,21 @@ package protocol.enums;
  * @author Ondrej Urbanovsky
  */
 public enum Action {
-    SHOOT, GATHER_RESOURCES, CONTACT, FLYBY, ESCAPE, TRADE;
+    SHOOT ("Shoot"), 
+    GATHER_RESOURCES ("gather resources"), 
+    CONTACT ("Contact"), 
+    FLYBY ("Fly by"), 
+    ESCAPE ("Escape"), 
+    TRADE ("Trade");
+    
+    String name;
+    
+    Action(String name){
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

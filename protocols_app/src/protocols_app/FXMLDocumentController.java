@@ -6,14 +6,17 @@
 package protocols_app;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import protocol.enums.Attributes;
 
 /**
  *
@@ -34,9 +37,18 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         int x = 0;
         Integer y = x;
-        ifChoice.setItems(FXCollections.observableArrayList(
-            "First", "Second", "Third")
-        );
-    }    
+        setIfChoices(new ChoiceBox[]{ifChoice});
+    } 
+    
+    private void setIfChoices(ChoiceBox[] boxes){
+        ObservableList<String> values = FXCollections.observableArrayList();
+        for(Attributes atr : Attributes.values()){
+            values.add(atr.toString());
+        }
+        
+        for(ChoiceBox box : boxes){
+            box.setItems(values);
+        }
+    }
     
 }
