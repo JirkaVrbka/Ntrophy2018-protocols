@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pb162.protocols.objects;
+package protocol.objects;
 
-import cz.muni.fi.pb162.protocols.Action;
-import cz.muni.fi.pb162.protocols.Attributes;
-import cz.muni.fi.pb162.protocols.exceptions.InvalidActionException;
-import cz.muni.fi.pb162.protocols.exceptions.InvalidObjectException;
+import protocol.enums.Action;
+import protocol.enums.Attributes;
+import protocol.exceptions.InvalidActionException;
+import protocol.exceptions.InvalidObjectException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,51 +17,88 @@ import java.util.Map;
  * @author Ondrej Urbanovsky
  */
 public abstract class SpaceObject implements Object{
-    private boolean life;
-    private boolean comunicates;
-    private boolean resources;
-    private boolean bigger;
-    private boolean weapons;
-    private boolean actWeapons;
-    private boolean fast;
+    private Boolean life        = false;
+    private Boolean comunicates = false;
+    private Boolean resources   = false;
+    private Boolean bigger      = false;
+    private Boolean weapons     = false;
+    private Boolean actWeapons  = false;
+    private Boolean fast        = false;
     private List <Attributes> missing;
     
     
     public SpaceObject(List <Attributes> attrs, List <Attributes> missing) 
             throws InvalidObjectException{
         this.missing = missing;
-        for (Attributes attr : attrs) {
-            switch (attr){
-                case LIFE: {
-                    life = true;
-                    break;
+        if (attrs != null && attrs.size() > 0){
+            for (Attributes attr : attrs) {
+                switch (attr){
+                    case LIFE: {
+                        life = true;
+                        break;
+                    }
+                    case COMUNICATES:{
+                        comunicates = true;
+                        break;
+                    }
+                    case BIGGER: {
+                        bigger = true;
+                        break;
+                    }
+                    case ACT_WEAPON:{
+                        actWeapons = true;
+                        break;
+                    }
+                    case WEAPONS:{
+                        weapons = true;
+                        break;
+                    }
+                    case RESOURCES:{
+                        resources = true;
+                        break;
+                    }
+                    case FAST: {
+                        fast = true;
+                        break;
+                    }
                 }
-                case COMUNICATES:{
-                    comunicates = true;
-                    break;
-                }
-                case BIGGER: {
-                    bigger = true;
-                    break;
-                }
-                case ACT_WEAPON:{
-                    actWeapons = true;
-                    break;
-                }
-                case WEAPONS:{
-                    weapons = true;
-                    break;
-                }
-                case RESOURCES:{
-                    resources = true;
-                    break;
-                }
-                case FAST: {
-                    fast = true;
-                    break;
-                }
-                
             }
+        }
+        if (missing != null && this.missing.size() > 0){
+            for (Attributes miss : missing) {
+                switch (miss){
+                    case LIFE: {
+                        life = null;
+                        break;
+                    }
+                    case COMUNICATES:{
+                        comunicates = null;
+                        break;
+                    }
+                    case BIGGER: {
+                        bigger = null;
+                        break;
+                    }
+                    case ACT_WEAPON:{
+                        actWeapons = null;
+                        break;
+                    }
+                    case WEAPONS:{
+                        weapons = null;
+                        break;
+                    }
+                    case RESOURCES:{
+                        resources = null;
+                        break;
+                    }
+                    case FAST: {
+                        fast = null;
+                        break;
+                    }
+                }
+            }
+        }
+        if((actWeapons != null && weapons != null)){
             if (actWeapons && !weapons){
                 throw new InvalidObjectException();
             }
@@ -113,39 +150,6 @@ public abstract class SpaceObject implements Object{
             return true;
         }
         throw new InvalidActionException();        
-    }
-    
-    
-        @Override
-    public boolean enoughInformation(Action action) throws InvalidActionException {
-        switch(action){
-            case CONTACT:{
-                if(isLife()){
-                    return !(missing.contains(Attributes.ACT_WEAPON) ||
-                            missing.contains(Attributes.COMUNICATES) ||
-                            missing.contains(Attributes.RESOURCES));
-                } else{
-                  return !(missing.contains(Attributes.WEAPONS) || 
-                          missing.contains(Attributes.COMUNICATES));  
-                }
-            }
-            case ESCAPE:{
-            
-            }
-            case FLYBY:{
-            
-            }
-            case GATHER_RESOURCES:{
-            
-            }
-            case SHOOT:{
-            
-            }
-            case TRADE:{
-            
-            }
-            
-        }
     }
     
     
