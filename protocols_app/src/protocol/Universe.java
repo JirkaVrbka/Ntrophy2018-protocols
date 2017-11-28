@@ -14,6 +14,7 @@ import protocol.objects.SpaceObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
 import protocol.exceptions.InvalidActionException;
 import protocol.objects.Planet;
 import protocol.objects.Ship;
@@ -135,35 +136,16 @@ public class Universe {
      * Does action on specified obj.
      * @param action enum action
      * @param objectID int ID
-     * @return String Body za action + int  
+     * @return Pair (points, true if everything ok, if false then points is unusable)
      */
-    public String evalAction(Action action, int objectID){
+    public Pair<Integer, Boolean> evalAction(Action action, int objectID){
+        Pair <Integer, Boolean> rt;
         try{
-            switch(action){
-                case CONTACT:{
-                    return "Body za kontaktování: " + objects.get(objectID).doAction(action);
-                }
-                case ESCAPE:{
-                    return "Body za útěk: " + objects.get(objectID).doAction(action);
-                }
-                case FLYBY:{
-                    return "Body za průlet: " + objects.get(objectID).doAction(action);
-                }
-                case GATHER_RESOURCES:{
-                    return "Body za těžbu zdrojů: " + objects.get(objectID).doAction(action);
-                }
-                case SHOOT:{
-                    return "Body za střílení: " + objects.get(objectID).doAction(action);
-                }
-                case TRADE:{
-                    return "Body za obchodování: " + objects.get(objectID).doAction(action);
-                }
-
-            }
+            rt = new Pair((Integer)objects.get(objectID).doAction(action), true);
         } catch(InvalidActionException e){
-            return "Nelze vyhodnotit není specifikováno dostatek atributů";
+            return  new Pair(-42, false);
         }
-        return "";
+        return rt;        
     }
    
     /**

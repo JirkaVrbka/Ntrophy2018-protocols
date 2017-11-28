@@ -21,6 +21,4 @@ public interface Object {
      */
     int doAction(Action action) throws InvalidActionException;
     
-    
-    
 }
