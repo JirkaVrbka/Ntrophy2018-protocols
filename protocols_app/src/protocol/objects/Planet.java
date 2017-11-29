@@ -10,6 +10,7 @@ import protocol.enums.Attributes;
 import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
+import protocol.enums.Type;
 
 /**
  *
@@ -19,11 +20,15 @@ public class Planet extends SpaceObject{
 
     public Planet(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
         super(attrs, missing);
-        if(!missing.contains(Attributes.BIGGER) && !missing.contains(Attributes.WEAPONS) && !missing.contains(Attributes.FAST)){
+        if(missing != null && !missing.contains(Attributes.BIGGER) && !missing.contains(Attributes.WEAPONS) && !missing.contains(Attributes.FAST)){
             if(super.isWeapons()|| !(super.isBigger()) || super.isFast()){
                 throw new InvalidObjectException();                    
             }
         }
+    }
+    @Override
+    public Type getType(){
+        return Type.PLANET;
     }
 
     @Override

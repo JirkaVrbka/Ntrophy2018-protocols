@@ -5,12 +5,10 @@
  */
 package protocol;
 
+import protocol.enums.Type;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import protocol.enums.Action;
@@ -92,10 +90,10 @@ public class UniverseTest {
         astmissing.add(Attributes.BIGGER);
         uni.CreateObj(Type.ASTEROID, astAttr, astmissing);
         assertFalse(uni.ask(Attributes.BIGGER, 5));
-      
-        
-        
-        
     }
-    
+    @Test 
+    public void testCreateAll() {
+        uni.createAll();
+        assertTrue(uni.getObjects().size() > 50);
+    }
 }
