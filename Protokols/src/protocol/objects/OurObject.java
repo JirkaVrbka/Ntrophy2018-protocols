@@ -37,5 +37,9 @@ public interface OurObject {
     boolean isFast();
     
     Type getType();
+    
+    void setName(String name);
+    
+    String getName();
      
 }

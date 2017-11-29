@@ -25,6 +25,7 @@ public class SpaceObject implements OurObject{
     private Boolean weapons     = false;
     private Boolean actWeapons  = false;
     private Boolean fast        = false;
+    private String name         = null;
     private List <Attributes> missing;
     
     
@@ -106,7 +107,13 @@ public class SpaceObject implements OurObject{
         }
     }
 
-    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     @Override
     public boolean isLife() {

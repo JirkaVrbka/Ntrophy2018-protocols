@@ -27,6 +27,7 @@ import protocol.Universe;
 import protocol.enums.Attributes;
 import protocol.enums.Type;
 import protocol.objects.OurObject;
+import protocol.objects.SpaceObject;
 
 /**
  *
@@ -116,7 +117,6 @@ public class FXMLDocumentController implements Initializable {
     private Button EraseAttrsButton;
 
     private Universe universe = new Universe();
-    private Map<Integer, Pair<String, OurObject>> objectsWithName = new HashMap<>();
     
     private ChoiceBox [] AllChoiceAttributes;
     private String [] AllAttributeNames;
@@ -139,7 +139,7 @@ public class FXMLDocumentController implements Initializable {
         AllChoiceAttributes = (new ChoiceBox[]{choiceAttributeActive, choiceAttributeBigger, choiceAttributeComm, choiceAttributeFast, choiceAttributeLife, choiceAttributeResources, choiceAttributeWeapons});
         AllAttributeNames = (new String[] {"Active_weapons", "Bigger", "Communicates", "Fast", "Life", "Resources", "Weapons"});
         AllChoiceObjectType = (new ChoiceBox[]{choiceObjectType});
-        setInitialActiveObjectChoices();
+        setActiveObjectChoices(choiceActiveObject);
     }
 
     private void setIfChoices(ChoiceBox[] boxes) {
@@ -153,12 +153,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     //O
-    private void setInitialActiveObjectChoices(){
-        for (int i = 0; i < 5; i++) {
-            objectsWithName.put(i, new Pair("Default obj", universe.getObjectByID(i)));
-        }
-        setActiveObjectChoices(choiceActiveObject);
-    }
     private void setTypeChoices(ChoiceBox [] boxes){
         ObservableList<String> values = FXCollections.observableArrayList();
         for (Type typ : Type.values()) {
@@ -183,10 +177,10 @@ public class FXMLDocumentController implements Initializable {
     }
     private void setActiveObjectChoices(ChoiceBox box){
         ObservableList<String> values = FXCollections.observableArrayList();
-        for (Map.Entry<Integer, Pair<String, OurObject>> entry : objectsWithName.entrySet()) {
-            Integer key = entry.getKey();
-            Pair<String, OurObject> value = entry.getValue();
-            String name = value.getKey() + " " + key; 
+        for(Map.Entry<Integer, SpaceObject> uniObject : universe.getObjects().entrySet()){
+            Integer key = uniObject.getKey();
+            OurObject value = uniObject.getValue();
+            String name = value.getName() + " " + key;
             values.add(name);
         }
         box.setItems(values);
@@ -209,7 +203,6 @@ public class FXMLDocumentController implements Initializable {
         int id = parseLastToId(str);
         if (id > 4){
             universe.removeObj(id);
-            objectsWithName.remove(id);
             setActiveObjectChoices(choiceActiveObject);
         }
     }
@@ -228,53 +221,39 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void CreateObjectButtonMC(MouseEvent event) {
-        List<Attributes> trueAttrs = new ArrayList<>();
-        List<Attributes> undefAttrs = new ArrayList<>();
+        List<Attributes> attrs = new ArrayList<>();
+        List<Attributes> missing = new ArrayList<>();
         for (ChoiceBox box : AllChoiceAttributes) {
             if(((String)box.getValue()).equals("True")){
-                trueAttrs.add(Attributes.toEnum(AttributeButtonToName(box)));
+                attrs.add(Attributes.toEnum(AttributeButtonToName(box)));
             }
             if(((String)box.getValue()).equals("Undefined")){
-                undefAttrs.add(Attributes.toEnum(AttributeButtonToName(box)));
+                missing.add(Attributes.toEnum(AttributeButtonToName(box)));
             }            
         }
         int id;
         String name = fieldObjectName.getText();
         switch((String)(AllChoiceObjectType[0].getValue())){
             case "Ship": {
-                id = universe.CreateObj(Type.SHIP, trueAttrs, undefAttrs);
+                id = universe.CreateObj(Type.SHIP, attrs, missing);
                 break;
             }
             case "Planet": {
-                id = universe.CreateObj(Type.PLANET, trueAttrs, undefAttrs);
+                id = universe.CreateObj(Type.PLANET, attrs, missing);
                 break;
             }
             case "Asteroid": {
-                id = universe.CreateObj(Type.ASTEROID, trueAttrs, undefAttrs);
+                id = universe.CreateObj(Type.ASTEROID, attrs, missing);
                 break;
             }
             default : {
-                if (trueAttrs.contains(Attributes.WEAPONS) ||
-                        (trueAttrs.contains(Attributes.LIFE)&& trueAttrs.contains(Attributes.FAST) && undefAttrs.contains(Attributes.WEAPONS))){
-                    id = universe.CreateObj(Type.SHIP, trueAttrs, undefAttrs);
-                    break;
-                }
-                if(trueAttrs.contains(Attributes.LIFE) || trueAttrs.contains(Attributes.COMUNICATES)){
-                    id = universe.CreateObj(Type.PLANET, trueAttrs, undefAttrs);
-                    break;
-                }
-                if(trueAttrs.contains(Attributes.FAST) || 
-                        (!trueAttrs.contains(Attributes.BIGGER) && !undefAttrs.contains(Attributes.BIGGER))){
-                    id = universe.CreateObj(Type.ASTEROID, trueAttrs, undefAttrs);
-                    break;
-                }
-                id = universe.CreateObj(Type.UNDEFINED, trueAttrs, undefAttrs);
+                id = universe.CreateObj(Type.UNDEFINED, attrs, missing);
                 break;            
             }
         }
         
         if(id>0){
-            objectsWithName.put(id, new Pair<>(name, universe.getObjectByID(id)));
+            universe.getObjectByID(id).setName(name);
             setActiveObjectChoices(choiceActiveObject);
         }
     }
