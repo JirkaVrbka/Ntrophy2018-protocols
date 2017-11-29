@@ -5,6 +5,7 @@
  */
 package protocol.objects;
 
+import protocol.enums.Type;
 import protocol.enums.Action;
 import protocol.exceptions.InvalidActionException;
 
@@ -20,5 +21,21 @@ public interface Object {
      * @throws InvalidActionException
      */
     int doAction(Action action) throws InvalidActionException;
+   
+    boolean isLife(); 
+
+    boolean isComunicates();
+
+    boolean isResources();
+
+    boolean isBigger();
+             
+    boolean isWeapons();
+     
+    boolean isActWeapons();
+     
+    boolean isFast();
     
+    Type getType();
+     
 }

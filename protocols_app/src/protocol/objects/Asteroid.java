@@ -10,6 +10,7 @@ import protocol.enums.Attributes;
 import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
+import protocol.enums.Type;
 
 /**
  *
@@ -19,12 +20,16 @@ public class Asteroid extends SpaceObject{
 
     public Asteroid(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
         super(attrs, missing);
-        if(!missing.contains(Attributes.LIFE) && !missing.contains(Attributes.WEAPONS) && !missing.contains(Attributes.COMUNICATES)){
+        if(missing != null && !missing.contains(Attributes.LIFE) && !missing.contains(Attributes.WEAPONS) && !missing.contains(Attributes.COMUNICATES)){
             if(super.isLife() || super.isWeapons() || super.isComunicates()){
                 throw new InvalidObjectException();
             }
         }
        
+    }
+    @Override
+    public Type getType(){
+        return Type.ASTEROID;
     }
 
     @Override
