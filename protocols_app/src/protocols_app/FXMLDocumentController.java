@@ -26,7 +26,13 @@ public class FXMLDocumentController implements Initializable {
     
     private Label label;
     @FXML
-    private ChoiceBox ifChoice;
+    private ChoiceBox<?> choiseIf;
+    @FXML
+    private Label labelProtokolName;
+    @FXML
+    private ChoiceBox<?> choiceActionTrue;
+    @FXML
+    private ChoiceBox<?> choiceActionFalse;
     
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
@@ -35,9 +41,7 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        int x = 0;
-        Integer y = x;
-        setIfChoices(new ChoiceBox[]{ifChoice});
+        setIfChoices(new ChoiceBox[]{choiseIf});
     } 
     
     private void setIfChoices(ChoiceBox[] boxes){
