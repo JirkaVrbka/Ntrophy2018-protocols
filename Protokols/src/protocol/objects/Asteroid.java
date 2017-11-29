@@ -108,7 +108,7 @@ public class Asteroid extends SpaceObject{
             return -3;
         }
         if (isResources()){
-            return 3;
+            return 0;
         }
         return -1;
     }

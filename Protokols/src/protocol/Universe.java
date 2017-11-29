@@ -7,7 +7,6 @@ package protocol;
 
 import protocol.enums.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
 import protocol.exceptions.InvalidObjectException;
@@ -33,7 +32,6 @@ public class Universe {
     
     /**
      * creates first 5 testing objects
-     * @throws InvalidObjectException wont actually do it...
      */
     public Universe(){
             
@@ -116,11 +114,15 @@ public class Universe {
                         ID++;
                         break;
                 }
+                default:{
+                    objects.put(ID, new SpaceObject(attrs,missing));
+                    ID++;
+                }
             }
         } catch(InvalidObjectException e) {
         return -1;
         }
-        return ID;
+        return ID - 1;
     }
     
     public SpaceObject getObjectByID (int id){

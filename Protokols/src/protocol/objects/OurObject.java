@@ -13,7 +13,7 @@ import protocol.exceptions.InvalidActionException;
  *
  * @author Ondrej Urbanovsky
  */
-public interface Object {
+public interface OurObject {
     /**
      * evaluates action on this object
      * @param action enum value of what to do

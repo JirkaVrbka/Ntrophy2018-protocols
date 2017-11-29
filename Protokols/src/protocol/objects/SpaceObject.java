@@ -11,12 +11,13 @@ import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
 import java.util.Map;
+import protocol.enums.Type;
 
 /**
  *
  * @author Ondrej Urbanovsky
  */
-public abstract class SpaceObject implements Object{
+public class SpaceObject implements OurObject{
     private Boolean life        = false;
     private Boolean comunicates = false;
     private Boolean resources   = false;
@@ -159,5 +160,15 @@ public abstract class SpaceObject implements Object{
         throw new InvalidActionException();        
     }
     */
+
+    @Override
+    public int doAction(Action action) throws InvalidActionException {
+        throw new InvalidActionException();
+    }
+
+    @Override
+    public Type getType() {
+        return Type.UNDEFINED;
+    }
     
 }
