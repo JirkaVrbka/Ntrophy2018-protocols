@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import protocol.enums.Attributes;
 
 /**
@@ -25,8 +26,79 @@ import protocol.enums.Attributes;
 public class FXMLDocumentController implements Initializable {
     
     private Label label;
-    @FXML
     private ChoiceBox ifChoice;
+    @FXML
+    private ChoiceBox<?> choiseIf;
+    @FXML
+    private ChoiceBox<?> choiceActionTrue;
+    @FXML
+    private ChoiceBox<?> choiceActionFalse;
+    @FXML
+    private Button buttonSaveProtocol;
+    @FXML
+    private Button buttonAddLineProtocol;
+    @FXML
+    private Button buttonRemoveLineProtocol;
+    @FXML
+    private TextField fieldProtocolName;
+    @FXML
+    private Label labelIfID;
+    @FXML
+    private ChoiceBox<?> choiseIf1;
+    @FXML
+    private ChoiceBox<?> choiceActionTrue1;
+    @FXML
+    private ChoiceBox<?> choiceActionFalse1;
+    @FXML
+    private Label labelIfID1;
+    @FXML
+    private ChoiceBox<?> choiseIf11;
+    @FXML
+    private ChoiceBox<?> choiceActionTrue11;
+    @FXML
+    private ChoiceBox<?> choiceActionFalse11;
+    @FXML
+    private Label labelIfID11;
+    @FXML
+    private Button buttonObjectCreate;
+    @FXML
+    private TextField fieldObjectName;
+    @FXML
+    private ChoiceBox<?> choiceObjectType;
+    @FXML
+    private ChoiceBox<?> choiceObjectType1;
+    @FXML
+    private ChoiceBox<?> choiceObjectType2;
+    @FXML
+    private ChoiceBox<?> choiceObjectType3;
+    @FXML
+    private ChoiceBox<?> choiceObjectType4;
+    @FXML
+    private ChoiceBox<?> choiceObjectType5;
+    @FXML
+    private ChoiceBox<?> choiceObjectType6;
+    @FXML
+    private ChoiceBox<?> choiceActiveObject;
+    @FXML
+    private Button buttonObjectRun;
+    @FXML
+    private Button buttonObjectDelete;
+    @FXML
+    private Button buttonObjectLoad;
+    @FXML
+    private Button buttonCreateAllObject;
+    @FXML
+    private ChoiceBox<?> choiceActiveProtocol;
+    @FXML
+    private Button buttonProtocolRun;
+    @FXML
+    private Button buttonProtocolDelete;
+    @FXML
+    private Button buttonProtocolLoad;
+    @FXML
+    private Button buttonProtocolExport;
+    @FXML
+    private Button buttonImportAndExecute;
     
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
@@ -37,7 +109,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         int x = 0;
         Integer y = x;
-        setIfChoices(new ChoiceBox[]{ifChoice});
+        setIfChoices(new ChoiceBox[]{choiseIf});
     } 
     
     private void setIfChoices(ChoiceBox[] boxes){
