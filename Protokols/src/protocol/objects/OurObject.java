@@ -5,8 +5,10 @@
  */
 package protocol.objects;
 
+import java.util.List;
 import protocol.enums.Type;
 import protocol.enums.Action;
+import protocol.enums.Attributes;
 import protocol.exceptions.InvalidActionException;
 
 /**
@@ -41,5 +43,10 @@ public interface OurObject {
     void setName(String name);
     
     String getName();
-     
+    
+    List<Attributes> getTrueattr();
+    
+    public List<Attributes> getMissingAttr();
+    
+    public List<Attributes> getFalseAttr();
 }

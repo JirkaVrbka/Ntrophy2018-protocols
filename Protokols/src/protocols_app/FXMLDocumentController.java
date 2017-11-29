@@ -175,6 +175,12 @@ public class FXMLDocumentController implements Initializable {
             box.getSelectionModel().selectLast();
         }
     }
+    /**
+    private void setAttributeChoiceToSpecific(ChoiceBox box){
+        box.getSelectionModel().select(i);
+    }
+    */
+    
     private void setActiveObjectChoices(ChoiceBox box){
         ObservableList<String> values = FXCollections.observableArrayList();
         for(Map.Entry<Integer, SpaceObject> uniObject : universe.getObjects().entrySet()){
@@ -267,6 +273,54 @@ public class FXMLDocumentController implements Initializable {
             i++;
         }
         return null;
+    }
+    
+    private SpaceObject getActiveObject(){
+        String str = (String)choiceActiveObject.getValue();
+        int id = parseLastToId(str);
+        return universe.getObjectByID(id);
+    }
+
+    /**
+     * loads attributes of object to createobj
+     * note indexes of CHoiceAttribute Selector box 0 = true 1 = false 2 = undefined
+     * @param event click
+     */
+    @FXML
+    private void LoadObjAttributes(MouseEvent event) {
+        if(getActiveObject().getTrueattr() != null){
+            for(Attributes trueAttr : getActiveObject().getTrueattr()){
+                int i = 0;
+                for(String attrName : AllAttributeNames){
+                    if(trueAttr.toString().equals(attrName)){
+                        AllChoiceAttributes[i].getSelectionModel().select(0);
+                    }
+                    i++;
+                }
+            }
+        }
+        if(getActiveObject().getMissing() != null){
+            for(Attributes missAttr : getActiveObject().getMissing()){
+                int i = 0;
+                for(String attrName : AllAttributeNames){
+                    if(missAttr.toString().equals(attrName)){
+                        AllChoiceAttributes[i].getSelectionModel().select(2);
+                    }
+                    i++;
+                }
+            }
+        }
+        if(getActiveObject().getFalseAttr()!= null){
+            for(Attributes missAttr : getActiveObject().getFalseAttr()){
+                int i = 0;
+                for(String attrName : AllAttributeNames){
+                    if(missAttr.toString().equals(attrName)){
+                        AllChoiceAttributes[i].getSelectionModel().select(1);
+                    }
+                    i++;
+                }
+            }
+        }
     }
     
     
