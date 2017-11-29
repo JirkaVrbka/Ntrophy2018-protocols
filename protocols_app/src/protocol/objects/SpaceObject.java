@@ -107,26 +107,32 @@ public abstract class SpaceObject implements Object{
 
     
     
+    @Override
     public boolean isLife() {
         return life;
     }
 
+    @Override
     public boolean isComunicates() {
         return comunicates;
     }
 
+    @Override
     public boolean isResources() {
         return resources;
     }
 
+    @Override
     public boolean isBigger() {
         return bigger;
     }
 
+    @Override
     public boolean isWeapons() {
         return weapons;
     }
 
+    @Override
     public boolean isActWeapons() {
         return actWeapons;
     }
@@ -135,10 +141,11 @@ public abstract class SpaceObject implements Object{
         return missing;
     }
 
+    @Override
     public boolean isFast() {
         return fast;
     }
-    
+    /*
     public boolean unfriendly() throws InvalidActionException{
         if (isLife() && isWeapons() && isActWeapons()){
             return true;
@@ -151,6 +158,6 @@ public abstract class SpaceObject implements Object{
         }
         throw new InvalidActionException();        
     }
-    
+    */
     
 }
