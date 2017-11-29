@@ -5,15 +5,19 @@
  */
 package protocol;
 
+import protocol.enums.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
 import protocol.exceptions.InvalidObjectException;
 import protocol.objects.Asteroid;
 import protocol.objects.SpaceObject;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javafx.util.Pair;
 import protocol.exceptions.InvalidActionException;
 import protocol.objects.Planet;
@@ -119,6 +123,11 @@ public class Universe {
         return ID;
     }
     
+    public SpaceObject getObjectByID (int id){
+        return objects.get(id);
+    }
+    
+    
     /**
      * removes object with spec ID (cant erase object created in constructor ID<4)
      * @param objectID 
@@ -184,4 +193,70 @@ public class Universe {
             return false;
         }
     }
+    /**
+     * creates All possible objects and puts them to universe.objects
+     */
+    public void createAll(){
+        Set <List<Attributes>> allAttr = new HashSet<>();
+        List <boolean []> allBool = new ArrayList<>();
+        Attributes [] attributes = Attributes.values();
+        
+        for (int i = 0; i < Math.pow(2.0, (double) Attributes.values().length); i++){
+            boolean [] arr = new boolean[Attributes.values().length];
+            int pos = 0;
+            int num = i;
+            while(num > 0){
+                if (num % 2 == 1){
+                    arr[pos] = true;
+                    num--;
+                    num = (int)(num /2);
+                    pos++;
+                } else{
+                    num = (int) (num/2);
+                    pos++;
+                }
+            }
+            allBool.add(arr);
+        }
+        for (boolean[] bs : allBool) {
+            List<Attributes> toAdd = new ArrayList<>();
+            int i = 0;
+            for (boolean b : bs) {
+                if (b){
+                    toAdd.add(attributes[i]);
+                }
+                i++;
+            }
+            allAttr.add(toAdd);
+        }
+        for (List<Attributes> toCreate: allAttr) {
+            CreateObj(Type.SHIP, toCreate, null);
+            CreateObj(Type.PLANET, toCreate, null);
+            CreateObj(Type.ASTEROID, toCreate, null);
+        }
+    }
+    /**
+    public void createAll(){
+        Set <List<Attributes>> allAttr = new HashSet<>();
+        //Set <Set<Attributes>> allMissing = new HashSet<>();
+        //Set <Attributes> aMissing = new HashSet<>();
+        List <Attributes> aAttr = new ArrayList<>();
+        allAttr.add(null);
+        
+        for (Attributes st : Attributes.values()) {
+            aAttr.add(st);
+            for (Attributes nd : Attributes.values()) {
+                if(!(aAttr.contains(nd))){
+                    aAttr.add(nd);
+                } 
+                allAttr.add(aAttr);
+            }
+            aAttr.removeAll(aAttr);
+        }
+        for (Type type : Type.values()) {
+            for (List <Attributes> oneList: allAttr) {
+                CreateObj(type, oneList, null);
+            }
+        }
+    }*/
 }
