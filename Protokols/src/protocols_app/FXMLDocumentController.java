@@ -52,24 +52,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField fieldProtocolName;
     @FXML
-    private Label labelIfID;
-    @FXML
-    private ChoiceBox<?> choiseIf1;
-    @FXML
-    private ChoiceBox<?> choiceActionTrue1;
-    @FXML
-    private ChoiceBox<?> choiceActionFalse1;
-    @FXML
-    private Label labelIfID1;
-    @FXML
-    private ChoiceBox<?> choiseIf11;
-    @FXML
-    private ChoiceBox<?> choiceActionTrue11;
-    @FXML
-    private ChoiceBox<?> choiceActionFalse11;
-    @FXML
-    private Label labelIfID11;
-    @FXML
     private Button buttonObjectCreate;
     @FXML
     private TextField fieldObjectName;
@@ -321,6 +303,11 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
+    }
+    
+    void sdbgiodjfio (){
+        ChoiceBox box = new ChoiceBox();
+        
     }
     
     
