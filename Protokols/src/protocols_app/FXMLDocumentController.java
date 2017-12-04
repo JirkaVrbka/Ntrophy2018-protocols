@@ -230,8 +230,15 @@ public class FXMLDocumentController implements Initializable {
         }
         initializeAllGroups();
         addTextfieldListeners();
+        addInitialRules();
         addRulesName();
         updateAllThenElseChoices();
+    }
+    
+    private void addInitialRules(){
+        for (Action action : Action.values()) {
+            thenElseChoicesList.add(action.toString());
+        }
     }
 
     private void setIfChoices(ChoiceBox box) {
