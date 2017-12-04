@@ -526,8 +526,16 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void buttonRunObject(ActionEvent event) {
         SpaceObject spaceObject = getActiveObject();
-        Protokol protokol = new Protokol("current");
-        protokol.createFromGroup(allGroups);
+        
+        if(spaceObject == null || choiceActiveProtocol.getValue() == null){
+            fieldOutput.setText("-666 ");
+            return;
+        }
+        Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
+        if(protokol == null ){
+            fieldOutput.setText("-777");
+            return;
+        }
         fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
     }
     
