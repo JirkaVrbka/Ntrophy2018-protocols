@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -197,7 +198,7 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
     private Map<String, Protokol> protokols = new LinkedHashMap<>();
     @FXML
-    private TextField fieldOutput;
+    private TextArea fieldOutput;
     
     
     
@@ -572,6 +573,26 @@ public class FXMLDocumentController implements Initializable {
         
         //I can decide -> value of decision
         return result.getKey();
+    }
+
+    @FXML
+    private void buttonRunProtokol(ActionEvent event) {
+        fieldOutput.setText("");
+        
+        if(choiceActiveProtocol.getValue() == null){
+            fieldOutput.setText("-666 ");
+            return;
+        }
+        Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
+        if(protokol == null ){
+            fieldOutput.setText("-777");
+            return;
+        }
+        
+        for(SpaceObject spaceObject : universe.getObjects().values()){
+            String value = fieldOutput.getText() +"\r\n"+ String.valueOf(evalProtokol(protokol, spaceObject));
+            fieldOutput.setText(value);
+        }
     }
     
 
