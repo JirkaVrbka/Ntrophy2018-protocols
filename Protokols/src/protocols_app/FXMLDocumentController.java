@@ -44,12 +44,6 @@ import protocol.objects.SpaceObject;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private ChoiceBox<?> choiseIf;
-    @FXML
-    private ChoiceBox<?> choiceActionTrue;
-    @FXML
-    private ChoiceBox<?> choiceActionFalse;
-    @FXML
     private Button buttonSaveProtocol;
     @FXML
     private Button buttonAddLineProtocol;
@@ -204,7 +198,6 @@ public class FXMLDocumentController implements Initializable {
     private TextArea fieldOutput;
     
     
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -217,16 +210,17 @@ public class FXMLDocumentController implements Initializable {
         setActiveObjectChoices(choiceActiveObject);
         
         allGroups = (new Group []{group_1,group_2,group_3,group_4,group_5,group_6,
-        group_7,group_8,group_9,group_10,group_11,group_12,group_13,group_14,group_15,group_16,
+        group_7,group_8,group_42, group_9,group_10,group_11,group_12,group_13,group_14,group_15,group_16,
         group_17,group_18,group_19,group_20,group_21,group_22,group_23,group_24,group_25,group_26,
         group_27,group_28,group_29,group_30,group_31,group_32,group_33,group_34,group_35,group_36,group_37,
-        group_38,group_39,group_40,group_41,group_42});
+        group_38,group_39,group_40,group_41});
         for (int i = 3; i < 42; i++) {
             hideGroup(i);
         }
         for (Action action : Action.values()) {
             thenElseChoices.add(action.toString());
         }
+    
         initializeAllGroups();
         addTextfieldListeners();
         addInitialRules();
@@ -240,7 +234,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    private void setIfChoices(ChoiceBox box) {
+    private void setIfChoices(ComboBox box) {
         ObservableList<String> values = FXCollections.observableArrayList();
         for (Attributes atr : Attributes.values()) {
             values.add(atr.toString());
@@ -424,15 +418,15 @@ public class FXMLDocumentController implements Initializable {
      * @param i
      * @return choiceBox [] 0 - if 1 then 2 - else 
      */
-    private ChoiceBox [] getChoiceBoxesOfGroup (int i){
-        ChoiceBox iff = (ChoiceBox)(allGroups[i].getChildren().get(0));
-        ChoiceBox thenn = (ChoiceBox)(allGroups[i].getChildren().get(4));
-        ChoiceBox elsee = (ChoiceBox)(allGroups[i].getChildren().get(5));
-        return (new ChoiceBox[]{iff, thenn, elsee});
+    private ComboBox [] getChoiceBoxesOfGroup (int i){
+        ComboBox iff = (ComboBox)(allGroups[i].getChildren().get(1));
+        ComboBox thenn = (ComboBox)(allGroups[i].getChildren().get(2));
+        ComboBox elsee = (ComboBox)(allGroups[i].getChildren().get(3));
+        return (new ComboBox[]{iff, thenn, elsee});
     }
     
     private TextField getTextFieldOfGroup (int i){
-        TextField text = (TextField)(allGroups[i].getChildren().get(6));
+        TextField text = (TextField)(((Group)(allGroups[i].getChildren().get(0))).getChildren().get(3));
         return text;
     }
     
@@ -463,16 +457,18 @@ public class FXMLDocumentController implements Initializable {
         setIfChoices(getChoiceBoxesOfGroup(groupId)[0]);
     }
     
-    private void castListToObservable(){
-        thenElseChoices = FXCollections.observableArrayList();
+    private void updateOneThenOrElseChoice(ComboBox box){
+        String tmp = (String)box.getValue();
+        box.getItems().clear();
+        
         for(String str : thenElseChoicesList){
-            thenElseChoices.add(str);
+            box.getItems().add(str);
         }
-    }
-    private void updateOneThenOrElseChoice(ChoiceBox box){
-        castListToObservable();
-        box.setItems(thenElseChoices);
-        box.getSelectionModel().selectFirst();
+        if(tmp == null){
+            box.getSelectionModel().selectFirst();
+        } else{
+        box.getSelectionModel().select(tmp);
+        }
     }
     private void updateAllThenElseChoices(){
         for (int i = 0; i < 42; i++) {
@@ -579,7 +575,6 @@ public class FXMLDocumentController implements Initializable {
     }
     
     private void pico(){
-        fieldProtocolName.setText("Kraka");
         addRulesName();
         updateAllThenElseChoices();
     }
