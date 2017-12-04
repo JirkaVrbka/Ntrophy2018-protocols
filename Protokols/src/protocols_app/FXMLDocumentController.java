@@ -22,6 +22,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -197,7 +198,10 @@ public class FXMLDocumentController implements Initializable {
     private Group group_42;
     private Group[] allGroups;
     private int lastGroupID = 2;
+    private List<String> thenElseChoicesList = new ArrayList<>();
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
+    @FXML
+    private ComboBox combo;
     
     
     private void handleButtonAction(ActionEvent event) {
@@ -230,6 +234,8 @@ public class FXMLDocumentController implements Initializable {
         }
         initializeAllGroups();
         addTextfieldListeners();
+        addRulesName();
+        updateAllThenElseChoices();
     }
 
     private void setIfChoices(ChoiceBox box) {
@@ -237,7 +243,9 @@ public class FXMLDocumentController implements Initializable {
         for (Attributes atr : Attributes.values()) {
             values.add(atr.toString());
         }
-        box.setItems(values); 
+        box.setItems(values);
+        box.getSelectionModel().selectFirst();
+        
     }
     //O
     private void setTypeChoices(ChoiceBox box){
@@ -428,6 +436,8 @@ public class FXMLDocumentController implements Initializable {
     
     void showGroup(int i){
         allGroups[i].setVisible(true);
+        thenElseChoicesList.add(getTextFieldOfGroup(i).getText());
+        updateAllThenElseChoices();
     }
     
     void hideGroup (int i){
@@ -437,7 +447,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void deleteLastGroup(MouseEvent event) {
         if(lastGroupID > 2){
-            thenElseChoices.remove(getTextFieldOfGroup(lastGroupID).getText());
+            thenElseChoicesList.remove(getTextFieldOfGroup(lastGroupID).getText());
             deleteGroupContent(lastGroupID);
             hideGroup(lastGroupID);
             updateAllThenElseChoices();
@@ -450,7 +460,14 @@ public class FXMLDocumentController implements Initializable {
         setIfChoices(getChoiceBoxesOfGroup(groupId)[0]);
     }
     
+    private void castListToObservable(){
+        thenElseChoices = FXCollections.observableArrayList();
+        for(String str : thenElseChoicesList){
+            thenElseChoices.add(str);
+        }
+    }
     private void updateOneThenOrElseChoice(ChoiceBox box){
+        castListToObservable();
         box.setItems(thenElseChoices);
         box.getSelectionModel().selectFirst();
     }
@@ -479,14 +496,20 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     private void addRulesName(){
-        for(int i = 0; i<42; i++) { 
-            thenElseChoices.add(getTextFieldOfGroup(i).getText());
+        for(int i = 0; i<lastGroupID+1; i++) {
+            String text = getTextFieldOfGroup(i).getText();
+            if(!thenElseChoicesList.contains(text)){
+                thenElseChoicesList.add(text);
+            }
             
         }
+       
     }
     
     private void pico(){
         fieldProtocolName.setText("Kraka");
+        addRulesName();
+        updateAllThenElseChoices();
     }
     private void addTextfieldListeners(){
         for(int i = 0; i<42; i++) {        
@@ -498,8 +521,6 @@ public class FXMLDocumentController implements Initializable {
                         if (!newValue){
                             fieldObjectName.setText("OUT");
                             FXMLDocumentController.this.pico();
-                            FXMLDocumentController.this.addRulesName();
-                            FXMLDocumentController.this.updateAllThenElseChoices();
                         } else{
                             fieldObjectName.setText("ON");
                         }
@@ -508,6 +529,11 @@ public class FXMLDocumentController implements Initializable {
 
         }
     }            
-    
+
+    @FXML
+    private void KOKOTE(MouseEvent event) {
+        addRulesName();
+        updateAllThenElseChoices();
+    }
 
 }
