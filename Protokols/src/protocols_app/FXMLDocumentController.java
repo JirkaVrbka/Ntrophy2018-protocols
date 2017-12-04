@@ -566,6 +566,8 @@ public class FXMLDocumentController implements Initializable {
         fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
     }
     private void addRulesName(){
+        thenElseChoicesList = new ArrayList<>();
+        addInitialRules();
         for(int i = 0; i<lastGroupID+1; i++) {
             String text = getTextFieldOfGroup(i).getText();
             if(!thenElseChoicesList.contains(text)){
@@ -587,13 +589,9 @@ public class FXMLDocumentController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (!newValue){
-                            fieldObjectName.setText("OUT");
+                            
                             FXMLDocumentController.this.pico();
-                        } else{
-                            fieldObjectName.setText("ON");
-                        }
-
-                        }});
+                        }}});
 
         }
     }
@@ -626,7 +624,7 @@ public class FXMLDocumentController implements Initializable {
         Pair<Integer, Boolean> result = universe.evalAction(action, spaceObject.getID());
         //cannot decide -> kill
         if(result.getValue() == false){
-            return -50000;
+            return -9999;
         }
         
         //I can decide -> value of decision
