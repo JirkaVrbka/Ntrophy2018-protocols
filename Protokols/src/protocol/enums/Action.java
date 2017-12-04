@@ -27,4 +27,32 @@ public enum Action {
     public String toString() {
         return name;
     }
+    
+    /**
+     *
+     * @param name
+     * @return
+     */
+    public static Action getValueOf(String name){
+        if(name == null){
+            return null;
+        }
+        
+        switch(name){
+            case "Shoot":
+                return SHOOT;
+            case "Gather resources":
+                return GATHER_RESOURCES;
+            case "Contact":
+                return CONTACT;
+            case "Fly by":
+                return FLYBY;
+            case "Escape":
+                return ESCAPE;
+            case "Trade":
+                return TRADE;
+            default:
+                   return null;
+        }
+    }
 }

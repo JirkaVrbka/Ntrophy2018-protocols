@@ -21,10 +21,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Pair;
 import protocol.Universe;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
@@ -194,6 +196,8 @@ public class FXMLDocumentController implements Initializable {
     private int lastGroupID = 2;
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
     private Map<String, Protokol> protokols = new LinkedHashMap<>();
+    @FXML
+    private TextField fieldOutput;
     
     
     
@@ -336,6 +340,7 @@ public class FXMLDocumentController implements Initializable {
         
         if(id>0){
             universe.getObjectByID(id).setName(name);
+            universe.getObjectByID(id).setID(id);
             setActiveObjectChoices(choiceActiveObject);
         }
     }
@@ -495,7 +500,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void buttonActionDeleteProtokol(ActionEvent event) {
-        if(choiceActiveProtocol.getItems().size() == 0){
+        if(choiceActiveProtocol.getItems().isEmpty()){
             return;
         }
          String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
@@ -511,8 +516,63 @@ public class FXMLDocumentController implements Initializable {
         if(choiceActiveProtocol.getItems().size() > 0){
             choiceActiveProtocol.getSelectionModel().selectFirst();
         }
+        
+    }
+
+    /**
+     * Evaluate active object with active protocol 
+     * @param event 
+     */
+    @FXML
+    private void buttonRunObject(ActionEvent event) {
+        SpaceObject spaceObject = getActiveObject();
+        
+        if(spaceObject == null || choiceActiveProtocol.getValue() == null){
+            fieldOutput.setText("-666 ");
+            return;
+        }
+        Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
+        if(protokol == null ){
+            fieldOutput.setText("-777");
+            return;
+        }
+        fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
     }
     
+    /**
+     * Evaluate protocol with given object
+     * @param protokol 
+     * @param spaceObject
+     * @return number of points
+     */
+    private int evalProtokol(Protokol protokol, SpaceObject spaceObject){
+        String firstAsk = protokol.getFirstAsk();
+        boolean res = universe.ask(Attributes.getValueOf(firstAsk),spaceObject.getID());
+        String answer = protokol.getFirstResult(res);
+        
+        Action action = Action.getValueOf(answer);
+        
+        int i = 0;
+        //iterate until some action
+        while(action == null){
+            res = universe.ask(Attributes.getValueOf(protokol.getAsk(answer)),spaceObject.getID());
+            answer = protokol.getFirstResult(res);
+            i++;
+            if(i > 500){
+                //too many cycles, there is a problem there
+                return -500000;
+            }
+        }
+        
+        Pair<Integer, Boolean> result = universe.evalAction(action, spaceObject.getID());
+        //cannot decide -> kill
+        if(result.getValue() == false){
+            return -50000;
+        }
+        
+        //I can decide -> value of decision
+        return result.getKey();
+    }
     
 
 }

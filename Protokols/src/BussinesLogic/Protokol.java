@@ -29,6 +29,7 @@ public class Protokol {
     }
     
     Map<String, Rule> rules = new HashMap<>();
+    Rule startWith = null;
     String protocolName;
 
     public Protokol(String name) {
@@ -36,10 +37,11 @@ public class Protokol {
     }
     
     public void addRule(String name,String statementIf,String statementElse,String statementThen){
-        rules.put(name, new Rule(name, statementIf, statementElse, statementElse));
+        rules.put(name, new Rule(name, statementIf, statementElse, statementThen));
     }
     
     public void createFromGroup(Group[] allGroups){
+        int i = 0;
         for(Group group : allGroups){
             if(((ChoiceBox)(group.getChildren().get(0))).getValue() == null || group.isVisible() == false){
                 break;
@@ -49,6 +51,10 @@ public class Protokol {
             String staElse = ((ChoiceBox)(group.getChildren().get(5))).getValue().toString();
             String name = ((TextField)(group.getChildren().get(6))).getText();
             addRule(name, staIf, staElse, staThen);
+            if (i == 0){
+                startWith = new Rule(name, staIf, staElse, staThen);
+                i++;
+            }
         }
     }
     
@@ -69,4 +75,27 @@ public class Protokol {
        }       
     }  
     
+   public String getFirstAsk(){
+       return startWith == null ? null : startWith.statementIf;
+   }
+   
+   public String getFirstResult(boolean check){
+       if(check){
+           return  startWith.statementThen;
+       }
+       
+       return startWith == null ? null : startWith.statementElse;
+   }
+   
+   public String getAsk(String name){
+       return rules.get(name) == null ? null : rules.get(name).statementIf;
+   }
+   
+   public String getResult(String name, boolean check){
+       if(check){
+           return  rules.get(name) == null ? null : rules.get(name).statementThen;
+       }
+       
+       return rules.get(name) == null ? null : rules.get(name).statementElse;
+   }
 }
