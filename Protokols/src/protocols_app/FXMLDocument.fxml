@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
@@ -532,6 +533,15 @@
                             <Label layoutX="70.0" layoutY="184.0" text="Communicates" />
                             <ChoiceBox fx:id="choiceAttributeComm" layoutX="166.0" layoutY="179.0" prefHeight="28.0" prefWidth="120.0" />
                             <Button id="EraseAttributesButton" fx:id="EraseAttrsButton" layoutX="528.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#EraseAllObjectAttributes" prefHeight="32.0" prefWidth="102.00009999999747" text="Erase All" />
+                            <ComboBox fx:id="combo" layoutX="17.0" layoutY="237.0">
+                              <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                  <String fx:value="Item 1" />
+                                  <String fx:value="Item 2" />
+                                  <String fx:value="Item 3" />
+                                </FXCollections>
+                              </items>
+                            </ComboBox>
                           </children>
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#LoadObjAttributes" prefHeight="425.0" prefWidth="680.0">

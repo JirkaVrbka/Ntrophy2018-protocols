@@ -13,6 +13,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -195,9 +197,12 @@ public class FXMLDocumentController implements Initializable {
     private Group group_42;
     private Group[] allGroups;
     private int lastGroupID = 2;
+    private List<String> thenElseChoicesList = new ArrayList<>();
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
     private Map<String, Protokol> protokols = new LinkedHashMap<>();
     @FXML
+    @FXML
+    private ComboBox combo;
     private TextArea fieldOutput;
     
     
@@ -212,6 +217,7 @@ public class FXMLDocumentController implements Initializable {
         AllAttributeNames = (new String[] {"Active_weapons", "Bigger", "Communicates", "Fast", "Life", "Resources", "Weapons"});
         AllChoiceObjectType = (new ChoiceBox[]{choiceObjectType});
         setActiveObjectChoices(choiceActiveObject);
+        
         allGroups = (new Group []{group_1,group_2,group_3,group_4,group_5,group_6,
         group_7,group_8,group_9,group_10,group_11,group_12,group_13,group_14,group_15,group_16,
         group_17,group_18,group_19,group_20,group_21,group_22,group_23,group_24,group_25,group_26,
@@ -224,7 +230,16 @@ public class FXMLDocumentController implements Initializable {
             thenElseChoices.add(action.toString());
         }
         initializeAllGroups();
-
+        addTextfieldListeners();
+        addInitialRules();
+        addRulesName();
+        updateAllThenElseChoices();
+    }
+    
+    private void addInitialRules(){
+        for (Action action : Action.values()) {
+            thenElseChoicesList.add(action.toString());
+        }
     }
 
     private void setIfChoices(ChoiceBox box) {
@@ -232,7 +247,9 @@ public class FXMLDocumentController implements Initializable {
         for (Attributes atr : Attributes.values()) {
             values.add(atr.toString());
         }
-        box.setItems(values); 
+        box.setItems(values);
+        box.getSelectionModel().selectFirst();
+        
     }
     //O
     private void setTypeChoices(ChoiceBox box){
@@ -424,27 +441,38 @@ public class FXMLDocumentController implements Initializable {
     
     void showGroup(int i){
         allGroups[i].setVisible(true);
+        thenElseChoicesList.add(getTextFieldOfGroup(i).getText());
+        updateAllThenElseChoices();
     }
     
     void hideGroup (int i){
-        allGroups[i].setVisible(false);        
+        allGroups[i].setVisible(false);
     }
 
     @FXML
     private void deleteLastGroup(MouseEvent event) {
         if(lastGroupID > 2){
+            thenElseChoicesList.remove(getTextFieldOfGroup(lastGroupID).getText());
             deleteGroupContent(lastGroupID);
-            getTextFieldOfGroup(lastGroupID);
             hideGroup(lastGroupID);
+            updateAllThenElseChoices();
             lastGroupID--;
         }
     }
     
-    private void deleteGroupContent(int i){
-        
+    private void deleteGroupContent(int groupId){
+        getTextFieldOfGroup(groupId).setText(Integer.toString(groupId +1));
+        setIfChoices(getChoiceBoxesOfGroup(groupId)[0]);
     }
     
+    private void castListToObservable(){
+        thenElseChoices = FXCollections.observableArrayList();
+        for(String str : thenElseChoicesList){
+            thenElseChoices.add(str);
+        }
+    }
     private void updateOneThenOrElseChoice(ChoiceBox box){
+        castListToObservable();
         box.setItems(thenElseChoices);
         box.getSelectionModel().selectFirst();
     }
@@ -538,6 +566,38 @@ public class FXMLDocumentController implements Initializable {
             return;
         }
         fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
+    }
+    private void addRulesName(){
+        for(int i = 0; i<lastGroupID+1; i++) {
+            String text = getTextFieldOfGroup(i).getText();
+            if(!thenElseChoicesList.contains(text)){
+                thenElseChoicesList.add(text);
+            }
+            
+        }
+       
+    }
+    
+    private void pico(){
+        fieldProtocolName.setText("Kraka");
+        addRulesName();
+        updateAllThenElseChoices();
+    }
+    private void addTextfieldListeners(){
+        for(int i = 0; i<42; i++) {        
+            getTextFieldOfGroup(i).focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (!newValue){
+                            fieldObjectName.setText("OUT");
+                            FXMLDocumentController.this.pico();
+                        } else{
+                            fieldObjectName.setText("ON");
+                        }
+
+                        }});
+
+        }
     }
     
     /**
