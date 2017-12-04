@@ -201,7 +201,6 @@ public class FXMLDocumentController implements Initializable {
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
     private Map<String, Protokol> protokols = new LinkedHashMap<>();
     @FXML
-    private ComboBox combo;
     private TextArea fieldOutput;
     
     
