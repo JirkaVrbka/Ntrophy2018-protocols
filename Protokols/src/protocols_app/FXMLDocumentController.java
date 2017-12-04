@@ -492,6 +492,26 @@ public class FXMLDocumentController implements Initializable {
         }
         protokol.writeToGroup(allGroups, true);        
     }
+
+    @FXML
+    private void buttonActionDeleteProtokol(ActionEvent event) {
+        if(choiceActiveProtocol.getItems().size() == 0){
+            return;
+        }
+         String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        if(name.equals("")){
+            return;
+        }
+        Protokol protokol = protokols.remove(name);
+        if(protokol == null){
+            return;
+        }
+        
+        choiceActiveProtocol.getItems().remove(name);
+        if(choiceActiveProtocol.getItems().size() > 0){
+            choiceActiveProtocol.getSelectionModel().selectFirst();
+        }
+    }
     
     
 
