@@ -65,7 +65,7 @@ public class Ship extends SpaceObject{
                 return -3;
             }
             if (super.isResources()){
-                return 1;
+                return 0;
             }
             if (super.isComunicates()){
                 return 3;
@@ -83,18 +83,18 @@ public class Ship extends SpaceObject{
                 if(super.isBigger()){
                     return 3;
                 }
-                return 1;
+                return 0;
             }
-            return -1;
+            return 0;
         }else{
             if(super.isComunicates()){
                 if (super.isBigger()){
                     return 3;
                 } else {
-                    return 1;
+                    return 0;
                 }                
             }
-        return -1;    
+        return 0;    
         }
     }
     
@@ -105,11 +105,14 @@ public class Ship extends SpaceObject{
                 return -3;
             }
             if (super.isComunicates()){
-                return -1;
+                return 0;
             }
         }else{
             if(super.isComunicates()){
                 return -3;
+            }
+            if(!super.isResources()){
+                return 3;
             }
         }
         return 0;
@@ -145,27 +148,28 @@ public class Ship extends SpaceObject{
                 }
                 return 3;
             }
-        return -1;
+        return 0;
         }
     }
     
     private int trade (){
         if(isLife()){
-            if(super.isActWeapons()){
+            if(super.isActWeapons() || !super.isComunicates()){
                 return -3;
             }
-            if (super.isResources()){
-                if (super.isComunicates()){
-                    return 3;
-                }
-                return -1;
-            }            
+            if (super.isComunicates() && super.isResources()){
+                return 3;
+            }
+            if(super.isComunicates() && !super.isResources()){
+                return 0;
+            }
+            
         }else{
             if(super.isComunicates()){
                 return -3;
             }
         }
-        return -1;
+        return 0;
     }
         
     /*

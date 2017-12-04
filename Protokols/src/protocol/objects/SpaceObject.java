@@ -122,8 +122,14 @@ public class SpaceObject implements OurObject{
     public List<Attributes> getFalseAttr() {
         List<Attributes> falseAttr  = new ArrayList<>();
         for (Attributes attr : Attributes.values()) {
-            if (!missing.contains(attr) && !trueattr.contains(attr)) {
-                falseAttr.add(attr);
+            if (missing != null){
+                if (!missing.contains(attr) && !trueattr.contains(attr)) {
+                    falseAttr.add(attr);
+                }
+            } else{
+                if (!trueattr.contains(attr)) {
+                    falseAttr.add(attr);
+                }
             }
         }
         return falseAttr;

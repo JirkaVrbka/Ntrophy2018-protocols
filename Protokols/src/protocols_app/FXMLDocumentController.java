@@ -16,14 +16,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 import javax.rmi.CORBA.Util;
 import protocol.Universe;
+import protocol.enums.Action;
 import protocol.enums.Attributes;
 import protocol.enums.Type;
 import protocol.objects.OurObject;
@@ -103,6 +107,95 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox [] AllChoiceAttributes;
     private String [] AllAttributeNames;
     private ChoiceBox [] AllChoiceObjectType;
+    @FXML
+    private AnchorPane ruleAnchorPane;
+    @FXML
+    private Group group_1;
+    @FXML
+    private Group group_2;
+    @FXML
+    private Group group_3;
+    @FXML
+    private Group group_4;
+    @FXML
+    private Group group_5;
+    @FXML
+    private Group group_6;
+    @FXML
+    private Group group_7;
+    @FXML
+    private Group group_8;
+    @FXML
+    private Group group_9;
+    @FXML
+    private Group group_10;
+    @FXML
+    private Group group_11;
+    @FXML
+    private Group group_12;
+    @FXML
+    private Group group_13;
+    @FXML
+    private Group group_14;
+    @FXML
+    private Group group_15;
+    @FXML
+    private Group group_16;
+    @FXML
+    private Group group_17;
+    @FXML
+    private Group group_18;
+    @FXML
+    private Group group_19;
+    @FXML
+    private Group group_20;
+    @FXML
+    private Group group_21;
+    @FXML
+    private Group group_22;
+    @FXML
+    private Group group_23;
+    @FXML
+    private Group group_24;
+    @FXML
+    private Group group_25;
+    @FXML
+    private Group group_26;
+    @FXML
+    private Group group_27;
+    @FXML
+    private Group group_28;
+    @FXML
+    private Group group_29;
+    @FXML
+    private Group group_30;
+    @FXML
+    private Group group_31;
+    @FXML
+    private Group group_32;
+    @FXML
+    private Group group_33;
+    @FXML
+    private Group group_34;
+    @FXML
+    private Group group_35;
+    @FXML
+    private Group group_36;
+    @FXML
+    private Group group_37;
+    @FXML
+    private Group group_38;
+    @FXML
+    private Group group_39;
+    @FXML
+    private Group group_40;
+    @FXML
+    private Group group_41;
+    @FXML
+    private Group group_42;
+    private Group[] allGroups;
+    private int lastGroupID = 2;
+    private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
     
     
     private void handleButtonAction(ActionEvent event) {
@@ -114,36 +207,44 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
-        setIfChoices(new ChoiceBox[]{choiseIf});
         setAttributeChoises(new ChoiceBox[]{choiceAttributeActive, choiceAttributeBigger, choiceAttributeComm, choiceAttributeFast, choiceAttributeLife, choiceAttributeResources, choiceAttributeWeapons});
         //o
-        setTypeChoices(new ChoiceBox[]{choiceObjectType});
+        setTypeChoices(choiceObjectType);
         AllChoiceAttributes = (new ChoiceBox[]{choiceAttributeActive, choiceAttributeBigger, choiceAttributeComm, choiceAttributeFast, choiceAttributeLife, choiceAttributeResources, choiceAttributeWeapons});
         AllAttributeNames = (new String[] {"Active_weapons", "Bigger", "Communicates", "Fast", "Life", "Resources", "Weapons"});
         AllChoiceObjectType = (new ChoiceBox[]{choiceObjectType});
         setActiveObjectChoices(choiceActiveObject);
+        allGroups = (new Group []{group_1,group_2,group_3,group_4,group_5,group_6,
+        group_7,group_8,group_9,group_10,group_11,group_12,group_13,group_14,group_15,group_16,
+        group_17,group_18,group_19,group_20,group_21,group_22,group_23,group_24,group_25,group_26,
+        group_27,group_28,group_29,group_30,group_31,group_32,group_33,group_34,group_35,group_36,group_37,
+        group_38,group_39,group_40,group_41,group_42});
+        for (int i = 3; i < 42; i++) {
+            hideGroup(i);
+        }
+        for (Action action : Action.values()) {
+            thenElseChoices.add(action.toString());
+        }
+        initializeAllGroups();
+
     }
 
-    private void setIfChoices(ChoiceBox[] boxes) {
+    private void setIfChoices(ChoiceBox box) {
         ObservableList<String> values = FXCollections.observableArrayList();
         for (Attributes atr : Attributes.values()) {
             values.add(atr.toString());
         }
-
-        for (ChoiceBox box : boxes) {
-            box.setItems(values);
-        }
+        box.setItems(values); 
     }
     //O
-    private void setTypeChoices(ChoiceBox [] boxes){
+    private void setTypeChoices(ChoiceBox box){
         ObservableList<String> values = FXCollections.observableArrayList();
         for (Type typ : Type.values()) {
             values.add(typ.toString());
         }
-        for (ChoiceBox box : boxes) {
-            box.setItems(values);
-            box.getSelectionModel().selectLast();
-        }
+        box.setItems(values);
+        box.getSelectionModel().selectLast();
+        
     }
     
    
@@ -304,10 +405,73 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+    /**
+     * 
+     * @param i
+     * @return choiceBox [] 0 - if 1 then 2 - else 
+     */
+    private ChoiceBox [] getChoiceBoxesOfGroup (int i){
+        ChoiceBox iff = (ChoiceBox)(allGroups[i].getChildren().get(0));
+        ChoiceBox thenn = (ChoiceBox)(allGroups[i].getChildren().get(4));
+        ChoiceBox elsee = (ChoiceBox)(allGroups[i].getChildren().get(5));
+        return (new ChoiceBox[]{iff, thenn, elsee});
+    }
     
-    void sdbgiodjfio (){
-        ChoiceBox box = new ChoiceBox();
+    private TextField getTextFieldOfGroup (int i){
+        TextField text = (TextField)(allGroups[i].getChildren().get(6));
+        return text;
+    }
+    
+    
+    void showGroup(int i){
+        allGroups[i].setVisible(true);
+    }
+    
+    void hideGroup (int i){
+        allGroups[i].setVisible(false);        
+    }
+
+    @FXML
+    private void deleteLastGroup(MouseEvent event) {
+        if(lastGroupID > 2){
+            deleteGroupContent(lastGroupID);
+            getTextFieldOfGroup(lastGroupID);
+            hideGroup(lastGroupID);
+            lastGroupID--;
+        }
+    }
+    
+    private void deleteGroupContent(int i){
         
+    }
+    
+    private void updateOneThenOrElseChoice(ChoiceBox box){
+        box.setItems(thenElseChoices);
+        box.getSelectionModel().selectFirst();
+    }
+    private void updateAllThenElseChoices(){
+        for (int i = 0; i < 42; i++) {
+            updateOneThenOrElseChoice(getChoiceBoxesOfGroup(i)[1]);
+            updateOneThenOrElseChoice(getChoiceBoxesOfGroup(i)[2]);
+        }
+    }
+    
+    
+    private void initializeAllGroups(){
+        for (int i = 0; i < 42; i++) {
+            getTextFieldOfGroup(i).setText(Integer.toString(i+1));
+            setIfChoices(getChoiceBoxesOfGroup(i)[0]);
+        }
+        updateAllThenElseChoices();
+    }
+
+    @FXML
+    private void addNewGroup(MouseEvent event) {
+        if(lastGroupID < 42){
+            showGroup(lastGroupID + 1);
+            lastGroupID++;
+            //getTextFieldOfGroup(lastGroupID).setText(Integer.toString(lastGroupID +1));
+        }
     }
     
     

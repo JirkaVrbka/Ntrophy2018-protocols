@@ -38,7 +38,7 @@ public class Universe {
             //obj 1 asteroid
             List <Attributes> astAttr = new ArrayList<>();
             List <Attributes> astmissing = new ArrayList<>();
-            astAttr.add(Attributes.RESOURCES);
+            astAttr.add(Attributes.FAST);
             i = CreateObj(Type.ASTEROID, astAttr, astmissing);
             getObjectByID(i).setName("Default obj");
 
@@ -81,6 +81,7 @@ public class Universe {
             planet.add(Attributes.BIGGER);
             i = CreateObj(Type.PLANET, planet, anshipmiss);
             getObjectByID(i).setName("Default obj");
+            createAll();
             
     }
 

@@ -29,14 +29,14 @@
                   <children>
                     <Label layoutX="194.0" layoutY="14.0" text="Name:" />
                     <Button fx:id="buttonSaveProtocol" layoutX="-19.0" layoutY="614.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="213.0" text="Save" />
-                    <Button fx:id="buttonAddLineProtocol" layoutX="194.0" layoutY="614.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="213.0" text="+" />
-                    <Button fx:id="buttonRemoveLineProtocol" layoutX="407.0" layoutY="614.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="221.0" text="-" />
+                    <Button fx:id="buttonAddLineProtocol" layoutX="198.0" layoutY="614.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="213.0" text="+" />
+                    <Button fx:id="buttonRemoveLineProtocol" layoutX="407.0" layoutY="614.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="221.0" text="-" />
                     <TextField fx:id="fieldProtocolName" layoutX="244.0" layoutY="10.0" promptText="Protocol name" />
-                    <ScrollPane fitToHeight="false" prefHeight="593.0" prefWidth="609.0" vmax="1500.0" vvalue="1000.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="52.0">
+                    <ScrollPane fitToHeight="false" prefHeight="562.0" prefWidth="609.0" vmax="1500.0" vvalue="0.0" AnchorPane.bottomAnchor="29.04" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="52.96">
                       <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="594.0">
+                        <AnchorPane id="Content" fx:id="ruleAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="594.0">
                           <children>
-                            <Group id="Group" layoutX="11.0" layoutY="8.0">
+                            <Group id="Group" fx:id="group_1" layoutX="11.0" layoutY="8.0">
                               <children>
                                 <ChoiceBox fx:id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -47,7 +47,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="43.0">
+                            <Group id="Group" fx:id="group_2" layoutX="11.0" layoutY="43.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -58,7 +58,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="78.0">
+                            <Group id="Group" fx:id="group_3" layoutX="11.0" layoutY="80.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -69,7 +69,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="113.0">
+                            <Group id="Group" fx:id="group_4" layoutX="11.0" layoutY="113.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -80,7 +80,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="148.0">
+                            <Group id="Group" fx:id="group_5" layoutX="11.0" layoutY="148.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -91,7 +91,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="183.0">
+                            <Group id="Group" fx:id="group_6" layoutX="11.0" layoutY="183.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -102,7 +102,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="218.0">
+                            <Group id="Group" fx:id="group_7" layoutX="11.0" layoutY="217.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -113,7 +113,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="253.0">
+                            <Group id="Group" fx:id="group_8" layoutX="11.0" layoutY="253.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -124,7 +124,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="288.0">
+                            <Group id="Group" fx:id="group_9" layoutX="11.0" layoutY="288.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -135,7 +135,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="323.0">
+                            <Group id="Group" fx:id="group_10" layoutX="11.0" layoutY="323.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -146,7 +146,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="358.0">
+                            <Group id="Group" fx:id="group_11" layoutX="11.0" layoutY="358.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -157,7 +157,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="393.0">
+                            <Group id="Group" fx:id="group_12" layoutX="11.0" layoutY="393.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -168,7 +168,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="428.0">
+                            <Group id="Group" fx:id="group_13" layoutX="11.0" layoutY="428.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -179,7 +179,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="463.0">
+                            <Group id="Group" fx:id="group_14" layoutX="11.0" layoutY="463.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -190,7 +190,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="498.0">
+                            <Group id="Group" fx:id="group_15" layoutX="11.0" layoutY="498.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -201,7 +201,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="533.0">
+                            <Group id="Group" fx:id="group_16" layoutX="11.0" layoutY="533.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -212,7 +212,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="568.0">
+                            <Group id="Group" fx:id="group_17" layoutX="11.0" layoutY="568.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -223,7 +223,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="603.0">
+                            <Group id="Group" fx:id="group_18" layoutX="11.0" layoutY="603.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -234,7 +234,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="638.0">
+                            <Group id="Group" fx:id="group_19" layoutX="11.0" layoutY="638.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -245,7 +245,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="673.0">
+                            <Group id="Group" fx:id="group_20" layoutX="11.0" layoutY="673.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -256,7 +256,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="709.0">
+                            <Group id="Group" fx:id="group_21" layoutX="11.0" layoutY="709.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -267,7 +267,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="744.0">
+                            <Group id="Group" fx:id="group_22" layoutX="11.0" layoutY="744.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -278,7 +278,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="779.0">
+                            <Group id="Group" fx:id="group_23" layoutX="11.0" layoutY="779.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -289,7 +289,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="814.0">
+                            <Group id="Group" fx:id="group_24" layoutX="11.0" layoutY="814.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -300,7 +300,7 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="849.0">
+                            <Group id="Group" fx:id="group_25" layoutX="11.0" layoutY="849.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />
@@ -311,7 +311,184 @@
                                 <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
                               </children>
                             </Group>
-                            <Group id="Group" layoutX="11.0" layoutY="884.0">
+                            <Group id="Group" fx:id="group_26" layoutX="11.0" layoutY="884.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_27" layoutX="11.0" layoutY="920.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_28" layoutX="11.0" layoutY="955.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_29" layoutX="11.0" layoutY="990.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_30" layoutX="11.0" layoutY="1025.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_31" layoutX="11.0" layoutY="1060.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_32" layoutX="11.0" layoutY="1095.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_33" layoutX="11.0" layoutY="1129.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_34" layoutX="11.0" layoutY="1164.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_35" layoutX="11.0" layoutY="1199.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_36" layoutX="11.0" layoutY="1234.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_37" layoutX="11.0" layoutY="1269.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_38" layoutX="11.0" layoutY="1304.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" layoutX="9.0" layoutY="648.0" />
+                            <Group id="Group" fx:id="group_39" layoutX="11.0" layoutY="1339.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_40" layoutX="10.0" layoutY="1374.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_41" layoutX="10.0" layoutY="1409.0">
+                              <children>
+                                <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <Label layoutX="102.0" layoutY="6.0" text="IF" />
+                                <Label layoutX="256.0" layoutY="6.0" text="THEN" />
+                                <Label layoutX="423.0" layoutY="6.0" text="ELSE" />
+                                <ChoiceBox id="choiceActionTrue" layoutX="294.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <ChoiceBox id="choiceActionFalse" layoutX="456.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
+                                <TextField layoutX="0.0" layoutY="5.0" prefHeight="23.0" prefWidth="96.0" />
+                              </children>
+                            </Group>
+                            <Group id="Group" fx:id="group_42" layoutX="10.0" layoutY="1444.0">
                               <children>
                                 <ChoiceBox id="choiseIf" layoutX="121.0" layoutY="0.0" prefHeight="28.0" prefWidth="120.0" />
                                 <Label layoutX="102.0" layoutY="6.0" text="IF" />

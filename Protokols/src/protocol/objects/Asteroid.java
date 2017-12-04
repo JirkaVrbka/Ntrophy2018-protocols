@@ -20,10 +20,12 @@ public class Asteroid extends SpaceObject{
 
     public Asteroid(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
         super(attrs, missing);
-        if(missing != null && !missing.contains(Attributes.LIFE) && !missing.contains(Attributes.WEAPONS) && !missing.contains(Attributes.COMUNICATES)){
-            if(super.isLife() || super.isWeapons() || super.isComunicates()){
+        try {
+            if(super.isLife() || super.isWeapons() || super.isComunicates() || super.isBigger() || super.isResources()){
                 throw new InvalidObjectException();
             }
+        }catch (NullPointerException e){
+            throw new InvalidObjectException();
         }
        
     }
@@ -68,12 +70,9 @@ public class Asteroid extends SpaceObject{
     }
     private int escape (){
         if (isFast()){
-            if (isBigger()) {
-                return 3;                
-            }
-            return 2;
+            return -3;
         }
-        return -1;
+        return 0;
     }
     
     
@@ -81,35 +80,27 @@ public class Asteroid extends SpaceObject{
         if (isFast()){
             return -3;
         }
-        return 0;
+        return 3;
     }
+    
     private int gather (){
         if (isFast()){
             return -3;
         }
-        if (isResources()){
-            return 3;
-        }
-        return -1;
+        return 0;
     }
     
     private int shoot (){
         if (super.isFast()){
-            if(super.isBigger()){
-                return -3;
-            }
             return 3;
         }
-        return -1;
+        return 0;
     }
     
     private int trade (){
         if (isFast()){
             return -3;
         }
-        if (isResources()){
-            return 0;
-        }
-        return -1;
+        return 0;
     }
 }
