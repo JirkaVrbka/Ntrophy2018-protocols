@@ -506,6 +506,7 @@ public class FXMLDocumentController implements Initializable {
         protokols.put(name, protokol);        
         
         choiceActiveProtocol.getItems().add(name);
+        choiceActiveProtocol.getSelectionModel().selectLast();
     }
 
     @FXML

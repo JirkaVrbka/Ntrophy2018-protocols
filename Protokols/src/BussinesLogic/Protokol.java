@@ -44,13 +44,13 @@ public class Protokol {
     public void createFromGroup(Group[] allGroups){
         int i = 0;
         for(Group group : allGroups){
-            if(((ComboBox)(group.getChildren().get(0))).getValue() == null || group.isVisible() == false){
+            if(((ComboBox)(group.getChildren().get(1))).getValue() == null || group.isVisible() == false){
                 break;
             }
-            String staIf = ((ComboBox)(group.getChildren().get(0))).getValue().toString();
-            String staThen = ((ComboBox)(group.getChildren().get(4))).getValue().toString();
-            String staElse = ((ComboBox)(group.getChildren().get(5))).getValue().toString();
-            String name = ((TextField)(group.getChildren().get(6))).getText();
+            String staIf = ((ComboBox)(group.getChildren().get(1))).getValue().toString();
+            String staThen = ((ComboBox)(group.getChildren().get(2))).getValue().toString();
+            String staElse = ((ComboBox)(group.getChildren().get(3))).getValue().toString();
+            String name = ((TextField)(((Group)(group.getChildren().get(0))).getChildren().get(3))).getText();
             addRule(name, staIf, staElse, staThen);
             if (i == 0){
                 startWith = new Rule(name, staIf, staElse, staThen);
@@ -66,10 +66,10 @@ public class Protokol {
        
        int i = 0;
        for(Rule rule : rules.values()){
-           ((ComboBox)(allGroups[i].getChildren().get(0))).getSelectionModel().select(rule.statementIf);
-           ((ComboBox)(allGroups[i].getChildren().get(4))).getSelectionModel().select(rule.statementThen);
-           ((ComboBox)(allGroups[i].getChildren().get(5))).getSelectionModel().select(rule.statementElse);
-           ((TextField)(allGroups[i].getChildren().get(6))).setText(rule.name);        
+           ((ComboBox)(allGroups[i].getChildren().get(1))).getSelectionModel().select(rule.statementIf);
+           ((ComboBox)(allGroups[i].getChildren().get(2))).getSelectionModel().select(rule.statementThen);
+           ((ComboBox)(allGroups[i].getChildren().get(3))).getSelectionModel().select(rule.statementElse);
+           ((TextField)(((Group)(allGroups[i].getChildren().get(0))).getChildren().get(3))).setText(rule.name);        
            
             allGroups[i].setVisible(true);
            i++;
