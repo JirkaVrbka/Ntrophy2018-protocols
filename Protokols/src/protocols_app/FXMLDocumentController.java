@@ -580,6 +580,18 @@ public class FXMLDocumentController implements Initializable {
             getTextFieldOfGroup(i).focusedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (!newValue){
+                            fieldObjectName.setText("OUT");
+                            FXMLDocumentController.this.pico();
+                        } else{
+                            fieldObjectName.setText("ON");
+                        }
+
+                        }});
+
+        }
+    }
+    
     /**
      * Evaluate protocol with given object
      * @param protokol 
@@ -614,25 +626,5 @@ public class FXMLDocumentController implements Initializable {
         //I can decide -> value of decision
         return result.getKey();
     }
-    
-
-                    
-                        if (!newValue){
-                            fieldObjectName.setText("OUT");
-                            FXMLDocumentController.this.pico();
-                        } else{
-                            fieldObjectName.setText("ON");
-                        }
-
-                        }});
-
-        }
-    }            
-
-    @FXML
-    private void KOKOTE(MouseEvent event) {
-        addRulesName();
-        updateAllThenElseChoices();
-    }
-
+                        
 }
