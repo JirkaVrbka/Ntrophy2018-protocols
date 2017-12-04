@@ -11,7 +11,7 @@ package protocol.enums;
  */
 public enum Action {
     SHOOT ("Shoot"), 
-    GATHER_RESOURCES ("gather resources"), 
+    GATHER_RESOURCES ("Gather resources"), 
     CONTACT ("Contact"), 
     FLYBY ("Fly by"), 
     ESCAPE ("Escape"), 

@@ -10,5 +10,19 @@ package protocol.enums;
  * @author Ondrej Urbanovsky
  */
 public enum Type {
-    SHIP, PLANET, ASTEROID;
+    SHIP ("Ship"),
+    PLANET ("Planet"),
+    ASTEROID ("Asteroid"),
+    UNDEFINED ("Undefined");
+    
+    String name;
+    
+    Type(String name){
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

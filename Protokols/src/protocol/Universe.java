@@ -7,7 +7,6 @@ package protocol;
 
 import protocol.enums.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
 import protocol.exceptions.InvalidObjectException;
@@ -33,15 +32,15 @@ public class Universe {
     
     /**
      * creates first 5 testing objects
-     * @throws InvalidObjectException wont actually do it...
      */
     public Universe(){
-            
+            int i;
             //obj 1 asteroid
             List <Attributes> astAttr = new ArrayList<>();
             List <Attributes> astmissing = new ArrayList<>();
-            astAttr.add(Attributes.RESOURCES);
-            CreateObj(Type.ASTEROID, astAttr, astmissing);
+            astAttr.add(Attributes.FAST);
+            i = CreateObj(Type.ASTEROID, astAttr, astmissing);
+            getObjectByID(i).setName("Default obj");
 
             // obj 2 enemy live ship
             List <Attributes> enship = new ArrayList<>();
@@ -51,7 +50,8 @@ public class Universe {
             enship.add(Attributes.WEAPONS);
             enship.add(Attributes.ACT_WEAPON);
             enship.add(Attributes.COMUNICATES);
-            CreateObj(Type.SHIP, enship, enshipmiss);
+            i = CreateObj(Type.SHIP, enship, enshipmiss);
+            getObjectByID(i).setName("Default obj");
 
             // obj 3 anship
             List <Attributes> anship = new ArrayList<>();
@@ -61,14 +61,17 @@ public class Universe {
             anship.add(Attributes.COMUNICATES);
             anship.add(Attributes.RESOURCES);
             anship.add(Attributes.BIGGER);
-            CreateObj(Type.SHIP, anship, anshipmiss);
+            i = CreateObj(Type.SHIP, anship, anshipmiss);
+            getObjectByID(i).setName("Default obj");
 
             // obj 4 vrak
             List <Attributes> vrak = new ArrayList<>();
             vrak.add(Attributes.WEAPONS);
             vrak.add(Attributes.BIGGER);
             vrak.add(Attributes.RESOURCES);
-            CreateObj(Type.SHIP, vrak, anshipmiss);
+            i = CreateObj(Type.SHIP, vrak, anshipmiss);
+            getObjectByID(i).setName("Default obj");
+            
 
             // obj 5 planet
             List <Attributes> planet = new ArrayList<>();
@@ -76,7 +79,9 @@ public class Universe {
             planet.add(Attributes.LIFE);
             planet.add(Attributes.COMUNICATES);
             planet.add(Attributes.BIGGER);
-            CreateObj(Type.PLANET, planet, anshipmiss);
+            i = CreateObj(Type.PLANET, planet, anshipmiss);
+            getObjectByID(i).setName("Default obj");
+            createAll();
             
     }
 
@@ -95,7 +100,6 @@ public class Universe {
      * @param attrs attributes that are true
      * @param missing attributes that are missing
      * @return id of object upon success else -1;
-     * @throws InvalidObjectException 
      */
     public final int CreateObj (Type type, List<Attributes> attrs, List<Attributes> missing){
     
@@ -116,14 +120,35 @@ public class Universe {
                         ID++;
                         break;
                 }
+                default:{
+                    if (attrs.contains(Attributes.WEAPONS) ||
+                        (attrs.contains(Attributes.LIFE)&& attrs.contains(Attributes.FAST) && missing.contains(Attributes.WEAPONS))){
+                        objects.put(ID, new Ship(attrs,missing));
+                        ID++;
+                        break;
+                    }
+                    if(attrs.contains(Attributes.LIFE) || attrs.contains(Attributes.COMUNICATES)){
+                        objects.put(ID, new Planet(attrs,missing));
+                        ID++;
+                        break;
+                    }
+                    if(attrs.contains(Attributes.FAST) || 
+                        (!attrs.contains(Attributes.BIGGER) && !missing.contains(Attributes.BIGGER))){
+                        objects.put(ID, new Asteroid(attrs,missing));
+                        ID++;
+                        break;
+                    }
+                    objects.put(ID, new SpaceObject(attrs,missing));
+                    ID++;
+                }
             }
         } catch(InvalidObjectException e) {
         return -1;
         }
-        return ID;
+        return ID - 1;
     }
     
-    public SpaceObject getObjectByID (int id){
+    public final SpaceObject getObjectByID (int id){
         return objects.get(id);
     }
     

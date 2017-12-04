@@ -11,11 +11,11 @@ package protocol.enums;
  */
 public enum Attributes {
     LIFE ("Life"),
-    COMUNICATES ("Comunicates"), 
+    COMUNICATES ("Communicates"), 
     RESOURCES ("Resources"), 
     BIGGER ("Bigger"), 
     WEAPONS ("Weapons"), 
-    ACT_WEAPON ("Active weapons"), 
+    ACT_WEAPON ("Active_weapons"), 
     FAST ("Fast");
     
     String name;
@@ -28,6 +28,12 @@ public enum Attributes {
     public String toString() {
         return name;
     }
-    
-    
+    public static Attributes toEnum (String name){
+        for (Attributes attr : Attributes.values()) {
+            if (name.equals(attr.name)) {
+                return attr;
+            }
+        }
+        return null;
+    }
 }

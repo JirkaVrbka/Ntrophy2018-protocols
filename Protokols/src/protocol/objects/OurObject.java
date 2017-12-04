@@ -5,15 +5,17 @@
  */
 package protocol.objects;
 
+import java.util.List;
 import protocol.enums.Type;
 import protocol.enums.Action;
+import protocol.enums.Attributes;
 import protocol.exceptions.InvalidActionException;
 
 /**
  *
  * @author Ondrej Urbanovsky
  */
-public interface Object {
+public interface OurObject {
     /**
      * evaluates action on this object
      * @param action enum value of what to do
@@ -37,5 +39,14 @@ public interface Object {
     boolean isFast();
     
     Type getType();
-     
+    
+    void setName(String name);
+    
+    String getName();
+    
+    List<Attributes> getTrueattr();
+    
+    public List<Attributes> getMissingAttr();
+    
+    public List<Attributes> getFalseAttr();
 }

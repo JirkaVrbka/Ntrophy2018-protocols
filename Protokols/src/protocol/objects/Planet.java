@@ -20,10 +20,13 @@ public class Planet extends SpaceObject{
 
     public Planet(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
         super(attrs, missing);
-        if(missing != null && !missing.contains(Attributes.BIGGER) && !missing.contains(Attributes.WEAPONS) && !missing.contains(Attributes.FAST)){
+        try {
             if(super.isWeapons()|| !(super.isBigger()) || super.isFast()){
                 throw new InvalidObjectException();                    
             }
+        }catch (NullPointerException e){
+            throw new InvalidObjectException();
+                    
         }
     }
     @Override
@@ -61,23 +64,23 @@ public class Planet extends SpaceObject{
     }
     private int contact (){
         if(isLife()){
-            if (super.isResources()){
-                return 1;
-            }
-            if (super.isComunicates()){
+            if (!super.isResources() && super.isComunicates()){
                 return 3;
             }
-        }else{
-            return 0;
         }
         return 0;
     }
+    
     private int escape (){
-        return -1;
+        return 0;
     }
     
     
     private int flyby (){
+        if(!isLife() && !isResources()){
+            return 3;
+        }
+        //TODO 3 life and doesnt comm
         return 0;
     }
     private int gather (){
@@ -88,25 +91,24 @@ public class Planet extends SpaceObject{
                 return 3;
             }
         }
-        return -1;
+        return 0;
     }
     
     private int shoot (){
         if(isLife()){
             return -3;
         }
-        return -1;
+        return 0;
     }
     
     private int trade (){
-        if(isLife()){
-            if (super.isResources()){
-                if (super.isComunicates()){
-                    return 3;
-                }
-                return -1;
-            }            
-        }            
-        return -1;
+        if(isLife() && !super.isComunicates()){
+            return -3;
+        }
+        if(isLife() && super.isResources() && super.isComunicates()){
+            return 3;       
+        }
+        
+        return 0;
     }
 }
