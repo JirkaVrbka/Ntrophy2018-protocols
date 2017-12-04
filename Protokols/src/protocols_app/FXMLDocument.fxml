@@ -538,7 +538,7 @@
                           <children>
                             <Label layoutX="432.0" layoutY="28.0" text="Active object: " />
                             <ChoiceBox fx:id="choiceActiveObject" layoutX="399.0" layoutY="59.0" prefWidth="150.0" />
-                            <Button fx:id="buttonObjectRun" layoutX="399.0" layoutY="102.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Run" />
+                            <Button fx:id="buttonObjectRun" layoutX="399.0" layoutY="102.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunObject" prefHeight="30.0" prefWidth="150.0" text="Run" />
                             <Button fx:id="buttonObjectDelete" layoutX="399.0" layoutY="132.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#EraseObject" prefHeight="30.0" prefWidth="150.0" text="Del" />
                             <Button fx:id="buttonObjectLoad" layoutX="399.0" layoutY="162.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#LoadObjAttributes" prefHeight="30.0" prefWidth="150.0" text="Load " />
                             <Button layoutX="399.0" layoutY="192.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="???" />
@@ -549,8 +549,8 @@
                             <Button fx:id="buttonProtocolLoad" layoutX="134.0" layoutY="162.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionLoadProtokol" prefHeight="30.0" prefWidth="150.0" text="Load " />
                             <Button fx:id="buttonProtocolExport" layoutX="134.0" layoutY="192.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Export" />
                             <Button layoutX="134.0" layoutY="222.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="???" />
-                            <TextField disable="true" editable="false" layoutY="272.0" prefHeight="90.0" prefWidth="680.0" promptText="Output" />
-                            <Button fx:id="buttonCreateAllObject" layoutX="55.0" layoutY="302.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Create all" />
+                            <TextField fx:id="fieldOutput" disable="true" editable="false" layoutY="272.0" prefHeight="90.0" prefWidth="680.0" promptText="Output" />
+                            <Button fx:id="buttonCreateAllObject" layoutX="98.0" layoutY="289.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Create all" />
                             <Button fx:id="buttonImportAndExecute" layoutX="248.0" layoutY="320.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="ImportAndExecute" />
                           </children>
                         </AnchorPane>

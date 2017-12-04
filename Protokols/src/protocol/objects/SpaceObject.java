@@ -29,6 +29,7 @@ public class SpaceObject implements OurObject{
     private String name         = null;
     private List <Attributes> missing;
     private List <Attributes> trueattr;
+    private int id = -1;
     
     
     public SpaceObject(List <Attributes> attrs, List <Attributes> missing) 
@@ -207,5 +208,27 @@ public class SpaceObject implements OurObject{
     public Type getType() {
         return Type.UNDEFINED;
     }
+    
+    /**
+     * Parses last number before to id number 
+     * @param str string from name of button...
+     * @return int ID
+     */
+    private int parseLastToId(String str){
+        String [] afterSplit = str.split(" ");
+        return Integer.valueOf(afterSplit[afterSplit.length -1]);
+    }
+
+    
+    public void setID(int i){
+        this.id = i;
+    }
+    @Override
+    public int getID() {
+        return id;
+    }
+
+    
+    
     
 }
