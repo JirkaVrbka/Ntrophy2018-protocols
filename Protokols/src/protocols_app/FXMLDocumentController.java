@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,9 +6,10 @@
  */
 package protocols_app;
 
+import BussinesLogic.Protokol;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -19,7 +21,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -28,7 +29,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
-import javax.rmi.CORBA.Util;
 import protocol.Universe;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
@@ -42,8 +42,6 @@ import protocol.objects.SpaceObject;
  */
 public class FXMLDocumentController implements Initializable {
 
-    private Label label;
-    private ChoiceBox ifChoice;
     @FXML
     private ChoiceBox<?> choiseIf;
     @FXML
@@ -75,7 +73,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button buttonCreateAllObject;
     @FXML
-    private ChoiceBox<?> choiceActiveProtocol;
+    private ChoiceBox choiceActiveProtocol;
     @FXML
     private Button buttonProtocolRun;
     @FXML
@@ -200,15 +198,13 @@ public class FXMLDocumentController implements Initializable {
     private int lastGroupID = 2;
     private List<String> thenElseChoicesList = new ArrayList<>();
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
+    private Map<String, Protokol> protokols = new LinkedHashMap<>();
+    @FXML
+    private TextField fieldOutput;
     @FXML
     private ComboBox combo;
     
     
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -354,6 +350,7 @@ public class FXMLDocumentController implements Initializable {
         
         if(id>0){
             universe.getObjectByID(id).setName(name);
+            universe.getObjectByID(id).setID(id);
             setActiveObjectChoices(choiceActiveObject);
         }
     }
@@ -495,6 +492,73 @@ public class FXMLDocumentController implements Initializable {
             //getTextFieldOfGroup(lastGroupID).setText(Integer.toString(lastGroupID +1));
         }
     }
+
+    @FXML
+    private void buttonActionSaveProtokol(ActionEvent event) {
+        String name = fieldProtocolName.getText();
+        if(name.equals("")){
+            name = String.valueOf(protokols.keySet().size() + 1);
+        }
+        Protokol protokol = new Protokol(name);
+        protokol.createFromGroup(allGroups);
+        protokols.put(name, protokol);        
+        
+        choiceActiveProtocol.getItems().add(name);
+    }
+
+    @FXML
+    private void buttonActionLoadProtokol(ActionEvent event) {
+        String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        if(name.equals("")){
+            return;
+        }
+        Protokol protokol = protokols.get(name);
+        if(protokol == null){
+            return;
+        }
+        protokol.writeToGroup(allGroups, true);        
+    }
+
+    @FXML
+    private void buttonActionDeleteProtokol(ActionEvent event) {
+        if(choiceActiveProtocol.getItems().isEmpty()){
+            return;
+        }
+         String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        if(name.equals("")){
+            return;
+        }
+        Protokol protokol = protokols.remove(name);
+        if(protokol == null){
+            return;
+        }
+        
+        choiceActiveProtocol.getItems().remove(name);
+        if(choiceActiveProtocol.getItems().size() > 0){
+            choiceActiveProtocol.getSelectionModel().selectFirst();
+        }
+        
+    }
+
+    /**
+     * Evaluate active object with active protocol 
+     * @param event 
+     */
+    @FXML
+    private void buttonRunObject(ActionEvent event) {
+        SpaceObject spaceObject = getActiveObject();
+        
+        if(spaceObject == null || choiceActiveProtocol.getValue() == null){
+            fieldOutput.setText("-666 ");
+            return;
+        }
+        Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
+        if(protokol == null ){
+            fieldOutput.setText("-777");
+            return;
+        }
+        fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
+    }
     private void addRulesName(){
         for(int i = 0; i<lastGroupID+1; i++) {
             String text = getTextFieldOfGroup(i).getText();
@@ -516,6 +580,41 @@ public class FXMLDocumentController implements Initializable {
             getTextFieldOfGroup(i).focusedProperty().addListener(new ChangeListener<Boolean>() {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+    /**
+     * Evaluate protocol with given object
+     * @param protokol 
+     * @param spaceObject
+     * @return number of points
+     */
+    private int evalProtokol(Protokol protokol, SpaceObject spaceObject){
+        String firstAsk = protokol.getFirstAsk();
+        boolean res = universe.ask(Attributes.getValueOf(firstAsk),spaceObject.getID());
+        String answer = protokol.getFirstResult(res);
+        
+        Action action = Action.getValueOf(answer);
+        
+        int i = 0;
+        //iterate until some action
+        while(action == null){
+            res = universe.ask(Attributes.getValueOf(protokol.getAsk(answer)),spaceObject.getID());
+            answer = protokol.getFirstResult(res);
+            i++;
+            if(i > 500){
+                //too many cycles, there is a problem there
+                return -500000;
+            }
+        }
+        
+        Pair<Integer, Boolean> result = universe.evalAction(action, spaceObject.getID());
+        //cannot decide -> kill
+        if(result.getValue() == false){
+            return -50000;
+        }
+        
+        //I can decide -> value of decision
+        return result.getKey();
+    }
+    
 
                     
                         if (!newValue){

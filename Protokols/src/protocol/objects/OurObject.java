@@ -49,4 +49,6 @@ public interface OurObject {
     public List<Attributes> getMissingAttr();
     
     public List<Attributes> getFalseAttr();
+    
+    int getID();
 }

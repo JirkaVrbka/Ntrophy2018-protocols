@@ -41,6 +41,7 @@ public class Universe {
             astAttr.add(Attributes.FAST);
             i = CreateObj(Type.ASTEROID, astAttr, astmissing);
             getObjectByID(i).setName("Default obj");
+            getObjectByID(i).setID(i);
 
             // obj 2 enemy live ship
             List <Attributes> enship = new ArrayList<>();
@@ -52,6 +53,7 @@ public class Universe {
             enship.add(Attributes.COMUNICATES);
             i = CreateObj(Type.SHIP, enship, enshipmiss);
             getObjectByID(i).setName("Default obj");
+            getObjectByID(i).setID(i);
 
             // obj 3 anship
             List <Attributes> anship = new ArrayList<>();
@@ -63,6 +65,7 @@ public class Universe {
             anship.add(Attributes.BIGGER);
             i = CreateObj(Type.SHIP, anship, anshipmiss);
             getObjectByID(i).setName("Default obj");
+            getObjectByID(i).setID(i);
 
             // obj 4 vrak
             List <Attributes> vrak = new ArrayList<>();
@@ -71,7 +74,7 @@ public class Universe {
             vrak.add(Attributes.RESOURCES);
             i = CreateObj(Type.SHIP, vrak, anshipmiss);
             getObjectByID(i).setName("Default obj");
-            
+            getObjectByID(i).setID(i);
 
             // obj 5 planet
             List <Attributes> planet = new ArrayList<>();
@@ -81,7 +84,8 @@ public class Universe {
             planet.add(Attributes.BIGGER);
             i = CreateObj(Type.PLANET, planet, anshipmiss);
             getObjectByID(i).setName("Default obj");
-            createAll();
+            getObjectByID(i).setID(i);
+            //createAll();
             
     }
 
