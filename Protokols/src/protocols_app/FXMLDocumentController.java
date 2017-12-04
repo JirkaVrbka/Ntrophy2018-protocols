@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,9 +6,10 @@
  */
 package protocols_app;
 
+import BussinesLogic.Protokol;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -17,15 +19,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Pair;
-import javax.rmi.CORBA.Util;
 import protocol.Universe;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
@@ -39,8 +38,6 @@ import protocol.objects.SpaceObject;
  */
 public class FXMLDocumentController implements Initializable {
 
-    private Label label;
-    private ChoiceBox ifChoice;
     @FXML
     private ChoiceBox<?> choiseIf;
     @FXML
@@ -72,7 +69,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button buttonCreateAllObject;
     @FXML
-    private ChoiceBox<?> choiceActiveProtocol;
+    private ChoiceBox choiceActiveProtocol;
     @FXML
     private Button buttonProtocolRun;
     @FXML
@@ -196,13 +193,9 @@ public class FXMLDocumentController implements Initializable {
     private Group[] allGroups;
     private int lastGroupID = 2;
     private ObservableList<String> thenElseChoices = FXCollections.observableArrayList();
+    private Map<String, Protokol> protokols = new LinkedHashMap<>();
     
     
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
-
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -471,6 +464,52 @@ public class FXMLDocumentController implements Initializable {
             showGroup(lastGroupID + 1);
             lastGroupID++;
             //getTextFieldOfGroup(lastGroupID).setText(Integer.toString(lastGroupID +1));
+        }
+    }
+
+    @FXML
+    private void buttonActionSaveProtokol(ActionEvent event) {
+        String name = fieldProtocolName.getText();
+        if(name.equals("")){
+            name = String.valueOf(protokols.keySet().size() + 1);
+        }
+        Protokol protokol = new Protokol(name);
+        protokol.createFromGroup(allGroups);
+        protokols.put(name, protokol);        
+        
+        choiceActiveProtocol.getItems().add(name);
+    }
+
+    @FXML
+    private void buttonActionLoadProtokol(ActionEvent event) {
+        String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        if(name.equals("")){
+            return;
+        }
+        Protokol protokol = protokols.get(name);
+        if(protokol == null){
+            return;
+        }
+        protokol.writeToGroup(allGroups, true);        
+    }
+
+    @FXML
+    private void buttonActionDeleteProtokol(ActionEvent event) {
+        if(choiceActiveProtocol.getItems().size() == 0){
+            return;
+        }
+         String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        if(name.equals("")){
+            return;
+        }
+        Protokol protokol = protokols.remove(name);
+        if(protokol == null){
+            return;
+        }
+        
+        choiceActiveProtocol.getItems().remove(name);
+        if(choiceActiveProtocol.getItems().size() > 0){
+            choiceActiveProtocol.getSelectionModel().selectFirst();
         }
     }
     

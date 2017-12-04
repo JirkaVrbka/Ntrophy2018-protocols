@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="754.0" prefHeight="683.0" prefWidth="1300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="protocols_app.FXMLDocumentController">
+<AnchorPane id="AnchorPane" maxHeight="754.0" prefHeight="683.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="protocols_app.FXMLDocumentController">
   <children>
     <SplitPane dividerPositions="0.04985337243401759" orientation="VERTICAL" prefHeight="684.0" prefWidth="1300.0">
       <items>
@@ -23,12 +23,12 @@
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="683.0" prefWidth="1298.0">
           <children>
-            <SplitPane dividerPositions="0.4714946070878274" prefHeight="646.0" prefWidth="1300.0">
+            <SplitPane dividerPositions="0.5" prefHeight="646.0" prefWidth="1300.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="647.0">
                   <children>
                     <Label layoutX="194.0" layoutY="14.0" text="Name:" />
-                    <Button fx:id="buttonSaveProtocol" layoutX="-19.0" layoutY="614.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="213.0" text="Save" />
+                    <Button fx:id="buttonSaveProtocol" layoutX="-19.0" layoutY="614.0" mnemonicParsing="false" onAction="#buttonActionSaveProtokol" prefHeight="32.0" prefWidth="213.0" text="Save" />
                     <Button fx:id="buttonAddLineProtocol" layoutX="198.0" layoutY="614.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="213.0" text="+" />
                     <Button fx:id="buttonRemoveLineProtocol" layoutX="407.0" layoutY="614.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="221.0" text="-" />
                     <TextField fx:id="fieldProtocolName" layoutX="244.0" layoutY="10.0" promptText="Protocol name" />
@@ -545,8 +545,8 @@
                             <Label layoutX="161.0" layoutY="28.0" text="Active protokol: " />
                             <ChoiceBox fx:id="choiceActiveProtocol" layoutX="134.0" layoutY="59.0" prefWidth="150.0" />
                             <Button fx:id="buttonProtocolRun" layoutX="134.0" layoutY="102.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Run on all objects" />
-                            <Button fx:id="buttonProtocolDelete" layoutX="134.0" layoutY="132.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Del" />
-                            <Button fx:id="buttonProtocolLoad" layoutX="134.0" layoutY="162.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Load " />
+                            <Button fx:id="buttonProtocolDelete" layoutX="134.0" layoutY="132.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionDeleteProtokol" prefHeight="30.0" prefWidth="150.0" text="Del" />
+                            <Button fx:id="buttonProtocolLoad" layoutX="134.0" layoutY="162.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionLoadProtokol" prefHeight="30.0" prefWidth="150.0" text="Load " />
                             <Button fx:id="buttonProtocolExport" layoutX="134.0" layoutY="192.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Export" />
                             <Button layoutX="134.0" layoutY="222.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="???" />
                             <TextField disable="true" editable="false" layoutY="272.0" prefHeight="90.0" prefWidth="680.0" promptText="Output" />
