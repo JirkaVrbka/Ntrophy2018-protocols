@@ -12,7 +12,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ * This is application about protocols for ntrophy
+ * Drawing stage
  * @author Ondrej Urbanovsky
  */
 public class Protocols_app extends Application {
@@ -28,6 +29,7 @@ public class Protocols_app extends Application {
     }
 
     /**
+     * Launchs app
      * @param args the command line arguments
      */
     public static void main(String[] args) {
