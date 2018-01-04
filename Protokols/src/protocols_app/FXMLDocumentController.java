@@ -232,6 +232,13 @@ public class FXMLDocumentController implements Initializable {
         addInitialRules();
         addRulesName();
         updateAllThenElseChoices();
+        
+        hideDebugButtons();
+    }
+    
+    private void hideDebugButtons(){
+        buttonCreateAllObject.setVisible(false);
+        buttonImportAndExecute.setVisible(false);
     }
     
     private void addInitialRules(){
@@ -380,7 +387,7 @@ public class FXMLDocumentController implements Initializable {
 
     /**
      * loads attributes of object to createobj
-     * note indexes of CHoiceAttribute Selector box 0 = true 1 = false 2 = undefined
+     * notes indexes of CHoiceAttribute Selector box 0 = true 1 = false 2 = undefined
      * @param event click
      */
     @FXML
@@ -481,7 +488,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    
+    /**
+     * TODO: co to dela?
+     */
     private void initializeAllGroups(){
         for (int i = 0; i < 42; i++) {
             getTextFieldOfGroup(i).setText(Integer.toString(i+1));
@@ -490,6 +499,10 @@ public class FXMLDocumentController implements Initializable {
         updateAllThenElseChoices();
     }
 
+    /**
+     * TODO: co to dela?
+     * @param event 
+     */
     @FXML
     private void addNewGroup(MouseEvent event) {
         if(lastGroupID < 42){
@@ -499,46 +512,69 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    /**
+     * Saves protocol into our database.
+     * Automatically add ID into name
+     * Automatically select created protocol
+     * @param event 
+     */
     @FXML
     private void buttonActionSaveProtokol(ActionEvent event) {
-        String name = fieldProtocolName.getText();
-        if(name.equals("")){
-            name = String.valueOf(protokols.keySet().size() + 1);
-        }
+        String name = fieldProtocolName.getText() + " " + (protokols.keySet().size() + 1);
+        
         Protokol protokol = new Protokol(name);
         protokol.createFromGroup(allGroups);
         protokols.put(name, protokol);        
         
         choiceActiveProtocol.getItems().add(name);
+        choiceActiveProtocol.getSelectionModel().selectLast();
     }
 
+    /**
+     * Loads protocol into live panel to enable editing
+     * @param event 
+     */
     @FXML
     private void buttonActionLoadProtokol(ActionEvent event) {
         String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        //if there is no protocol selected
         if(name.equals("")){
             return;
         }
         Protokol protokol = protokols.get(name);
-        if(protokol == null){
-            return;
-        }
-        protokol.writeToGroup(allGroups, true);        
-    }
-
-    @FXML
-    private void buttonActionDeleteProtokol(ActionEvent event) {
-        if(choiceActiveProtocol.getItems().isEmpty()){
-            return;
-        }
-         String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
-        if(name.equals("")){
-            return;
-        }
-        Protokol protokol = protokols.remove(name);
+        //if there is no protocol in database
         if(protokol == null){
             return;
         }
         
+        //write protocol into panel
+        protokol.writeToGroup(allGroups, true);        
+    }
+
+    /**
+     * Deletes active protocol
+     * @param event 
+     */
+    @FXML
+    private void buttonActionDeleteProtokol(ActionEvent event) {
+        //there is no active protocol
+        if(choiceActiveProtocol.getItems().isEmpty()){
+            return;
+        }
+        
+        String name =  choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        //name of protocol is empty
+        if(name.equals("")){
+            return;
+        }
+        Protokol protokol = protokols.remove(name);
+        //there was no protocol in our database
+        if(protokol == null){
+            return;
+        }
+        
+        //delete protocol name from choice box
+        //TODO: how to resolve what protocol if they have same name!
         choiceActiveProtocol.getItems().remove(name);
         if(choiceActiveProtocol.getItems().size() > 0){
             choiceActiveProtocol.getSelectionModel().selectFirst();
@@ -565,6 +601,10 @@ public class FXMLDocumentController implements Initializable {
         }
         fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
     }
+    
+    /**
+     * TODO add comment
+     */
     private void addRulesName(){
         for(int i = 0; i<lastGroupID+1; i++) {
             String text = getTextFieldOfGroup(i).getText();
@@ -576,11 +616,15 @@ public class FXMLDocumentController implements Initializable {
        
     }
     
+    //TODO WTF, co je tohle?
     private void pico(){
         fieldProtocolName.setText("Kraka");
         addRulesName();
         updateAllThenElseChoices();
     }
+    
+    //TODO ou man... co je toto?
+    //NOTE: Je to cajk smazat? 
     private void addTextfieldListeners(){
         for(int i = 0; i<42; i++) {        
             getTextFieldOfGroup(i).focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -588,20 +632,19 @@ public class FXMLDocumentController implements Initializable {
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     if (!newValue){
                             fieldObjectName.setText("OUT");
-                            FXMLDocumentController.this.pico();
+                            pico();
                         } else{
                             fieldObjectName.setText("ON");
                         }
 
                         }});
-
         }
     }
     
     /**
      * Evaluate protocol with given object
-     * @param protokol 
-     * @param spaceObject
+     * @param protokol to eval
+     * @param spaceObject to be checked
      * @return number of points
      */
     private int evalProtokol(Protokol protokol, SpaceObject spaceObject){
@@ -624,6 +667,7 @@ public class FXMLDocumentController implements Initializable {
         }
         
         Pair<Integer, Boolean> result = universe.evalAction(action, spaceObject.getID());
+        
         //cannot decide -> kill
         if(result.getValue() == false){
             return -50000;
@@ -633,17 +677,21 @@ public class FXMLDocumentController implements Initializable {
         return result.getKey();
     }
 
+    /**
+     * Event handler for button "Run" under objects
+     * @param event 
+     */
     @FXML
     private void buttonRunProtokol(ActionEvent event) {
         fieldOutput.setText("");
         
         if(choiceActiveProtocol.getValue() == null){
-            fieldOutput.setText("-666 ");
+            fieldOutput.setText("-666 - No protocol selected");
             return;
         }
         Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
         if(protokol == null ){
-            fieldOutput.setText("-777");
+            fieldOutput.setText("-777 - No protocol in our database");
             return;
         }
         
