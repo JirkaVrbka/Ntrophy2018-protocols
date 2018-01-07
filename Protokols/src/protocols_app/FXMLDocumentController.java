@@ -652,7 +652,8 @@ public class FXMLDocumentController implements Initializable {
         //iterate until some action
         while(action == null){
             res = universe.ask(Attributes.getValueOf(protokol.getAsk(answer)),spaceObject.getID());
-            answer = protokol.getFirstResult(res);
+            answer = protokol.getResult(answer,res);
+            action = Action.getValueOf(answer);
             i++;
             if(i > 500){
                 //too many cycles, there is a problem there

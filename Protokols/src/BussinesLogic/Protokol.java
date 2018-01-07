@@ -8,7 +8,6 @@ package BussinesLogic;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.Group;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
@@ -17,6 +16,8 @@ import javafx.scene.control.TextField;
  * @author Jirka
  */
 public class Protokol {
+    
+    ///CLASS RULE
     public class Rule{
         
         Rule(String name,String statementIf,String statementElse,String statementThen){
@@ -28,6 +29,7 @@ public class Protokol {
         
         public String name, statementIf, statementElse, statementThen;
     }
+    ///END CLASS RULE
     
     Map<String, Rule> rules = new HashMap<>();
     Rule startWith = null;
@@ -99,4 +101,52 @@ public class Protokol {
        
        return rules.get(name) == null ? null : rules.get(name).statementElse;
    }
+   
+   public String export(){
+       StringBuilder sb = new StringBuilder();
+       
+       sb.append("{\n");
+       
+       sb.append("name:");
+       sb.append(this.protocolName);
+       sb.append(";\n");
+       
+       for(Map.Entry<String, Rule> entry : rules.entrySet()){
+           sb.append("rule").append("{\n");
+           sb.append("name:").append(entry.getKey()).append(";\n");
+           sb.append("if:").append(entry.getValue().statementIf).append(";\n");
+           sb.append("then:").append(entry.getValue().statementThen).append(";\n");
+           sb.append("else:").append(entry.getValue().statementElse).append(";\n");
+           
+           sb.append("}\n");
+       }
+       
+       sb.append('}');
+       
+       return sb.toString();
+   }
+   /*
+   public void import(){
+       StringBuilder sb = new StringBuilder();
+       
+       sb.append("{\n");
+       
+       sb.append("name:");
+       sb.append(this.protocolName);
+       sb.append(";\n");
+       
+       for(Map.Entry<String, Rule> entry : rules.entrySet()){
+           sb.append("rule").append("{\n");
+           sb.append("name:").append(entry.getKey()).append(";\n");
+           sb.append("if:").append(entry.getValue().statementIf).append(";\n");
+           sb.append("then:").append(entry.getValue().statementThen).append(";\n");
+           sb.append("else:").append(entry.getValue().statementElse).append(";\n");
+           
+           sb.append("}\n");
+       }
+       
+       sb.append('}');
+       
+       return;
+   }*/
 }
