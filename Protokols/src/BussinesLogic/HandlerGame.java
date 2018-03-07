@@ -5,7 +5,9 @@
  */
 package BussinesLogic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import protocol.enums.EAttributeState;
@@ -32,9 +34,15 @@ public class HandlerGame {
         return customProtocols.keySet();
     }
     
-    public Set<String> getObjectNames(){
-        Set<String> allObjects = customObjects.keySet();
-        allObjects.addAll(defaultObjects.keySet());
+    public List<String> getObjectNames(){
+        List<String> allObjects = new ArrayList<>();
+        customObjects.keySet().forEach(name -> {
+            allObjects.add(name);
+        });
+        defaultObjects.keySet().forEach(name -> {
+            allObjects.add(name);
+        });
+        //allObjects.addAll(defaultObjects.keySet());
         
         return allObjects;
     }
@@ -47,10 +55,17 @@ public class HandlerGame {
         return customObjects.get(name);
     }
     
-    public void removeObject(String name){
-        if(customObjects.containsKey(name)){
-            customObjects.remove(name);
+    public IGameObject getObject(String name){
+        IGameObject toReturn;
+        if((toReturn = customObjects.get(name)) == null && (toReturn = defaultObjects.get(name)) == null){
+            return null;
         }
+        
+        return toReturn;
+    }
+    
+    public boolean removeCustomObject(String name){
+        return customObjects.remove(name) != null;
     }
     
     public void removeProtocol(String name){
@@ -58,6 +73,30 @@ public class HandlerGame {
             customProtocols.remove(name);
         }
     }
+    
+    public void addProtokol(Protokol protokol){
+        customProtocols.put(protokol.getName(), protokol);
+    }
+    
+    public void addCustomObject(IGameObject go){
+        customObjects.put(go.getName(),go);
+    }
+    
+    public int evaluateProtokol(String protokolName, String objectName){
+        IGameObject gameObject;
+        Protokol protokol;
+        
+        if((gameObject = getObject(objectName)) == null ){
+            throw new IllegalArgumentException("No object in database with name "+ objectName);
+        }
+        
+        if((protokol = getProtokol(protokolName)) == null ){
+            throw new IllegalArgumentException("No protokol in database with name "+ protokolName);
+        }
+        
+        return HandlerProtocol.evalProtokol(protokol, gameObject);
+    }
+    
     
     private void createDefaultObjects(){
         IGameObject go;

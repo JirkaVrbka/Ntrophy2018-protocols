@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import protocol.enums.Action;
 import protocol.enums.Attributes;
 
 /**
@@ -49,9 +48,11 @@ public class Protokol {
     Map<String, Rule> rules = new HashMap<>();
     Rule startWith = null;
     String protocolName;
+    private static int idGenerator = 1;
 
     public Protokol(String name) {
-        this.protocolName = name;
+        this.protocolName = name + "_" + idGenerator;
+        idGenerator++;
     }
     
     public void setName(String name){

@@ -17,7 +17,7 @@ import protocol.enums.Type;
  */
 public abstract class AGameObject implements IGameObject {
 
-    private static int idGenerator = 0;
+    private static int idGenerator = 1;
     
     private final EAttributeState life;
     private final EAttributeState comunicates;
@@ -41,8 +41,10 @@ public abstract class AGameObject implements IGameObject {
             EAttributeState actWeapons,
             EAttributeState fast) {
 
+        id = idGenerator;
+        idGenerator++;
         this.type = type;
-        this.name = name;
+        this.name = name + "_" + id;
         this.life = life;
         this.comunicates = comunicates;
         this.resources = resources;
@@ -51,39 +53,43 @@ public abstract class AGameObject implements IGameObject {
         this.actWeapons = actWeapons;
         this.fast = fast;
         
-        id = idGenerator;
-        name += "_"+id;
-        idGenerator++;
     }
     
     protected void idGeneratorMinusOne(){
         idGenerator--;
     }
     
+    @Override
     public EAttributeState getLife() {
         return life;
     }
 
+    @Override
     public EAttributeState getComunicates() {
         return comunicates;
     }
 
+    @Override
     public EAttributeState getResources() {
         return resources;
     }
 
+    @Override
     public EAttributeState getBigger() {
         return bigger;
     }
 
+    @Override
     public EAttributeState getWeapons() {
         return weapons;
     }
 
+    @Override
     public EAttributeState getActWeapons() {
         return actWeapons;
     }
 
+    @Override
     public EAttributeState getFast() {
         return fast;
     }
@@ -127,7 +133,7 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     public List<Attributes> getMissingAttr() {
-        return getAttributesWithState(EAttributeState.UNKNOWN);
+        return getAttributesWithState(EAttributeState.UNDEFINED);
     }
 
     @Override
@@ -184,5 +190,6 @@ public abstract class AGameObject implements IGameObject {
     public int getID() {
         return id;
     }
+    
 
 }

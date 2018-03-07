@@ -8,7 +8,6 @@ package protocol.objects;
 import protocol.enums.Action;
 import protocol.enums.EAttributeState;
 import protocol.enums.Type;
-import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 
 /**
@@ -34,7 +33,7 @@ public class GameObjectAsteroid extends AGameObject{
     }
 
     @Override
-    public int doAction(Action action) throws InvalidActionException {
+    public int doAction(Action action){
 
             switch(action){
                 case CONTACT:{

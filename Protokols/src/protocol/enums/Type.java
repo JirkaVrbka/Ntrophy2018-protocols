@@ -25,4 +25,24 @@ public enum Type {
     public String toString() {
         return name;
     }
+    
+    public static Type get(String pattern){
+        if(pattern.equals("Ship")){
+            return SHIP;
+        }
+        
+        if(pattern.equals("Planet")){
+            return PLANET;
+        }
+        
+        if(pattern.equals("Asteroid")){
+            return ASTEROID;
+        }
+        
+        if(pattern.equals("Undefined")){
+            return UNDEFINED;
+        }
+        
+        return null;
+    }
 }

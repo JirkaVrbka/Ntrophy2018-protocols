@@ -9,6 +9,7 @@ import java.util.List;
 import protocol.enums.Type;
 import protocol.enums.Action;
 import protocol.enums.Attributes;
+import protocol.enums.EAttributeState;
 import protocol.exceptions.InvalidActionException;
 
 /**
@@ -49,4 +50,18 @@ public interface IGameObject {
     public List<Attributes> getFalseAttr();
     
     int getID();
+    
+    public EAttributeState getLife();
+
+    public EAttributeState getComunicates();
+
+    public EAttributeState getResources();
+
+    public EAttributeState getBigger();
+
+    public EAttributeState getWeapons();
+
+    public EAttributeState getActWeapons();
+
+    public EAttributeState getFast();
 }

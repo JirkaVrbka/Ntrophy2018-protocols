@@ -7,11 +7,8 @@ package BussinesLogic;
 
 import protocol.enums.Action;
 import protocol.enums.EAttributeState;
-import static protocol.enums.EAttributeState.TRUE;
-import static protocol.enums.EAttributeState.UNKNOWN;
 import protocol.enums.Type;
 import protocol.exceptions.InvalidObjectException;
-import protocol.objects.AGameObject;
 import protocol.objects.GameObjectAsteroid;
 import protocol.objects.GameObjectPlanet;
 import protocol.objects.GameObjectShip;

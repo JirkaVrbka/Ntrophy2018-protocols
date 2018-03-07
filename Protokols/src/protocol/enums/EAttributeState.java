@@ -10,14 +10,15 @@ package protocol.enums;
  * @author Jirka
  */
 public enum EAttributeState {
-    TRUE(true, false),
-    FALSE(false, true),
-    UNKNOWN(false, false);
+    TRUE("True", true, false),
+    FALSE("False", false, true),
+    UNDEFINED("Undefined", false, false);
 
     boolean isTrue;
     boolean isFalse;
+    String name;
     
-    private EAttributeState(boolean isTrue, boolean isFalse){
+    private EAttributeState(String name, boolean isTrue, boolean isFalse){
         this.isTrue = isTrue;
         this.isFalse = isFalse;
     }
@@ -32,6 +33,28 @@ public enum EAttributeState {
     
     public boolean isUnknown(){
         return !isFalse && !isTrue;
+    }
+    
+    
+    public static EAttributeState get(String pattern){
+        if(pattern.equals("True")){
+            return TRUE;
+        }
+        
+        if(pattern.equals("False")){
+            return FALSE;
+        }
+        
+        if(pattern.equals("Undefined")){
+            return UNDEFINED;
+        }
+        
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
     
     

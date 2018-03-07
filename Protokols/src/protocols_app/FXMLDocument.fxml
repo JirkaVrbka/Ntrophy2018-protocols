@@ -1679,7 +1679,7 @@
                     </ScrollPane>
                     <Button fx:id="buttonRemoveLineProtocol" layoutX="250.0" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="292.0" text="-" />
                     <Button fx:id="buttonAddLineProtocol" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="253.0" text="+" />
-                    <Button fx:id="buttonSaveProtocol" layoutX="541.0" layoutY="906.0" mnemonicParsing="false" onAction="#buttonActionSaveProtokol" prefHeight="32.0" prefWidth="310.0" text="Save" />
+                    <Button fx:id="buttonSaveProtocol" layoutX="541.0" layoutY="906.0" mnemonicParsing="false" onAction="#actionSaveProtokol" prefHeight="32.0" prefWidth="310.0" text="Save" />
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="610.0" prefWidth="645.0">
@@ -1688,7 +1688,7 @@
                       <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="680.0">
                           <children>
-                            <Button fx:id="buttonObjectCreate" layoutX="383.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#CreateObjectButtonMC" prefHeight="32.0" prefWidth="139.0" text="Create object" />
+                            <Button fx:id="buttonObjectCreate" layoutX="383.0" layoutY="332.0" mnemonicParsing="false" onAction="#actionObjectCreate" onMouseClicked="#CreateObjectButtonMC" prefHeight="32.0" prefWidth="139.0" text="Create object" />
                             <TextField fx:id="fieldObjectName" layoutX="387.0" layoutY="41.0" promptText="Object Name" />
                             <Label layoutX="332.0" layoutY="45.0" text="Name:" />
                             <Label layoutX="137.0" layoutY="148.0" prefHeight="18.0" prefWidth="65.0" text="Type: " />
@@ -1709,18 +1709,19 @@
                             <Label layoutX="137.0" layoutY="230.0" text="Communicates" />
                             <ChoiceBox fx:id="choiceAttributeComm" layoutX="233.0" layoutY="225.0" prefHeight="28.0" prefWidth="120.0" />
                             <Button id="EraseAttributesButton" fx:id="EraseAttrsButton" layoutX="523.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#EraseAllObjectAttributes" prefHeight="32.0" prefWidth="102.00009999999747" text="Erase All" />
+                                          <Label fx:id="labelObjectCreatedCheck" layoutX="332.0" layoutY="338.0" text="          " />
                           </children>
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#LoadObjAttributes" prefHeight="535.0" prefWidth="792.0">
                           <children>
                             <Label layoutX="627.0" layoutY="59.0" text="Active object: " />
                             <ChoiceBox fx:id="choiceActiveObject" layoutX="594.0" layoutY="90.0" prefWidth="150.0" />
-                            <Button fx:id="buttonObjectRun" layoutX="594.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunObject" prefHeight="30.0" prefWidth="150.0" text="Run" />
-                            <Button fx:id="buttonObjectDelete" layoutX="594.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#EraseObject" prefHeight="30.0" prefWidth="150.0" text="Del" />
-                            <Button fx:id="buttonObjectLoad" layoutX="594.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#LoadObjAttributes" prefHeight="30.0" prefWidth="150.0" text="Load " />
+                            <Button fx:id="buttonObjectRun" layoutX="594.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionRunOnObject" prefHeight="30.0" prefWidth="150.0" text="Run" />
+                            <Button fx:id="buttonObjectDelete" layoutX="594.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectDelete" onMouseClicked="#EraseObject" prefHeight="30.0" prefWidth="150.0" text="Del" />
+                            <Button fx:id="buttonObjectLoad" layoutX="594.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectLoad" prefHeight="30.0" prefWidth="150.0" text="Load " />
                             <Label layoutX="248.0" layoutY="59.0" text="Active protokol: " />
                             <ChoiceBox fx:id="choiceActiveProtocol" layoutX="221.0" layoutY="90.0" prefWidth="150.0" />
-                            <Button fx:id="buttonProtocolRun" layoutX="221.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunProtokol" onMouseClicked="#buttonRunProtokol" prefHeight="30.0" prefWidth="150.0" text="Run on all objects" />
+                            <Button fx:id="buttonProtocolRun" layoutX="221.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunProtokol" prefHeight="30.0" prefWidth="150.0" text="Run on all objects" />
                             <Button fx:id="buttonProtocolDelete" layoutX="221.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionDeleteProtokol" prefHeight="30.0" prefWidth="150.0" text="Del" />
                             <Button fx:id="buttonProtocolLoad" layoutX="221.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionLoadProtokol" prefHeight="30.0" prefWidth="150.0" text="Load " />
                             <Button fx:id="buttonProtocolExport" layoutX="221.0" layoutY="223.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionExportProtocol" prefHeight="30.0" prefWidth="150.0" text="Export" />
