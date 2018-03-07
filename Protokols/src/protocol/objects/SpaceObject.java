@@ -112,7 +112,12 @@ public class SpaceObject implements OurObject{
     }
 
     @Override
-    public List<Attributes> getTrueattr() {
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    @Override
+    public List<Attributes> getTrueAttr() {
         return trueattr;
     }
     @Override
@@ -141,10 +146,6 @@ public class SpaceObject implements OurObject{
         return name;
     }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
     
     @Override
     public boolean isLife() {

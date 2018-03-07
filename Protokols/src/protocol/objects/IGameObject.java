@@ -15,14 +15,14 @@ import protocol.exceptions.InvalidActionException;
  *
  * @author Ondrej Urbanovsky
  */
-public interface OurObject {
+public interface IGameObject {
     /**
      * evaluates action on this object
      * @param action enum value of what to do
      * @return points gained -3 up to +3
      * @throws InvalidActionException
      */
-    int doAction(Action action) throws InvalidActionException;
+    int doAction(Action action);
    
     boolean isLife(); 
 
@@ -39,8 +39,6 @@ public interface OurObject {
     boolean isFast();
     
     Type getType();
-    
-    void setName(String name);
         
     String getName();
     

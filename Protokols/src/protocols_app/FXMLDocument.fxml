@@ -12,26 +12,23 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" maxHeight="754.0" prefHeight="683.0" prefWidth="1300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="protocols_app.FXMLDocumentController">
+<AnchorPane id="AnchorPane" maxHeight="993.0" prefHeight="993.0" prefWidth="1767.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="protocols_app.FXMLDocumentController">
   <children>
-    <SplitPane dividerPositions="0.04985337243401759" orientation="VERTICAL" prefHeight="713.0" prefWidth="1350.0">
+    <SplitPane dividerPositions="0.04985337243401759" orientation="VERTICAL" prefHeight="993.0" prefWidth="1767.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="88.0" prefWidth="1298.0">
           <children>
-            <Label layoutX="523.0" layoutY="8.0" text="Team name: " />
-            <TextField layoutX="624.0" layoutY="1.0" promptText="Team Name" />
+            <Label layoutX="756.0" layoutY="12.0" text="Team name: " />
+            <TextField layoutX="873.0" layoutY="5.0" promptText="Team Name" />
           </children>
         </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="683.0" prefWidth="1298.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="945.0" prefWidth="1765.0">
           <children>
-            <SplitPane dividerPositions="0.4836795252225519" prefHeight="646.0" prefWidth="1350.0">
+            <SplitPane dividerPositions="0.3830028328611898" prefHeight="938.0" prefWidth="1767.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="647.0">
                   <children>
                     <Label layoutX="194.0" layoutY="14.0" text="Name:" />
-                    <Button fx:id="buttonSaveProtocol" layoutX="-19.0" layoutY="614.0" mnemonicParsing="false" onAction="#buttonActionSaveProtokol" prefHeight="32.0" prefWidth="213.0" text="Save" />
-                    <Button fx:id="buttonAddLineProtocol" layoutX="198.0" layoutY="614.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="213.0" text="+" />
-                    <Button fx:id="buttonRemoveLineProtocol" layoutX="407.0" layoutY="614.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="221.0" text="-" />
                     <TextField fx:id="fieldProtocolName" layoutX="244.0" layoutY="10.0" promptText="Protocol name" />
                     <ScrollPane fitToHeight="false" prefHeight="562.0" prefWidth="609.0" vmax="1500.0" vvalue="0.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="52.0">
                       <content>
@@ -1680,53 +1677,56 @@
                         </AnchorPane>
                       </content>
                     </ScrollPane>
+                    <Button fx:id="buttonRemoveLineProtocol" layoutX="250.0" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="292.0" text="-" />
+                    <Button fx:id="buttonAddLineProtocol" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="253.0" text="+" />
+                    <Button fx:id="buttonSaveProtocol" layoutX="541.0" layoutY="906.0" mnemonicParsing="false" onAction="#buttonActionSaveProtokol" prefHeight="32.0" prefWidth="310.0" text="Save" />
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="610.0" prefWidth="645.0">
                   <children>
-                    <SplitPane dividerPositions="0.42834890965732086" orientation="VERTICAL" prefHeight="644.0" prefWidth="682.0">
+                    <SplitPane dividerPositions="0.42834890965732086" orientation="VERTICAL" prefHeight="936.0" prefWidth="1085.0">
                       <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="680.0">
                           <children>
-                            <Button fx:id="buttonObjectCreate" layoutX="270.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#CreateObjectButtonMC" prefHeight="32.0" prefWidth="139.0" text="Create object" />
-                            <TextField fx:id="fieldObjectName" layoutX="287.0" layoutY="26.0" promptText="Object Name" />
-                            <Label layoutX="232.0" layoutY="30.0" text="Name:" />
-                            <Label layoutX="70.0" layoutY="102.0" prefHeight="18.0" prefWidth="65.0" text="Type: " />
-                            <ChoiceBox fx:id="choiceObjectType" layoutX="167.0" layoutY="95.0" prefHeight="28.0" prefWidth="120.0" />
-                            <Label layoutX="304.0" layoutY="64.0" text="Attributes :" />
-                            <Label layoutX="389.0" layoutY="126.0" text="Life" />
-                            <Label layoutX="70.0" layoutY="128.0" text="Bigger" />
-                            <Label layoutX="70.0" layoutY="157.0" text="Weapons" />
-                            <Label layoutX="390.0" layoutY="98.0" text="active weapons" />
-                            <Label layoutX="389.0" layoutY="160.0" text="Fast" />
-                            <Label layoutX="389.0" layoutY="188.0" text="Resources" />
-                            <ChoiceBox fx:id="choiceAttributeLife" layoutX="509.0" layoutY="121.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeBigger" layoutX="166.0" layoutY="123.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeActive" layoutX="509.0" layoutY="93.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeWeapons" layoutX="166.0" layoutY="151.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeFast" layoutX="509.0" layoutY="155.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeResources" layoutX="509.0" layoutY="182.0" prefHeight="28.0" prefWidth="120.0" />
-                            <Label layoutX="70.0" layoutY="184.0" text="Communicates" />
-                            <ChoiceBox fx:id="choiceAttributeComm" layoutX="166.0" layoutY="179.0" prefHeight="28.0" prefWidth="120.0" />
-                            <Button id="EraseAttributesButton" fx:id="EraseAttrsButton" layoutX="528.0" layoutY="225.0" mnemonicParsing="false" onMouseClicked="#EraseAllObjectAttributes" prefHeight="32.0" prefWidth="102.00009999999747" text="Erase All" />
+                            <Button fx:id="buttonObjectCreate" layoutX="383.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#CreateObjectButtonMC" prefHeight="32.0" prefWidth="139.0" text="Create object" />
+                            <TextField fx:id="fieldObjectName" layoutX="387.0" layoutY="41.0" promptText="Object Name" />
+                            <Label layoutX="332.0" layoutY="45.0" text="Name:" />
+                            <Label layoutX="137.0" layoutY="148.0" prefHeight="18.0" prefWidth="65.0" text="Type: " />
+                            <ChoiceBox fx:id="choiceObjectType" layoutX="234.0" layoutY="141.0" prefHeight="28.0" prefWidth="120.0" />
+                            <Label layoutX="404.0" layoutY="79.0" text="Attributes :" />
+                            <Label layoutX="523.0" layoutY="176.0" text="Life" />
+                            <Label layoutX="137.0" layoutY="174.0" text="Bigger" />
+                            <Label layoutX="137.0" layoutY="203.0" text="Weapons" />
+                            <Label layoutX="524.0" layoutY="148.0" text="active weapons" />
+                            <Label layoutX="523.0" layoutY="210.0" text="Fast" />
+                            <Label layoutX="523.0" layoutY="238.0" text="Resources" />
+                            <ChoiceBox fx:id="choiceAttributeLife" layoutX="643.0" layoutY="171.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeBigger" layoutX="233.0" layoutY="169.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeActive" layoutX="643.0" layoutY="143.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeWeapons" layoutX="233.0" layoutY="197.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeFast" layoutX="643.0" layoutY="205.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeResources" layoutX="643.0" layoutY="232.0" prefHeight="28.0" prefWidth="120.0" />
+                            <Label layoutX="137.0" layoutY="230.0" text="Communicates" />
+                            <ChoiceBox fx:id="choiceAttributeComm" layoutX="233.0" layoutY="225.0" prefHeight="28.0" prefWidth="120.0" />
+                            <Button id="EraseAttributesButton" fx:id="EraseAttrsButton" layoutX="523.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#EraseAllObjectAttributes" prefHeight="32.0" prefWidth="102.00009999999747" text="Erase All" />
                           </children>
                         </AnchorPane>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#LoadObjAttributes" prefHeight="425.0" prefWidth="680.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#LoadObjAttributes" prefHeight="535.0" prefWidth="792.0">
                           <children>
-                            <Label layoutX="432.0" layoutY="28.0" text="Active object: " />
-                            <ChoiceBox fx:id="choiceActiveObject" layoutX="399.0" layoutY="59.0" prefWidth="150.0" />
-                            <Button fx:id="buttonObjectRun" layoutX="399.0" layoutY="102.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunObject" prefHeight="30.0" prefWidth="150.0" text="Run" />
-                            <Button fx:id="buttonObjectDelete" layoutX="399.0" layoutY="132.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#EraseObject" prefHeight="30.0" prefWidth="150.0" text="Del" />
-                            <Button fx:id="buttonObjectLoad" layoutX="399.0" layoutY="162.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#LoadObjAttributes" prefHeight="30.0" prefWidth="150.0" text="Load " />
-                            <Label layoutX="161.0" layoutY="28.0" text="Active protokol: " />
-                            <ChoiceBox fx:id="choiceActiveProtocol" layoutX="134.0" layoutY="59.0" prefWidth="150.0" />
-                            <Button fx:id="buttonProtocolRun" layoutX="134.0" layoutY="102.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunProtokol" onMouseClicked="#buttonRunProtokol" prefHeight="30.0" prefWidth="150.0" text="Run on all objects" />
-                            <Button fx:id="buttonProtocolDelete" layoutX="134.0" layoutY="132.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionDeleteProtokol" prefHeight="30.0" prefWidth="150.0" text="Del" />
-                            <Button fx:id="buttonProtocolLoad" layoutX="134.0" layoutY="162.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionLoadProtokol" prefHeight="30.0" prefWidth="150.0" text="Load " />
-                            <Button fx:id="buttonProtocolExport" layoutX="134.0" layoutY="192.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Export" />
-                            <Button fx:id="buttonCreateAllObject" layoutX="-16.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="Create all" />
+                            <Label layoutX="627.0" layoutY="59.0" text="Active object: " />
+                            <ChoiceBox fx:id="choiceActiveObject" layoutX="594.0" layoutY="90.0" prefWidth="150.0" />
+                            <Button fx:id="buttonObjectRun" layoutX="594.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunObject" prefHeight="30.0" prefWidth="150.0" text="Run" />
+                            <Button fx:id="buttonObjectDelete" layoutX="594.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#EraseObject" prefHeight="30.0" prefWidth="150.0" text="Del" />
+                            <Button fx:id="buttonObjectLoad" layoutX="594.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onMouseClicked="#LoadObjAttributes" prefHeight="30.0" prefWidth="150.0" text="Load " />
+                            <Label layoutX="248.0" layoutY="59.0" text="Active protokol: " />
+                            <ChoiceBox fx:id="choiceActiveProtocol" layoutX="221.0" layoutY="90.0" prefWidth="150.0" />
+                            <Button fx:id="buttonProtocolRun" layoutX="221.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunProtokol" onMouseClicked="#buttonRunProtokol" prefHeight="30.0" prefWidth="150.0" text="Run on all objects" />
+                            <Button fx:id="buttonProtocolDelete" layoutX="221.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionDeleteProtokol" prefHeight="30.0" prefWidth="150.0" text="Del" />
+                            <Button fx:id="buttonProtocolLoad" layoutX="221.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionLoadProtokol" prefHeight="30.0" prefWidth="150.0" text="Load " />
+                            <Button fx:id="buttonProtocolExport" layoutX="221.0" layoutY="223.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionExportProtocol" prefHeight="30.0" prefWidth="150.0" text="Export" />
+                            <Button fx:id="buttonCreateAllObject" layoutX="-16.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionCreateAllObject" prefHeight="30.0" prefWidth="150.0" text="Create all" />
                             <Button fx:id="buttonImportAndExecute" layoutX="-16.0" layoutY="34.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="ImportAndExecute" />
-                            <TextArea fx:id="fieldOutput" layoutY="259.0" prefHeight="104.0" prefWidth="682.0" promptText="Output" />
+                            <TextArea fx:id="fieldOutput" layoutY="426.0" prefHeight="104.0" prefWidth="907.0" promptText="Output" />
                           </children>
                         </AnchorPane>
                       </items>
