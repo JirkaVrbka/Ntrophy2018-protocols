@@ -9,7 +9,7 @@ package protocol.enums;
  *
  * @author Ondrej Urbanovsky
  */
-public enum Attributes {
+public enum EAttributes {
     LIFE ("Life"),
     COMUNICATES ("Communicates"), 
     RESOURCES ("Resources"), 
@@ -20,7 +20,7 @@ public enum Attributes {
     
     String name;
     
-    Attributes(String name){
+    EAttributes(String name){
         this.name = name;
     }
 
@@ -28,8 +28,8 @@ public enum Attributes {
     public String toString() {
         return name;
     }
-    public static Attributes toEnum (String name){
-        for (Attributes attr : Attributes.values()) {
+    public static EAttributes toEnum (String name){
+        for (EAttributes attr : EAttributes.values()) {
             if (name.equals(attr.name)) {
                 return attr;
             }
@@ -37,7 +37,7 @@ public enum Attributes {
         return null;
     }
     
-    public static Attributes getValueOf(String name){
+    public static EAttributes getValueOf(String name){
         if(name == null ){
             return null;
         }
