@@ -714,16 +714,31 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void actionRunAllObjectOnAllProtokols(ActionEvent event) {
+        int longestNameSize = 0;
+        for (String protokolName : handlerGame.getProtocolNames()){
+            if(longestNameSize < protokolName.length()){
+                longestNameSize = protokolName.length();
+            }
+        }
+        longestNameSize++;
+        
         String output = "";
         for (String protokolName : handlerGame.getProtocolNames()) {
             int teamResult = 0;
+            
+            
             for (String name : handlerGame.getObjectNames()) {
                 int result = handlerGame.evaluateProtokol(protokolName, name);
                 teamResult += result;
             }
 
-            output += protokolName + " : " + teamResult + "\r\n";
+            output += protokolName + " :";
+            for(int i = 0; i < (longestNameSize - protokolName.length()); i++){
+                output += " ";
+            }
+            output += teamResult + "\r\n";
         }
+        
         writeOutput(output);
     }
 

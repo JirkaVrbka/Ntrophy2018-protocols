@@ -44,16 +44,7 @@ public class HandlerProtocol {
                 return -500000;
             }
         }
-
-        //Pair<Integer, Boolean> result = universe.evalAction(action, spaceObject.getID());
-
-        //cannot decide -> kill
-       /* if (result.getValue() == false) {
-            return -9999;
-        }*/
-
-        //I can decide -> value of decision
-       // return result.getKey();
+        
        return gameObject.doAction(action);
     }
     
