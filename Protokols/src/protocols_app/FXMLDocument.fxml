@@ -35,9 +35,15 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="647.0">
                   <children>
-                    <Label layoutX="194.0" layoutY="14.0" text="Name:" />
-                    <TextField fx:id="fieldProtocolName" layoutX="244.0" layoutY="10.0" promptText="Protocol name" />
-                    <ScrollPane fitToHeight="false" prefHeight="562.0" prefWidth="609.0" vmax="1500.0" vvalue="0.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="52.0">
+                    <Label layoutX="137.0" layoutY="11.0" text="Name:">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Label>
+                    <TextField fx:id="fieldProtocolName" layoutX="230.0" layoutY="3.0" promptText="Protocol name">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></TextField>
+                    <ScrollPane fitToHeight="false" prefHeight="841.0" prefWidth="672.0" vmax="1500.0" vvalue="0.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="52.0">
                       <content>
                         <AnchorPane id="Content" fx:id="ruleAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="1500.0" prefWidth="594.0">
                           <children>
@@ -1684,9 +1690,18 @@
                         </AnchorPane>
                       </content>
                     </ScrollPane>
-                    <Button fx:id="buttonRemoveLineProtocol" layoutX="220.0" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="220.0" text="-" />
-                    <Button fx:id="buttonAddLineProtocol" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="220.0" text="+" />
-                    <Button fx:id="buttonSaveProtocol" layoutX="440.0" layoutY="906.0" mnemonicParsing="false" onAction="#actionProtokolSave" prefHeight="32.0" prefWidth="220.0" text="Save" />
+                    <Button fx:id="buttonRemoveLineProtocol" layoutX="220.0" layoutY="892.0" maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="30.0" prefWidth="230.0" text="-">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Button>
+                    <Button fx:id="buttonAddLineProtocol" layoutY="892.0" maxHeight="30.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="30.0" prefWidth="220.0" text="+">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Button>
+                    <Button fx:id="buttonSaveProtocol" layoutX="450.0" layoutY="892.0" maxHeight="30.0" mnemonicParsing="false" onAction="#actionProtokolSave" prefHeight="30.0" prefWidth="220.0" text="Save">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font></Button>
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="610.0" prefWidth="645.0">
@@ -1760,11 +1775,11 @@
                         </AnchorPane>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="792.0">
                           <children>
-                            <Label layoutX="627.0" layoutY="59.0" text="Active object: ">
+                            <Label layoutX="627.0" layoutY="45.0" text="Active object: ">
                                              <font>
                                                 <Font size="24.0" />
                                              </font></Label>
-                            <ChoiceBox fx:id="choiceActiveObject" layoutX="630.0" layoutY="90.0" onAction="#actionObjectSelected" prefWidth="150.0" />
+                            <ChoiceBox fx:id="choiceActiveObject" layoutX="630.0" layoutY="80.0" onAction="#actionObjectSelected" prefWidth="150.0" />
                             <Button fx:id="buttonObjectRun" layoutX="630.0" layoutY="130.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectRun" prefHeight="30.0" prefWidth="150.0" text="Run">
                                              <font>
                                                 <Font size="24.0" />
@@ -1777,11 +1792,11 @@
                                              <font>
                                                 <Font size="24.0" />
                                              </font></Button>
-                            <Label layoutX="248.0" layoutY="59.0" text="Active protokol: ">
+                            <Label layoutX="248.0" layoutY="45.0" text="Active protokol: ">
                                              <font>
                                                 <Font size="24.0" />
                                              </font></Label>
-                            <ChoiceBox fx:id="choiceActiveProtocol" layoutX="270.0" layoutY="90.0" prefWidth="150.0" />
+                            <ChoiceBox fx:id="choiceActiveProtocol" layoutX="270.0" layoutY="80.0" prefWidth="150.0" />
                             <Button fx:id="buttonProtocolRun" layoutX="220.0" layoutY="130.0" mnemonicParsing="false" onAction="#actionProtokolRunAll" prefHeight="30.0" prefWidth="250.0" text="Run on all objects">
                                              <font>
                                                 <Font size="24.0" />
@@ -1800,7 +1815,10 @@
                                              </font></Button>
                             <Button fx:id="buttonCreateAllObject" layoutX="-16.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionCreateAllObject" prefHeight="30.0" prefWidth="150.0" text="Create all objects" />
                             <Button fx:id="buttonImport" layoutX="-16.0" layoutY="31.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionProtokolImport" prefHeight="30.0" prefWidth="150.0" text="Import protokols" />
-                            <TextArea fx:id="fieldOutput" layoutY="426.0" prefHeight="104.0" prefWidth="907.0" promptText="Output" />
+                            <TextArea fx:id="fieldOutput" layoutY="397.0" prefHeight="133.0" prefWidth="1083.0" promptText="Output">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></TextArea>
                                           <Button fx:id="buttonRunAllObjectOnAllProtokol" layoutY="75.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionRunAllObjectOnAllProtokols" prefHeight="30.0" prefWidth="150.0" text="Run everything" />
                           </children>
                         </AnchorPane>
