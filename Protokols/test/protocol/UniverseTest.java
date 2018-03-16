@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
-import protocol.enums.Type;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
+import protocol.enums.EType;
 import protocol.objects.SpaceObject;
 
 /**
@@ -26,8 +26,8 @@ import protocol.objects.SpaceObject;
  */
 public class UniverseTest {
     private Universe uni = new Universe();
-    private List <Attributes> astAttr = new ArrayList<>();
-    private List <Attributes> astmissing = new ArrayList<>();
+    private List <EAttributes> astAttr = new ArrayList<>();
+    private List <EAttributes> astmissing = new ArrayList<>();
     
     @Before
     public void setUp() throws Exception {
@@ -57,8 +57,8 @@ public class UniverseTest {
         boolean result = instance.removeObj(objectID);
         assertEquals(expResult, result);
         objectID = 5;
-        astAttr.add(Attributes.RESOURCES);
-        uni.CreateObj(Type.ASTEROID, astAttr, astmissing);
+        astAttr.add(EAttributes.RESOURCES);
+        uni.CreateObj(EType.ASTEROID, astAttr, astmissing);
         result = uni.removeObj(objectID);
         assertEquals(true, result);
         assertTrue(uni.getObjects().size() == 5);        
@@ -69,16 +69,16 @@ public class UniverseTest {
      */
     @Test
     public void testEvalAction() {
-        assertEquals("Body za těžbu zdrojů: 3", uni.evalAction(Action.GATHER_RESOURCES, 0));
-        astmissing.add(Attributes.RESOURCES);
-        astmissing.add(Attributes.FAST);
-        astmissing.add(Attributes.BIGGER);
-        astmissing.add(Attributes.ACT_WEAPON);
-        astmissing.add(Attributes.WEAPONS);
-        astmissing.add(Attributes.COMUNICATES);
-        astmissing.add(Attributes.LIFE);
-        uni.CreateObj(Type.ASTEROID, astAttr, astmissing);
-        assertEquals("Nelze vyhodnotit není specifikováno dostatek atributů", uni.evalAction(Action.SHOOT, 5));
+        assertEquals("Body za těžbu zdrojů: 3", uni.evalAction(EAction.GATHER_RESOURCES, 0));
+        astmissing.add(EAttributes.RESOURCES);
+        astmissing.add(EAttributes.FAST);
+        astmissing.add(EAttributes.BIGGER);
+        astmissing.add(EAttributes.ACT_WEAPON);
+        astmissing.add(EAttributes.WEAPONS);
+        astmissing.add(EAttributes.COMUNICATES);
+        astmissing.add(EAttributes.LIFE);
+        uni.CreateObj(EType.ASTEROID, astAttr, astmissing);
+        assertEquals("Nelze vyhodnotit není specifikováno dostatek atributů", uni.evalAction(EAction.SHOOT, 5));
         
     }
 
@@ -87,15 +87,15 @@ public class UniverseTest {
      */
     @Test
     public void testAsk() {
-        assertTrue(uni.ask(Attributes.LIFE, 1));
-        assertTrue(uni.ask(Attributes.RESOURCES, 0));
-        assertTrue(uni.ask(Attributes.WEAPONS, 2));
-        assertTrue(uni.ask(Attributes.BIGGER, 4));
-        assertFalse(uni.ask(Attributes.WEAPONS, 4));
-        astAttr.add(Attributes.RESOURCES);
-        astmissing.add(Attributes.BIGGER);
-        uni.CreateObj(Type.ASTEROID, astAttr, astmissing);
-        assertFalse(uni.ask(Attributes.BIGGER, 5));
+        assertTrue(uni.ask(EAttributes.LIFE, 1));
+        assertTrue(uni.ask(EAttributes.RESOURCES, 0));
+        assertTrue(uni.ask(EAttributes.WEAPONS, 2));
+        assertTrue(uni.ask(EAttributes.BIGGER, 4));
+        assertFalse(uni.ask(EAttributes.WEAPONS, 4));
+        astAttr.add(EAttributes.RESOURCES);
+        astmissing.add(EAttributes.BIGGER);
+        uni.CreateObj(EType.ASTEROID, astAttr, astmissing);
+        assertFalse(uni.ask(EAttributes.BIGGER, 5));
     }
     @Test 
     public void testCreateAll() {

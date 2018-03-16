@@ -1,8 +1,8 @@
 package BussinesLogic;
 
 import javafx.util.Pair;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.objects.IGameObject;
 import protocol.objects.SpaceObject;
 
@@ -30,14 +30,14 @@ public class HandlerProtocol {
         boolean res = hasAttribute(firstAsk, gameObject);
         String answer = protokol.getFirstResult(res);
 
-        Action action = Action.getValueOf(answer);
+        EAction action = EAction.getValueOf(answer);
 
         int i = 0;
         //iterate until some action
         while (action == null) {
             res = hasAttribute(protokol.getAsk(answer), gameObject);
             answer = protokol.getResult(answer, res);
-            action = Action.getValueOf(answer);
+            action = EAction.getValueOf(answer);
             i++;
             if (i > 500) {
                 //too many cycles, there is a problem there
@@ -58,7 +58,7 @@ public class HandlerProtocol {
     }
     
     private static boolean hasAttribute(String attribute, IGameObject gameObject){
-        Attributes att = Attributes.getValueOf(attribute);
+        EAttributes att = EAttributes.getValueOf(attribute);
         
         switch (att){
                     case LIFE: {

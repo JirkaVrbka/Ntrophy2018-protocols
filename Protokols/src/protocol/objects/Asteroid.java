@@ -5,12 +5,12 @@
  */
 package protocol.objects;
 
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
-import protocol.enums.Type;
+import protocol.enums.EType;
 
 /**
  *
@@ -18,7 +18,7 @@ import protocol.enums.Type;
  */
 public class Asteroid extends SpaceObject{
 
-    public Asteroid(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
+    public Asteroid(List<EAttributes> attrs, List<EAttributes> missing) throws InvalidObjectException {
         super(attrs, missing);
         try {
             if(super.isLife() || super.isWeapons() || super.isComunicates() || super.isBigger() || super.isResources()){
@@ -30,12 +30,12 @@ public class Asteroid extends SpaceObject{
        
     }
     @Override
-    public Type getType(){
-        return Type.ASTEROID;
+    public EType getType(){
+        return EType.ASTEROID;
     }
 
     @Override
-    public int doAction(Action action) throws InvalidActionException {
+    public int doAction(EAction action) throws InvalidActionException {
         try{
             switch(action){
                 case CONTACT:{

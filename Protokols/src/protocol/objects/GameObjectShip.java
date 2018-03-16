@@ -5,10 +5,9 @@
  */
 package protocol.objects;
 
-import protocol.enums.Action;
-import protocol.enums.EAttributeState;
-import static protocol.enums.EAttributeState.FALSE;
-import protocol.enums.Type;
+import protocol.enums.EAction;
+import protocol.enums.EAttributeStates;
+import protocol.enums.EType;
 import protocol.exceptions.InvalidObjectException;
 
 /**
@@ -18,23 +17,24 @@ import protocol.exceptions.InvalidObjectException;
 public class GameObjectShip extends AGameObject{
     
     public GameObjectShip(String name,
-            EAttributeState life,
-            EAttributeState comunicates,
-            EAttributeState resources,
-            EAttributeState bigger,
-            EAttributeState weapons,
-            EAttributeState actWeapons,
-            EAttributeState fast) throws InvalidObjectException {
-        super(name, Type.SHIP, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+            EType givenType,
+            EAttributeStates life,
+            EAttributeStates comunicates,
+            EAttributeStates resources,
+            EAttributeStates bigger,
+            EAttributeStates weapons,
+            EAttributeStates actWeapons,
+            EAttributeStates fast) throws InvalidObjectException {
+        super(name, EType.SHIP, givenType, life, comunicates, resources, bigger, weapons, actWeapons, fast);
 
-        if (weapons == FALSE) {
+        if (weapons.isNot()) {
             super.idGeneratorMinusOne();
             throw new InvalidObjectException();
         }
     }
     
     @Override
-    public int doAction(Action action){
+    public int doAction(EAction action){
         
             switch(action){
                 case CONTACT:{

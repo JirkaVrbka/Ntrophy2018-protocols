@@ -5,10 +5,10 @@
  */
 package protocol;
 
-import protocol.enums.Type;
+import protocol.enums.EType;
 import java.util.ArrayList;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.exceptions.InvalidObjectException;
 import protocol.objects.Asteroid;
 import protocol.objects.SpaceObject;
@@ -36,53 +36,53 @@ public class Universe {
     public Universe(){
             int i;
             //obj 1 asteroid
-            List <Attributes> astAttr = new ArrayList<>();
-            List <Attributes> astmissing = new ArrayList<>();
-            astAttr.add(Attributes.FAST);
-            i = CreateObj(Type.ASTEROID, astAttr, astmissing);
+            List <EAttributes> astAttr = new ArrayList<>();
+            List <EAttributes> astmissing = new ArrayList<>();
+            astAttr.add(EAttributes.FAST);
+            i = CreateObj(EType.ASTEROID, astAttr, astmissing);
             getObjectByID(i).setName("Default obj");
             getObjectByID(i).setID(i);
 
             // obj 2 enemy live ship
-            List <Attributes> enship = new ArrayList<>();
-            List <Attributes> enshipmiss = new ArrayList<>();
-            enship.add(Attributes.RESOURCES);
-            enship.add(Attributes.LIFE);
-            enship.add(Attributes.WEAPONS);
-            enship.add(Attributes.ACT_WEAPON);
-            enship.add(Attributes.COMUNICATES);
-            i = CreateObj(Type.SHIP, enship, enshipmiss);
+            List <EAttributes> enship = new ArrayList<>();
+            List <EAttributes> enshipmiss = new ArrayList<>();
+            enship.add(EAttributes.RESOURCES);
+            enship.add(EAttributes.LIFE);
+            enship.add(EAttributes.WEAPONS);
+            enship.add(EAttributes.ACT_WEAPON);
+            enship.add(EAttributes.COMUNICATES);
+            i = CreateObj(EType.SHIP, enship, enshipmiss);
             getObjectByID(i).setName("Default obj");
             getObjectByID(i).setID(i);
 
             // obj 3 anship
-            List <Attributes> anship = new ArrayList<>();
-            List <Attributes> anshipmiss = new ArrayList<>();
-            anship.add(Attributes.WEAPONS);
-            anship.add(Attributes.ACT_WEAPON);
-            anship.add(Attributes.COMUNICATES);
-            anship.add(Attributes.RESOURCES);
-            anship.add(Attributes.BIGGER);
-            i = CreateObj(Type.SHIP, anship, anshipmiss);
+            List <EAttributes> anship = new ArrayList<>();
+            List <EAttributes> anshipmiss = new ArrayList<>();
+            anship.add(EAttributes.WEAPONS);
+            anship.add(EAttributes.ACT_WEAPON);
+            anship.add(EAttributes.COMUNICATES);
+            anship.add(EAttributes.RESOURCES);
+            anship.add(EAttributes.BIGGER);
+            i = CreateObj(EType.SHIP, anship, anshipmiss);
             getObjectByID(i).setName("Default obj");
             getObjectByID(i).setID(i);
 
             // obj 4 vrak
-            List <Attributes> vrak = new ArrayList<>();
-            vrak.add(Attributes.WEAPONS);
-            vrak.add(Attributes.BIGGER);
-            vrak.add(Attributes.RESOURCES);
-            i = CreateObj(Type.SHIP, vrak, anshipmiss);
+            List <EAttributes> vrak = new ArrayList<>();
+            vrak.add(EAttributes.WEAPONS);
+            vrak.add(EAttributes.BIGGER);
+            vrak.add(EAttributes.RESOURCES);
+            i = CreateObj(EType.SHIP, vrak, anshipmiss);
             getObjectByID(i).setName("Default obj");
             getObjectByID(i).setID(i);
 
             // obj 5 planet
-            List <Attributes> planet = new ArrayList<>();
-            planet.add(Attributes.RESOURCES);
-            planet.add(Attributes.LIFE);
-            planet.add(Attributes.COMUNICATES);
-            planet.add(Attributes.BIGGER);
-            i = CreateObj(Type.PLANET, planet, anshipmiss);
+            List <EAttributes> planet = new ArrayList<>();
+            planet.add(EAttributes.RESOURCES);
+            planet.add(EAttributes.LIFE);
+            planet.add(EAttributes.COMUNICATES);
+            planet.add(EAttributes.BIGGER);
+            i = CreateObj(EType.PLANET, planet, anshipmiss);
             getObjectByID(i).setName("Default obj");
             getObjectByID(i).setID(i);
             //createAll();
@@ -105,7 +105,7 @@ public class Universe {
      * @param missing attributes that are missing
      * @return id of object upon success else -1;
      */
-    public final int CreateObj (Type type, List<Attributes> attrs, List<Attributes> missing){
+    public final int CreateObj (EType type, List<EAttributes> attrs, List<EAttributes> missing){
     
         try{
             switch (type){
@@ -125,19 +125,19 @@ public class Universe {
                         break;
                 }
                 default:{
-                    if (attrs.contains(Attributes.WEAPONS) ||
-                        (attrs.contains(Attributes.LIFE)&& attrs.contains(Attributes.FAST) && missing.contains(Attributes.WEAPONS))){
+                    if (attrs.contains(EAttributes.WEAPONS) ||
+                        (attrs.contains(EAttributes.LIFE)&& attrs.contains(EAttributes.FAST) && missing.contains(EAttributes.WEAPONS))){
                         objects.put(ID, new Ship(attrs,missing));
                         ID++;
                         break;
                     }
-                    if(attrs.contains(Attributes.LIFE) || attrs.contains(Attributes.COMUNICATES)){
+                    if(attrs.contains(EAttributes.LIFE) || attrs.contains(EAttributes.COMUNICATES)){
                         objects.put(ID, new Planet(attrs,missing));
                         ID++;
                         break;
                     }
-                    if(attrs.contains(Attributes.FAST) || 
-                        (!attrs.contains(Attributes.BIGGER) && !missing.contains(Attributes.BIGGER))){
+                    if(attrs.contains(EAttributes.FAST) || 
+                        (!attrs.contains(EAttributes.BIGGER) && !missing.contains(EAttributes.BIGGER))){
                         objects.put(ID, new Asteroid(attrs,missing));
                         ID++;
                         break;
@@ -176,7 +176,7 @@ public class Universe {
      * @param objectID int ID
      * @return Pair (points, true if everything ok, if false then points is unusable)
      */
-    public Pair<Integer, Boolean> evalAction(Action action, int objectID){
+    public Pair<Integer, Boolean> evalAction(EAction action, int objectID){
         Pair <Integer, Boolean> rt;
         try{
             rt = new Pair((Integer)objects.get(objectID).doAction(action), true);
@@ -192,7 +192,7 @@ public class Universe {
      * @param objectID id
      * @return t/f
      */
-    public boolean ask (Attributes attribute, int objectID){
+    public boolean ask (EAttributes attribute, int objectID){
         try{
             switch (attribute){
                     case LIFE: {
@@ -226,12 +226,12 @@ public class Universe {
      * creates All possible objects and puts them to universe.objects
      */
     public void createAll(){
-        Set <List<Attributes>> allAttr = new HashSet<>();
+        Set <List<EAttributes>> allAttr = new HashSet<>();
         List <boolean []> allBool = new ArrayList<>();
-        Attributes [] attributes = Attributes.values();
+        EAttributes [] attributes = EAttributes.values();
         
-        for (int i = 0; i < Math.pow(2.0, (double) Attributes.values().length); i++){
-            boolean [] arr = new boolean[Attributes.values().length];
+        for (int i = 0; i < Math.pow(2.0, (double) EAttributes.values().length); i++){
+            boolean [] arr = new boolean[EAttributes.values().length];
             int pos = 0;
             int num = i;
             while(num > 0){
@@ -248,7 +248,7 @@ public class Universe {
             allBool.add(arr);
         }
         for (boolean[] bs : allBool) {
-            List<Attributes> toAdd = new ArrayList<>();
+            List<EAttributes> toAdd = new ArrayList<>();
             int i = 0;
             for (boolean b : bs) {
                 if (b){
@@ -258,10 +258,10 @@ public class Universe {
             }
             allAttr.add(toAdd);
         }
-        for (List<Attributes> toCreate: allAttr) {
-            CreateObj(Type.SHIP, toCreate, null);
-            CreateObj(Type.PLANET, toCreate, null);
-            CreateObj(Type.ASTEROID, toCreate, null);
+        for (List<EAttributes> toCreate: allAttr) {
+            CreateObj(EType.SHIP, toCreate, null);
+            CreateObj(EType.PLANET, toCreate, null);
+            CreateObj(EType.ASTEROID, toCreate, null);
         }
     }
     /**

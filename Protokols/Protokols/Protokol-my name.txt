@@ -1,0 +1,21 @@
+protokol{
+name:my name;
+rule{
+name:#$%%^;
+if:Life;
+then:Shoot;
+else:#$%%^;
+}
+rule{
+name:2;
+if:Life;
+then:Shoot;
+else:Shoot;
+}
+rule{
+name:3;
+if:Life;
+then:Shoot;
+else:Shoot;
+}
+}

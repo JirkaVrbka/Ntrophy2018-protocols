@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.collections.*?>
 <?import javafx.scene.*?>
@@ -18,8 +19,14 @@
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="88.0" prefWidth="1298.0">
           <children>
-            <Label layoutX="756.0" layoutY="12.0" text="Team name: " />
-            <TextField layoutX="873.0" layoutY="5.0" promptText="Team Name" />
+            <Label layoutX="689.0" layoutY="6.0" text="Team name: ">
+                     <font>
+                        <Font size="24.0" />
+                     </font></Label>
+            <TextField fx:id="fieldTeamName" layoutX="849.0" layoutY="1.0" promptText="Team Name">
+                     <font>
+                        <Font size="24.0" />
+                     </font></TextField>
           </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="945.0" prefWidth="1765.0">
@@ -1677,9 +1684,9 @@
                         </AnchorPane>
                       </content>
                     </ScrollPane>
-                    <Button fx:id="buttonRemoveLineProtocol" layoutX="250.0" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="292.0" text="-" />
-                    <Button fx:id="buttonAddLineProtocol" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="253.0" text="+" />
-                    <Button fx:id="buttonSaveProtocol" layoutX="541.0" layoutY="906.0" mnemonicParsing="false" onAction="#actionSaveProtokol" prefHeight="32.0" prefWidth="310.0" text="Save" />
+                    <Button fx:id="buttonRemoveLineProtocol" layoutX="220.0" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#deleteLastGroup" prefHeight="32.0" prefWidth="220.0" text="-" />
+                    <Button fx:id="buttonAddLineProtocol" layoutY="906.0" mnemonicParsing="false" onMouseClicked="#addNewGroup" prefHeight="32.0" prefWidth="220.0" text="+" />
+                    <Button fx:id="buttonSaveProtocol" layoutX="440.0" layoutY="906.0" mnemonicParsing="false" onAction="#actionProtokolSave" prefHeight="32.0" prefWidth="220.0" text="Save" />
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="610.0" prefWidth="645.0">
@@ -1688,46 +1695,113 @@
                       <items>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="680.0">
                           <children>
-                            <Button fx:id="buttonObjectCreate" layoutX="383.0" layoutY="332.0" mnemonicParsing="false" onAction="#actionObjectCreate" onMouseClicked="#CreateObjectButtonMC" prefHeight="32.0" prefWidth="139.0" text="Create object" />
-                            <TextField fx:id="fieldObjectName" layoutX="387.0" layoutY="41.0" promptText="Object Name" />
-                            <Label layoutX="332.0" layoutY="45.0" text="Name:" />
-                            <Label layoutX="137.0" layoutY="148.0" prefHeight="18.0" prefWidth="65.0" text="Type: " />
-                            <ChoiceBox fx:id="choiceObjectType" layoutX="234.0" layoutY="141.0" prefHeight="28.0" prefWidth="120.0" />
-                            <Label layoutX="404.0" layoutY="79.0" text="Attributes :" />
-                            <Label layoutX="523.0" layoutY="176.0" text="Life" />
-                            <Label layoutX="137.0" layoutY="174.0" text="Bigger" />
-                            <Label layoutX="137.0" layoutY="203.0" text="Weapons" />
-                            <Label layoutX="524.0" layoutY="148.0" text="active weapons" />
-                            <Label layoutX="523.0" layoutY="210.0" text="Fast" />
-                            <Label layoutX="523.0" layoutY="238.0" text="Resources" />
-                            <ChoiceBox fx:id="choiceAttributeLife" layoutX="643.0" layoutY="171.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeBigger" layoutX="233.0" layoutY="169.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeActive" layoutX="643.0" layoutY="143.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeWeapons" layoutX="233.0" layoutY="197.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeFast" layoutX="643.0" layoutY="205.0" prefHeight="28.0" prefWidth="120.0" />
-                            <ChoiceBox fx:id="choiceAttributeResources" layoutX="643.0" layoutY="232.0" prefHeight="28.0" prefWidth="120.0" />
-                            <Label layoutX="137.0" layoutY="230.0" text="Communicates" />
-                            <ChoiceBox fx:id="choiceAttributeComm" layoutX="233.0" layoutY="225.0" prefHeight="28.0" prefWidth="120.0" />
-                            <Button id="EraseAttributesButton" fx:id="EraseAttrsButton" layoutX="523.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#EraseAllObjectAttributes" prefHeight="32.0" prefWidth="102.00009999999747" text="Erase All" />
+                            <Button fx:id="buttonObjectCreate" layoutX="350.0" layoutY="330.0" mnemonicParsing="false" onAction="#actionObjectCreate" prefHeight="32.0" prefWidth="200.0" text="Create object">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <TextField fx:id="fieldObjectName" layoutX="418.0" layoutY="37.0" promptText="Object Name">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></TextField>
+                            <Label layoutX="332.0" layoutY="45.0" text="Name:">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="75.0" layoutY="140.0" prefHeight="18.0" prefWidth="100.0" text="Type">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <ChoiceBox fx:id="choiceObjectType" layoutX="275.0" layoutY="140.0" prefHeight="28.0" prefWidth="120.0" />
+                            <Label layoutX="391.0" layoutY="102.0" text="Attributes :">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="550.0" layoutY="170.0" text="Life">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="75.0" layoutY="170.0" text="Bigger">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="75.0" layoutY="200.0" text="Weapons">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="75.0" layoutY="230.0" text="Active weapons">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="550.0" layoutY="200.0" text="Fast">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <Label layoutX="550.0" layoutY="230.0" text="Resources">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <ChoiceBox fx:id="choiceAttributeLife" layoutX="750.0" layoutY="170.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeBigger" layoutX="275.0" layoutY="170.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeActive" layoutX="750.0" layoutY="140.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeWeapons" layoutX="275.0" layoutY="200.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeFast" layoutX="750.0" layoutY="200.0" prefHeight="28.0" prefWidth="120.0" />
+                            <ChoiceBox fx:id="choiceAttributeResources" layoutX="750.0" layoutY="230.0" prefHeight="28.0" prefWidth="120.0" />
+                            <Label layoutX="550.0" layoutY="140.0" text="Communicates">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <ChoiceBox fx:id="choiceAttributeComm" layoutX="275.0" layoutY="230.0" prefHeight="28.0" prefWidth="120.0" />
+                            <Button id="EraseAttributesButton" fx:id="EraseAttrsButton" layoutX="550.0" layoutY="330.0" mnemonicParsing="false" onAction="#actionEraseAll" prefHeight="32.0" prefWidth="150.0" text="Erase All">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
                                           <Label fx:id="labelObjectCreatedCheck" layoutX="332.0" layoutY="338.0" text="          " />
                           </children>
                         </AnchorPane>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#LoadObjAttributes" prefHeight="535.0" prefWidth="792.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="792.0">
                           <children>
-                            <Label layoutX="627.0" layoutY="59.0" text="Active object: " />
-                            <ChoiceBox fx:id="choiceActiveObject" layoutX="594.0" layoutY="90.0" prefWidth="150.0" />
-                            <Button fx:id="buttonObjectRun" layoutX="594.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionRunOnObject" prefHeight="30.0" prefWidth="150.0" text="Run" />
-                            <Button fx:id="buttonObjectDelete" layoutX="594.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectDelete" onMouseClicked="#EraseObject" prefHeight="30.0" prefWidth="150.0" text="Del" />
-                            <Button fx:id="buttonObjectLoad" layoutX="594.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectLoad" prefHeight="30.0" prefWidth="150.0" text="Load " />
-                            <Label layoutX="248.0" layoutY="59.0" text="Active protokol: " />
-                            <ChoiceBox fx:id="choiceActiveProtocol" layoutX="221.0" layoutY="90.0" prefWidth="150.0" />
-                            <Button fx:id="buttonProtocolRun" layoutX="221.0" layoutY="133.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonRunProtokol" prefHeight="30.0" prefWidth="150.0" text="Run on all objects" />
-                            <Button fx:id="buttonProtocolDelete" layoutX="221.0" layoutY="163.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionDeleteProtokol" prefHeight="30.0" prefWidth="150.0" text="Del" />
-                            <Button fx:id="buttonProtocolLoad" layoutX="221.0" layoutY="193.0" maxWidth="150.0" mnemonicParsing="false" onAction="#buttonActionLoadProtokol" prefHeight="30.0" prefWidth="150.0" text="Load " />
-                            <Button fx:id="buttonProtocolExport" layoutX="221.0" layoutY="223.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionExportProtocol" prefHeight="30.0" prefWidth="150.0" text="Export" />
-                            <Button fx:id="buttonCreateAllObject" layoutX="-16.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionCreateAllObject" prefHeight="30.0" prefWidth="150.0" text="Create all" />
-                            <Button fx:id="buttonImportAndExecute" layoutX="-16.0" layoutY="34.0" maxWidth="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="150.0" text="ImportAndExecute" />
+                            <Label layoutX="627.0" layoutY="59.0" text="Active object: ">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <ChoiceBox fx:id="choiceActiveObject" layoutX="630.0" layoutY="90.0" onAction="#actionObjectSelected" prefWidth="150.0" />
+                            <Button fx:id="buttonObjectRun" layoutX="630.0" layoutY="130.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectRun" prefHeight="30.0" prefWidth="150.0" text="Run">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Button fx:id="buttonObjectDelete" layoutX="630.0" layoutY="175.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectDelete" prefHeight="30.0" prefWidth="150.0" text="Del">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Button fx:id="buttonObjectLoad" layoutX="630.0" layoutY="220.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionObjectLoad" prefHeight="30.0" prefWidth="150.0" text="Load ">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Label layoutX="248.0" layoutY="59.0" text="Active protokol: ">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Label>
+                            <ChoiceBox fx:id="choiceActiveProtocol" layoutX="270.0" layoutY="90.0" prefWidth="150.0" />
+                            <Button fx:id="buttonProtocolRun" layoutX="220.0" layoutY="130.0" mnemonicParsing="false" onAction="#actionProtokolRunAll" prefHeight="30.0" prefWidth="250.0" text="Run on all objects">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Button fx:id="buttonProtocolDelete" layoutX="270.0" layoutY="175.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionProtokolDelete" prefHeight="30.0" prefWidth="150.0" text="Del">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Button fx:id="buttonProtocolLoad" layoutX="270.0" layoutY="220.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionProtokolLoad" prefHeight="30.0" prefWidth="150.0" text="Load ">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Button fx:id="buttonProtocolExport" layoutX="270.0" layoutY="265.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionProtokolExport" prefHeight="30.0" prefWidth="150.0" text="Export">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font></Button>
+                            <Button fx:id="buttonCreateAllObject" layoutX="-16.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionCreateAllObject" prefHeight="30.0" prefWidth="150.0" text="Create all objects" />
+                            <Button fx:id="buttonImport" layoutX="-16.0" layoutY="31.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionProtokolImport" prefHeight="30.0" prefWidth="150.0" text="Import protokols" />
                             <TextArea fx:id="fieldOutput" layoutY="426.0" prefHeight="104.0" prefWidth="907.0" promptText="Output" />
+                                          <Button fx:id="buttonRunAllObjectOnAllProtokol" layoutY="75.0" maxWidth="150.0" mnemonicParsing="false" onAction="#actionRunAllObjectOnAllProtokols" prefHeight="30.0" prefWidth="150.0" text="Run everything" />
                           </children>
                         </AnchorPane>
                       </items>

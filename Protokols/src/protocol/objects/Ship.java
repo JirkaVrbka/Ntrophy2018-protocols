@@ -5,12 +5,12 @@
  */
 package protocol.objects;
 
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
-import protocol.enums.Type;
+import protocol.enums.EType;
 
 /**
  *
@@ -18,21 +18,21 @@ import protocol.enums.Type;
  */
 public class Ship extends SpaceObject{
 
-    public Ship(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
+    public Ship(List<EAttributes> attrs, List<EAttributes> missing) throws InvalidObjectException {
         super(attrs, missing);
-        if(missing != null && !missing.contains(Attributes.WEAPONS)){
+        if(missing != null && !missing.contains(EAttributes.WEAPONS)){
             if(!super.isWeapons()){
                throw new InvalidObjectException();
             }
         }
     }
     @Override
-    public Type getType(){
-        return Type.SHIP;
+    public EType getType(){
+        return EType.SHIP;
     }
     
     @Override
-    public int doAction(Action action) throws InvalidActionException {
+    public int doAction(EAction action) throws InvalidActionException {
         try{
             switch(action){
                 case CONTACT:{

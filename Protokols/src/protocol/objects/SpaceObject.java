@@ -6,13 +6,13 @@
 package protocol.objects;
 
 import java.util.ArrayList;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
 import java.util.Map;
-import protocol.enums.Type;
+import protocol.enums.EType;
 
 /**
  *
@@ -27,17 +27,17 @@ public class SpaceObject implements OurObject{
     private Boolean actWeapons  = false;
     private Boolean fast        = false;
     private String name         = null;
-    private List <Attributes> missing;
-    private List <Attributes> trueattr;
+    private List <EAttributes> missing;
+    private List <EAttributes> trueattr;
     private int id = -1;
     
     
-    public SpaceObject(List <Attributes> attrs, List <Attributes> missing) 
+    public SpaceObject(List <EAttributes> attrs, List <EAttributes> missing) 
             throws InvalidObjectException{
         this.missing = missing;
         this.trueattr = attrs;
         if (attrs != null && attrs.size() > 0){
-            for (Attributes attr : attrs) {
+            for (EAttributes attr : attrs) {
                 switch (attr){
                     case LIFE: {
                         life = true;
@@ -71,7 +71,7 @@ public class SpaceObject implements OurObject{
             }
         }
         if (missing != null && this.missing.size() > 0){
-            for (Attributes miss : missing) {
+            for (EAttributes miss : missing) {
                 switch (miss){
                     case LIFE: {
                         life = null;
@@ -117,17 +117,17 @@ public class SpaceObject implements OurObject{
     }
     
     @Override
-    public List<Attributes> getTrueAttr() {
+    public List<EAttributes> getTrueAttr() {
         return trueattr;
     }
     @Override
-    public List<Attributes> getMissingAttr() {
+    public List<EAttributes> getMissingAttr() {
         return missing;
     }
     @Override
-    public List<Attributes> getFalseAttr() {
-        List<Attributes> falseAttr  = new ArrayList<>();
-        for (Attributes attr : Attributes.values()) {
+    public List<EAttributes> getFalseAttr() {
+        List<EAttributes> falseAttr  = new ArrayList<>();
+        for (EAttributes attr : EAttributes.values()) {
             if (missing != null){
                 if (!missing.contains(attr) && !trueattr.contains(attr)) {
                     falseAttr.add(attr);
@@ -177,7 +177,7 @@ public class SpaceObject implements OurObject{
         return actWeapons;
     }
 
-    public List<Attributes> getMissing() {
+    public List<EAttributes> getMissing() {
         return missing;
     }
 
@@ -201,13 +201,13 @@ public class SpaceObject implements OurObject{
     */
 
     @Override
-    public int doAction(Action action) throws InvalidActionException {
+    public int doAction(EAction action) throws InvalidActionException {
         throw new InvalidActionException();
     }
 
     @Override
-    public Type getType() {
-        return Type.UNDEFINED;
+    public EType getType() {
+        return EType.UNDEFINED;
     }
     
     /**

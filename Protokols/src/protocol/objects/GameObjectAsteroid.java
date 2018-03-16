@@ -5,9 +5,9 @@
  */
 package protocol.objects;
 
-import protocol.enums.Action;
-import protocol.enums.EAttributeState;
-import protocol.enums.Type;
+import protocol.enums.EAction;
+import protocol.enums.EAttributeStates;
+import protocol.enums.EType;
 import protocol.exceptions.InvalidObjectException;
 
 /**
@@ -17,14 +17,15 @@ import protocol.exceptions.InvalidObjectException;
 public class GameObjectAsteroid extends AGameObject{
     
     public GameObjectAsteroid(String name,
-            EAttributeState life,
-            EAttributeState comunicates,
-            EAttributeState resources,
-            EAttributeState bigger,
-            EAttributeState weapons,
-            EAttributeState actWeapons,
-            EAttributeState fast) throws InvalidObjectException {
-        super(name, Type.ASTEROID, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+            EType givenType,
+            EAttributeStates life,
+            EAttributeStates comunicates,
+            EAttributeStates resources,
+            EAttributeStates bigger,
+            EAttributeStates weapons,
+            EAttributeStates actWeapons,
+            EAttributeStates fast) throws InvalidObjectException {
+        super(name, EType.ASTEROID, givenType, life, comunicates, resources, bigger, weapons, actWeapons, fast);
 
         if (super.isLife() || super.isWeapons() || super.isActWeapons() || super.isComunicates() || super.isBigger() || super.isResources()) {
             super.idGeneratorMinusOne();
@@ -33,7 +34,7 @@ public class GameObjectAsteroid extends AGameObject{
     }
 
     @Override
-    public int doAction(Action action){
+    public int doAction(EAction action){
 
             switch(action){
                 case CONTACT:{

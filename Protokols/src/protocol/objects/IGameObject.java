@@ -6,10 +6,10 @@
 package protocol.objects;
 
 import java.util.List;
-import protocol.enums.Type;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
-import protocol.enums.EAttributeState;
+import protocol.enums.EType;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
+import protocol.enums.EAttributeStates;
 import protocol.exceptions.InvalidActionException;
 
 /**
@@ -23,7 +23,7 @@ public interface IGameObject {
      * @return points gained -3 up to +3
      * @throws InvalidActionException
      */
-    int doAction(Action action);
+    int doAction(EAction action);
    
     boolean isLife(); 
 
@@ -39,29 +39,31 @@ public interface IGameObject {
      
     boolean isFast();
     
-    Type getType();
+    EType getType();
+    
+    EType getGivenType();
         
     String getName();
     
-    List<Attributes> getTrueAttr();
+    List<EAttributes> getTrueAttr();
     
-    public List<Attributes> getMissingAttr();
+    public List<EAttributes> getMissingAttr();
     
-    public List<Attributes> getFalseAttr();
+    public List<EAttributes> getFalseAttr();
     
     int getID();
     
-    public EAttributeState getLife();
+    public EAttributeStates getLife();
 
-    public EAttributeState getComunicates();
+    public EAttributeStates getComunicates();
 
-    public EAttributeState getResources();
+    public EAttributeStates getResources();
 
-    public EAttributeState getBigger();
+    public EAttributeStates getBigger();
 
-    public EAttributeState getWeapons();
+    public EAttributeStates getWeapons();
 
-    public EAttributeState getActWeapons();
+    public EAttributeStates getActWeapons();
 
-    public EAttributeState getFast();
+    public EAttributeStates getFast();
 }

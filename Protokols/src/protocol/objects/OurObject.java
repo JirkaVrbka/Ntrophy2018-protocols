@@ -6,9 +6,9 @@
 package protocol.objects;
 
 import java.util.List;
-import protocol.enums.Type;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EType;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.exceptions.InvalidActionException;
 
 /**
@@ -22,7 +22,7 @@ public interface OurObject {
      * @return points gained -3 up to +3
      * @throws InvalidActionException
      */
-    int doAction(Action action) throws InvalidActionException;
+    int doAction(EAction action) throws InvalidActionException;
    
     boolean isLife(); 
 
@@ -38,17 +38,17 @@ public interface OurObject {
      
     boolean isFast();
     
-    Type getType();
+    EType getType();
     
     void setName(String name);
         
     String getName();
     
-    List<Attributes> getTrueAttr();
+    List<EAttributes> getTrueAttr();
     
-    public List<Attributes> getMissingAttr();
+    public List<EAttributes> getMissingAttr();
     
-    public List<Attributes> getFalseAttr();
+    public List<EAttributes> getFalseAttr();
     
     int getID();
 }

@@ -9,7 +9,7 @@ package protocol.enums;
  *
  * @author Ondrej Urbanovsky
  */
-public enum Action {
+public enum EAction {
     SHOOT ("Shoot"), 
     GATHER_RESOURCES ("Gather resources"), 
     CONTACT ("Contact"), 
@@ -19,7 +19,7 @@ public enum Action {
     
     String name;
     
-    Action(String name){
+    EAction(String name){
         this.name = name;
     }
 
@@ -33,7 +33,7 @@ public enum Action {
      * @param name
      * @return
      */
-    public static Action getValueOf(String name){
+    public static EAction getValueOf(String name){
         if(name == null){
             return null;
         }

@@ -1,9 +1,3 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package protocols_app;
 
 import BussinesLogic.HanderImportExport;
@@ -17,6 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,17 +25,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Pair;
-import protocol.Universe;
-import protocol.enums.Action;
-import protocol.enums.Attributes;
-import protocol.enums.EAttributeState;
-import protocol.enums.Type;
+import javafx.scene.paint.Color;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
+import protocol.enums.EAttributeStates;
+import protocol.enums.EType;
 import protocol.objects.IGameObject;
-import protocol.objects.SpaceObject;
-import protocol.objects.OurObject;
 
 /**
  *
@@ -72,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button buttonCreateAllObject;
     @FXML
-    private ChoiceBox choiceActiveProtocol;
+    private ChoiceBox<String> choiceActiveProtocol;
     @FXML
     private Button buttonProtocolRun;
     @FXML
@@ -81,8 +75,6 @@ public class FXMLDocumentController implements Initializable {
     private Button buttonProtocolLoad;
     @FXML
     private Button buttonProtocolExport;
-    @FXML
-    private Button buttonImportAndExecute;
     @FXML
     private ChoiceBox<String> choiceAttributeLife;
     @FXML
@@ -189,8 +181,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextArea fieldOutput;
 
-    private Universe universe = new Universe();
-
     private ChoiceBox[] AllChoiceAttributes;
     private String[] AllAttributeNames;
     private Group[] allGroups;
@@ -201,6 +191,12 @@ public class FXMLDocumentController implements Initializable {
     private HandlerGame handlerGame = new HandlerGame();
     @FXML
     private Label labelObjectCreatedCheck;
+    @FXML
+    private TextField fieldTeamName;
+    @FXML
+    private Button buttonImport;
+    @FXML
+    private Button buttonRunAllObjectOnAllProtokol;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -234,7 +230,7 @@ public class FXMLDocumentController implements Initializable {
             "Weapons"});
 
         AllChoiceObjectType = (new ChoiceBox[]{choiceObjectType});
-        setActiveObjectChoices(choiceActiveObject);
+        //setActiveObjectChoices(choiceActiveObject);
 
         allGroups = (new Group[]{group_1, group_2, group_3, group_4, group_5, group_6,
             group_7, group_8, group_42, group_9, group_10, group_11, group_12, group_13, group_14, group_15, group_16,
@@ -245,7 +241,7 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 3; i < 42; i++) {
             hideGroup(i);
         }
-        for (Action action : Action.values()) {
+        for (EAction action : EAction.values()) {
             thenElseChoices.add(action.toString());
         }
 
@@ -254,25 +250,101 @@ public class FXMLDocumentController implements Initializable {
         addRulesName();
         updateAllThenElseChoices();
 
-        hideDebugButtons();
-        // DEBUG();
+        //hideDebugButtons();
+        //DEBUG();
+        choiceActiveObject.getItems().addAll(handlerGame.getObjectNames());
+        choiceActiveObject.getSelectionModel().selectFirst();
 
+        initTextFieldChangedListeners();
+    }
+
+    private void initTextFieldChangedListeners() {
+        ChangeListener<String> textFieldListener = new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                    String oldValue, String newValue) {
+
+                for (int i = 0; i < 42; i++) {
+                    ComboBox<String> statementThen = getChoiceBoxesOfGroup(i)[1];
+                    ComboBox<String> statementElse = getChoiceBoxesOfGroup(i)[2];
+
+                    boolean selectedOldThen = false;
+                    boolean selectedOldElse = false;
+
+                    if (statementThen.getValue().equals(oldValue)) {
+                        selectedOldThen = true;
+                    }
+
+                    if (statementElse.getValue().equals(oldValue)) {
+                        selectedOldElse = true;
+                    }
+
+                    if (statementThen.getItems().remove(oldValue)) {
+                        statementThen.getItems().add(newValue);
+                        if (selectedOldThen) {
+                            statementThen.getSelectionModel().select(newValue);
+                        }
+                    }
+
+                    if (statementElse.getItems().remove(oldValue)) {
+                        statementElse.getItems().add(newValue);
+                        if (selectedOldElse) {
+                            statementElse.getSelectionModel().select(newValue);
+                        }
+                    }
+                }
+            }
+        };
+        
+        for (int i = 0; i < 42; i++) {
+            getTextFieldOfGroup(i).textProperty().addListener(textFieldListener);
+        }
     }
 
     /**
-     * Tris method is for debug purpose only, no impact on actual program
+     * This method is for debug purpose only, no impact on actual program
      */
     private void DEBUG() {
-        Protokol pr = new Protokol("kokodat");
-        pr.addRule("foo", "Life", "Escape", "Trade");
-        pr.addRule("foo2", "Life", "Escape", "Trade");
-        pr.addRule("foo3", "Life", "Escape", "Trade");
+        actionCreateAllObject(new ActionEvent());
 
-        String exp = pr.exportProtokol();
-        Protokol newPr = Protokol.importProtokol(exp);
-        newPr.setName("import_" + newPr.getName());
-        saveProtokol(newPr);
+        List<EAction> actions = new ArrayList<>();
+        actions.add(EAction.TRADE);
+        actions.add(EAction.CONTACT);
+        actions.add(EAction.ESCAPE);
+        actions.add(EAction.FLYBY);
+        actions.add(EAction.GATHER_RESOURCES);
+        actions.add(EAction.SHOOT);
 
+        String result = "";
+
+        for (String objectName : handlerGame.getObjectNames()) {
+            IGameObject obj = handlerGame.getObject(objectName);
+
+            result += obj.getType().toString() + "\t";
+            result += obj.isFast() ? "1\t" : "0\t";
+            result += obj.isBigger() ? "1\t" : "0\t";
+            result += obj.isComunicates() ? "1\t" : "0\t";
+            result += obj.isResources() ? "1\t" : "0\t";
+            result += obj.isWeapons() ? "1\t" : "0\t";
+            result += obj.isActWeapons() ? "1\t" : "0\t";
+            result += obj.isLife() ? "1\t" : "0\t";
+
+            int maxPoints = -5;
+            EAction maxAction = EAction.CONTACT;
+
+            for (EAction act : actions) {
+                int currentPoints = obj.doAction(act);
+                if (currentPoints > maxPoints) {
+                    maxAction = act;
+                    maxPoints = currentPoints;
+                }
+            }
+            result += maxPoints + "\t";
+            result += maxAction.toString().replaceAll(" ", "");
+            result += "\n";
+        }
+
+        System.out.println(result);
     }
 
     /**
@@ -280,18 +352,17 @@ public class FXMLDocumentController implements Initializable {
      */
     private void hideDebugButtons() {
         buttonCreateAllObject.setVisible(false);
-        buttonImportAndExecute.setVisible(false);
     }
 
     private void addInitialRules() {
-        for (Action action : Action.values()) {
+        for (EAction action : EAction.values()) {
             thenElseChoicesList.add(action.toString());
         }
     }
 
     private void setIfChoices(ComboBox box) {
         ObservableList<String> values = FXCollections.observableArrayList();
-        for (Attributes atr : Attributes.values()) {
+        for (EAttributes atr : EAttributes.values()) {
             values.add(atr.toString());
         }
         box.setItems(values);
@@ -299,20 +370,19 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    //O
     private void setTypeChoices(ChoiceBox box) {
         ObservableList<String> values = FXCollections.observableArrayList();
-        for (Type typ : Type.values()) {
+        for (EType typ : EType.values()) {
             values.add(typ.toString());
         }
         box.setItems(values);
         box.getSelectionModel().selectLast();
-
     }
 
     private void setAttributeChoises(ChoiceBox[] boxes) {
-        ObservableList<String> values = FXCollections.observableArrayList(
-                "True", "False", "Undefined"
+        ObservableList<String> values = FXCollections.observableArrayList(EAttributeStates.TRUE.toString(),
+                EAttributeStates.FALSE.toString(),
+                EAttributeStates.UNDEFINED.toString()
         );
 
         for (ChoiceBox box : boxes) {
@@ -321,159 +391,8 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    /**
-     * private void setAttributeChoiceToSpecific(ChoiceBox box){
-     * box.getSelectionModel().select(i); }
-     */
-    private void setActiveObjectChoices(ChoiceBox box) {
-        ObservableList<String> values = FXCollections.observableArrayList();
-        for (Map.Entry<Integer, SpaceObject> uniObject : universe.getObjects().entrySet()) {
-            Integer key = uniObject.getKey();
-            OurObject value = uniObject.getValue();
-            String name = value.getName() + " " + key;
-            values.add(name);
-        }
-        box.setItems(values);
-        box.getSelectionModel().selectLast();
-    }
-
-    /**
-     * Parses last number before to id number
-     *
-     * @param str string from name of button...
-     * @return int ID
-     */
-    private int parseLastToId(String str) {
-        String[] afterSplit = str.split(" ");
-        return Integer.valueOf(afterSplit[afterSplit.length - 1]);
-    }
-
-    @FXML
-    private void EraseObject(MouseEvent event) {
-        String str = (String) choiceActiveObject.getValue();
-        int id = parseLastToId(str);
-        if (id > 4) {
-            universe.removeObj(id);
-            setActiveObjectChoices(choiceActiveObject);
-        }
-    }
-
-    @FXML
-    private void EraseAllObjectAttributes(MouseEvent event) {
-        setUndefined(AllChoiceAttributes);
-        setUndefined(AllChoiceObjectType);
-
-    }
-
-    private void setUndefined(ChoiceBox[] boxes) {
-        for (ChoiceBox box : boxes) {
-            box.getSelectionModel().selectLast();
-        }
-    }
-
-    @FXML
-    private void CreateObjectButtonMC(MouseEvent event) {
-        /*List<Attributes> attrs = new ArrayList<>();
-        List<Attributes> missing = new ArrayList<>();
-
-        for (ChoiceBox box : AllChoiceAttributes) {
-            if (((String) box.getValue()).equals("True")) {
-                attrs.add(Attributes.toEnum(AttributeButtonToName(box)));
-            }
-            if (((String) box.getValue()).equals("Undefined")) {
-                missing.add(Attributes.toEnum(AttributeButtonToName(box)));
-            }
-        }
-        int id;
-        String name = fieldObjectName.getText();
-        switch ((String) (AllChoiceObjectType[0].getValue())) {
-            case "Ship": {
-                id = universe.CreateObj(Type.SHIP, attrs, missing);
-                break;
-            }
-            case "Planet": {
-                id = universe.CreateObj(Type.PLANET, attrs, missing);
-                break;
-            }
-            case "Asteroid": {
-                id = universe.CreateObj(Type.ASTEROID, attrs, missing);
-                break;
-            }
-            default: {
-                id = universe.CreateObj(Type.UNDEFINED, attrs, missing);
-                break;
-            }
-        }
-
-        if (id > 0) {
-            universe.getObjectByID(id).setName(name);
-            universe.getObjectByID(id).setID(id);
-            setActiveObjectChoices(choiceActiveObject);
-        }*/
-    }
-
-    private String AttributeButtonToName(ChoiceBox box) {
-        int i = 0;
-        for (ChoiceBox attr : AllChoiceAttributes) {
-            if (attr.equals(box)) {
-                return AllAttributeNames[i];
-            }
-            i++;
-        }
-        return null;
-    }
-
-    private SpaceObject getActiveObject() {
-        String str = (String) choiceActiveObject.getValue();
-        int id = parseLastToId(str);
-        return universe.getObjectByID(id);
-    }
-
     private String getActiveObjectName() {
         return (String) choiceActiveObject.getValue();
-    }
-
-    /**
-     * loads attributes of object to createobj notes indexes of CHoiceAttribute
-     * Selector box 0 = true 1 = false 2 = undefined
-     *
-     * @param event click
-     */
-    @FXML
-    private void LoadObjAttributes(MouseEvent event) {
-        if (getActiveObject().getTrueAttr() != null) {
-            for (Attributes trueAttr : getActiveObject().getTrueAttr()) {
-                int i = 0;
-                for (String attrName : AllAttributeNames) {
-                    if (trueAttr.toString().equals(attrName)) {
-                        AllChoiceAttributes[i].getSelectionModel().select(0);
-                    }
-                    i++;
-                }
-            }
-        }
-        if (getActiveObject().getMissing() != null) {
-            for (Attributes missAttr : getActiveObject().getMissing()) {
-                int i = 0;
-                for (String attrName : AllAttributeNames) {
-                    if (missAttr.toString().equals(attrName)) {
-                        AllChoiceAttributes[i].getSelectionModel().select(2);
-                    }
-                    i++;
-                }
-            }
-        }
-        if (getActiveObject().getFalseAttr() != null) {
-            for (Attributes missAttr : getActiveObject().getFalseAttr()) {
-                int i = 0;
-                for (String attrName : AllAttributeNames) {
-                    if (missAttr.toString().equals(attrName)) {
-                        AllChoiceAttributes[i].getSelectionModel().select(1);
-                    }
-                    i++;
-                }
-            }
-        }
     }
 
     /**
@@ -566,101 +485,6 @@ public class FXMLDocumentController implements Initializable {
     }
 
     /**
-     * Saves protocol into our database. Automatically add ID into name
-     * Automatically select created protocol
-     *
-     * @param event
-     */
-    private void buttonActionSaveProtokol(ActionEvent event) {
-        String name = fieldProtocolName.getText() + " " + (protokols.keySet().size() + 1);
-
-        Protokol protokol = new Protokol(name);
-        saveProtokol(protokol);
-    }
-
-    private void saveProtokol(Protokol protokol) {
-        protokol.createFromGroup(allGroups);
-        protokols.put(protokol.getName(), protokol);
-
-        choiceActiveProtocol.getItems().add(protokol.getName());
-        choiceActiveProtocol.getSelectionModel().selectLast();
-    }
-
-    /**
-     * Loads protocol into live panel to enable editing
-     *
-     * @param event
-     */
-    @FXML
-    private void buttonActionLoadProtokol(ActionEvent event) {
-        String name = choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
-        //if there is no protocol selected
-        if (name.equals("")) {
-            return;
-        }
-        Protokol protokol = protokols.get(name);
-        //if there is no protocol in database
-        if (protokol == null) {
-            return;
-        }
-
-        //write protocol into panel
-        protokol.writeToGroup(allGroups, true);
-    }
-
-    /**
-     * Deletes active protocol
-     *
-     * @param event
-     */
-    @FXML
-    private void buttonActionDeleteProtokol(ActionEvent event) {
-        //there is no active protocol
-        if (choiceActiveProtocol.getItems().isEmpty()) {
-            return;
-        }
-
-        String name = choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
-        //name of protocol is empty
-        if (name.equals("")) {
-            return;
-        }
-        Protokol protokol = protokols.remove(name);
-        //there was no protocol in our database
-        if (protokol == null) {
-            return;
-        }
-
-        //delete protocol name from choice box
-        //TODO: how to resolve what protocol if they have same name!
-        choiceActiveProtocol.getItems().remove(name);
-        if (choiceActiveProtocol.getItems().size() > 0) {
-            choiceActiveProtocol.getSelectionModel().selectFirst();
-        }
-
-    }
-
-    /**
-     * Evaluate active object with active protocol
-     *
-     * @param event
-     */
-    private void buttonRunObject(ActionEvent event) {
-        SpaceObject spaceObject = getActiveObject();
-
-        if (spaceObject == null || choiceActiveProtocol.getValue() == null) {
-            fieldOutput.setText("-666 ");
-            return;
-        }
-        Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
-        if (protokol == null) {
-            fieldOutput.setText("-777");
-            return;
-        }
-        fieldOutput.setText(String.valueOf(evalProtokol(protokol, spaceObject)));
-    }
-
-    /**
      * TODO add comment
      */
     private void addRulesName() {
@@ -671,189 +495,41 @@ public class FXMLDocumentController implements Initializable {
             if (!thenElseChoicesList.contains(text)) {
                 thenElseChoicesList.add(text);
             }
-
         }
-
-    }
-
-    /**
-     * Evaluate protocol with given object
-     *
-     * @param protokol to eval
-     * @param spaceObject to be checked
-     * @return number of points
-     */
-    private int evalProtokol(Protokol protokol, SpaceObject spaceObject) {
-        String firstAsk = protokol.getFirstAsk();
-        boolean res = universe.ask(Attributes.getValueOf(firstAsk), spaceObject.getID());
-        String answer = protokol.getFirstResult(res);
-
-        Action action = Action.getValueOf(answer);
-
-        int i = 0;
-        //iterate until some action
-        while (action == null) {
-            res = universe.ask(Attributes.getValueOf(protokol.getAsk(answer)), spaceObject.getID());
-            answer = protokol.getResult(answer, res);
-            action = Action.getValueOf(answer);
-            i++;
-            if (i > 500) {
-                //too many cycles, there is a problem there
-                return -500000;
-            }
-        }
-
-        Pair<Integer, Boolean> result = universe.evalAction(action, spaceObject.getID());
-
-        //cannot decide -> kill
-        if (result.getValue() == false) {
-            return -9999;
-        }
-
-        //I can decide -> value of decision
-        return result.getKey();
-    }
-
-    /**
-     * Event handler for button "Run" under objects
-     *
-     * @param event
-     */
-    @FXML
-    private void buttonRunProtokol(ActionEvent event) {
-        fieldOutput.setText("");
-
-        if (choiceActiveProtocol.getValue() == null) {
-            fieldOutput.setText("-666 - No protocol selected");
-            return;
-        }
-        Protokol protokol = protokols.get(choiceActiveProtocol.getValue().toString());
-        if (protokol == null) {
-            fieldOutput.setText("-777 - No protocol in our database");
-            return;
-        }
-
-        String value = "";
-        int globalResult = 0;
-        for (SpaceObject spaceObject : universe.getObjects().values()) {
-            int result = evalProtokol(protokol, spaceObject);
-            globalResult += result;
-            value += spaceObject.getName();
-            value += ": ";
-            value += String.valueOf(result);
-            value += "\r\n";
-        }
-
-        fieldOutput.setText(value + "\r\nGlobal result: " + String.valueOf(globalResult));
-
-    }
-
-    @FXML
-    private void actionExportProtocol(ActionEvent event) throws IOException {
-        HanderImportExport.exportProtocols("", protokols.getOrDefault(getActiveProtocol(), new Protokol("Default")));
-    }
-
-    private String getActiveProtocol() {
-        return choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
     }
 
     private String getActiveProtocolName() {
-        return choiceActiveProtocol.getSelectionModel().getSelectedItem().toString();
+        return choiceActiveProtocol.getSelectionModel().getSelectedItem();
     }
-
 
     @FXML
     private void actionCreateAllObject(ActionEvent event) {
-        /*
-        boolean fast = true;
-        boolean bigger = true;
-        boolean communicates = true;
-        boolean resources = true;
-        boolean weapons = true;
-        boolean active_weapons = true;
-        boolean life = true;
-        Type type = Type.ASTEROID;
-         */
-
-        for (Type t : new Type[]{Type.ASTEROID, Type.PLANET, Type.SHIP}) {
-            for (boolean fast : new boolean[]{true, false}) {
-                for (boolean bigger : new boolean[]{true, false}) {
-                    for (boolean communicates : new boolean[]{true, false}) {
-                        for (boolean resources : new boolean[]{true, false}) {
-                            for (boolean weapons : new boolean[]{true, false}) {
-                                for (boolean active_weapons : new boolean[]{true, false}) {
-                                    for (boolean life : new boolean[]{true, false}) {
-                                        List<Attributes> atts = new ArrayList<>();
-                                        if (fast) {
-                                            atts.add(Attributes.FAST);
-                                        }
-                                        if (bigger) {
-                                            atts.add(Attributes.BIGGER);
-                                        }
-                                        if (communicates) {
-                                            atts.add(Attributes.COMUNICATES);
-                                        }
-                                        if (resources) {
-                                            atts.add(Attributes.RESOURCES);
-                                        }
-                                        if (weapons) {
-                                            atts.add(Attributes.WEAPONS);
-                                        }
-                                        if (active_weapons) {
-                                            atts.add(Attributes.ACT_WEAPON);
-                                        }
-                                        if (life) {
-                                            atts.add(Attributes.LIFE);
-                                        }
-
-                                        int id;
-                                        if ((id = universe.CreateObj(t, atts, new ArrayList<>())) != -1) {
-                                            String name = String.valueOf(id) + "_";
-                                            name += t.toString() + "_";
-                                            if (fast) {
-                                                name += "fast_";
-                                            }
-                                            if (bigger) {
-                                                name += "bigger_";
-                                            }
-                                            if (communicates) {
-                                                name += "communicates_";
-                                            }
-                                            if (resources) {
-                                                name += "resources_";
-                                            }
-                                            if (weapons) {
-                                                name += "weapons_";
-                                            }
-                                            if (active_weapons) {
-                                                name += "active_weapons_";
-                                            }
-                                            if (life) {
-                                                name += "life_";
-                                            }
-
-                                            universe.getObjectByID(id).setName(name);
-                                            universe.getObjectByID(id).setID(id);
-
-                                        }
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        setActiveObjectChoices(choiceActiveObject);
+        HandlerObject.createAllObjects().stream().forEach(
+                go -> updateObjectsAdd(go)
+        );
     }
 
-    @FXML
-    private void actionRunOnObject(ActionEvent event) {
-        int result = handlerGame.evaluateProtokol(getActiveProtocolName(), getActiveObjectName());
+    private void updateObjects() {
+        choiceActiveObject.getItems().setAll(handlerGame.getObjectNames());
+        choiceActiveObject.getSelectionModel().selectLast();
+    }
 
-        writeOutput(String.valueOf(result));
+    private void updateObjectsAdd(IGameObject go) {
+        handlerGame.addCustomObject(go);
+        choiceActiveObject.getItems().add(go.getName());
+        choiceActiveObject.getSelectionModel().selectLast();
+    }
 
+    private void updateObjectsRemove(String name) {
+        if (handlerGame.removeCustomObject(name)) {
+            choiceActiveObject.getItems().remove(name);
+            choiceActiveObject.getSelectionModel().selectLast();
+        }
+    }
+
+    private void updateProtokols() {
+        choiceActiveProtocol.getItems().setAll(handlerGame.getProtocolNames());
+        choiceActiveProtocol.getSelectionModel().selectLast();
     }
 
     private void writeOutput(String output) {
@@ -861,38 +537,24 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void actionSaveProtokol(ActionEvent event) {
-        //save to inner database
-        Protokol protokol = new Protokol(fieldProtocolName.getText());
-        protokol.createFromGroup(allGroups);
-        handlerGame.addProtokol(protokol);
-
-        //add to choice box
-        choiceActiveProtocol.getItems().add(protokol.getName());
-        choiceActiveProtocol.getSelectionModel().selectLast();
-    }
-
-    @FXML
     private void actionObjectDelete(ActionEvent event) {
         //if deleted remove from choice box
-        if(handlerGame.removeCustomObject(getActiveObjectName())){
-            choiceActiveProtocol.getItems().remove(getActiveObjectName());
-            choiceActiveProtocol.getSelectionModel().selectLast();
-        }        
+        String activeObject = getActiveObjectName();
+        updateObjectsRemove(activeObject);
     }
 
     @FXML
     private void actionObjectCreate(ActionEvent event) {
         //saving properties
         String name = fieldObjectName.getText();
-        Type type = Type.get(choiceObjectType.getValue());
-        EAttributeState life = EAttributeState.get(choiceAttributeLife.getValue()); //life
-        EAttributeState communicate = EAttributeState.get(choiceAttributeComm.getValue());//communicates
-        EAttributeState resources = EAttributeState.get(choiceAttributeResources.getValue()); //resources
-        EAttributeState bigger = EAttributeState.get(choiceAttributeBigger.getValue()); //bigger
-        EAttributeState weapons = EAttributeState.get(choiceAttributeWeapons.getValue()); //weapons
-        EAttributeState activeWeapons = EAttributeState.get(choiceAttributeActive.getValue()); //active weapons
-        EAttributeState fast = EAttributeState.get(choiceAttributeFast.getValue());
+        EType type = EType.get(choiceObjectType.getValue());
+        EAttributeStates life = EAttributeStates.get(choiceAttributeLife.getValue()); //life
+        EAttributeStates communicate = EAttributeStates.get(choiceAttributeComm.getValue());//communicates
+        EAttributeStates resources = EAttributeStates.get(choiceAttributeResources.getValue()); //resources
+        EAttributeStates bigger = EAttributeStates.get(choiceAttributeBigger.getValue()); //bigger
+        EAttributeStates weapons = EAttributeStates.get(choiceAttributeWeapons.getValue()); //weapons
+        EAttributeStates activeWeapons = EAttributeStates.get(choiceAttributeActive.getValue()); //active weapons
+        EAttributeStates fast = EAttributeStates.get(choiceAttributeFast.getValue());
 
         //creating
         IGameObject go = HandlerObject.createObject(
@@ -909,25 +571,29 @@ public class FXMLDocumentController implements Initializable {
 
         // if null, cannot be created
         if (go == null) {
+            labelObjectCreatedCheck.setTextFill(Color.RED);
             labelObjectCreatedCheck.setText("FAIL");
-        //show result and save
+            //show result and save
         } else {
-            handlerGame.addCustomObject(go);
-            choiceActiveObject.getItems().add(go.getName());
-            choiceActiveObject.getSelectionModel().select(go.getName());
-            
+            updateObjectsAdd(go);
+
+            labelObjectCreatedCheck.setTextFill(Color.GREEN);
             labelObjectCreatedCheck.setText("OK");
         }
     }
 
     @FXML
     private void actionObjectLoad(ActionEvent event) {
-        IGameObject go = handlerGame.getObject(getActiveObjectName());
-        
+        IGameObject go = handlerGame.getCustomObject(getActiveObjectName());
+
+        if (go == null) {
+            return;
+        }
+
         //remove id from name and save
         fieldObjectName.setText(go.getName().substring(0, go.getName().lastIndexOf("_")));
-        
-        choiceObjectType.getSelectionModel().select(go.getType().toString());
+
+        choiceObjectType.getSelectionModel().select(go.getGivenType().toString());
         choiceAttributeLife.getSelectionModel().select(go.getLife().toString());
         choiceAttributeComm.getSelectionModel().select(go.getComunicates().toString());
         choiceAttributeResources.getSelectionModel().select(go.getResources().toString());
@@ -937,4 +603,152 @@ public class FXMLDocumentController implements Initializable {
         choiceAttributeFast.getSelectionModel().select(go.getFast().toString());
     }
 
+    @FXML
+    private void actionObjectSelected(ActionEvent event) {
+        if (choiceActiveObject.getSelectionModel().getSelectedIndex() < 5) {
+            buttonObjectLoad.setDisable(true);
+            buttonObjectDelete.setDisable(true);
+        } else {
+            buttonObjectLoad.setDisable(false);
+            buttonObjectDelete.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void actionProtokolRunAll(ActionEvent event) {
+        String activeProtokol = getActiveProtocolName();
+        if (activeProtokol == null) {
+            return;
+        }
+
+        int globalResult = 0;
+        String output = "";
+        for (String name : handlerGame.getObjectNames()) {
+            int result = handlerGame.evaluateProtokol(activeProtokol, name);
+            output += String.valueOf(result) + ", ";
+            globalResult += result;
+        }
+
+        output += "\r\n-------------"
+                + "\r\nResult: " + globalResult;
+        writeOutput(output);
+    }
+
+    @FXML
+    private void actionProtokolSave(ActionEvent event) {
+        //save to inner database
+        Protokol protokol = new Protokol(fieldProtocolName.getText());
+        protokol.createFromGroup(allGroups);
+        handlerGame.addProtokol(protokol);
+
+        //add to choice box
+        choiceActiveProtocol.getItems().add(protokol.getName());
+        choiceActiveProtocol.getSelectionModel().selectLast();
+    }
+
+    @FXML
+    private void actionObjectRun(ActionEvent event) {
+        String activeProtokol = getActiveProtocolName();
+
+        if (activeProtokol == null) {
+            writeOutput("Have to select protokol!");
+            return;
+        }
+
+        int result = handlerGame.evaluateProtokol(activeProtokol, getActiveObjectName());
+
+        writeOutput(String.valueOf(result));
+    }
+
+    @FXML
+    private void actionProtokolDelete(ActionEvent event) {
+        if (handlerGame.removeProtocol(getActiveProtocolName())) {
+            choiceActiveProtocol.getItems().remove(getActiveProtocolName());
+            choiceActiveProtocol.getSelectionModel().selectLast();
+        }
+    }
+
+    @FXML
+    private void actionProtokolLoad(ActionEvent event) {
+        String name = getActiveProtocolName();
+
+        //if there is no protocol selected
+        if (name == null) {
+            return;
+        }
+        Protokol protokol = handlerGame.getProtokol(name);
+        //if there is no protocol in database
+        if (protokol == null) {
+            return;
+        }
+
+        //write protocol into panel
+        protokol.writeToGroup(allGroups, true);
+    }
+
+    @FXML
+    private void actionProtokolExport(ActionEvent event) throws IOException {
+        String name;
+        if ((name = getActiveProtocolName()) != null) {
+            String teamName = fieldTeamName.getText();
+            if (teamName.equals("")) {
+                writeOutput("Vyplnte prosim jmeno tymu!");
+            } else if (HanderImportExport.exportProtocols("", handlerGame.getProtokol(name), teamName)) {
+                writeOutput("Protokol ulozen");
+            } else {
+                writeOutput("Neco se pokazilo, org je potreba");
+            }
+        } else {
+            writeOutput("Ulozte protokol!");
+        }
+    }
+
+    @FXML
+    private void actionProtokolImport(ActionEvent event) {
+        HanderImportExport.importProtocols(handlerGame);
+
+        //add to choice box
+        choiceActiveProtocol.getItems().setAll(handlerGame.getProtocolNames());
+        choiceActiveProtocol.getSelectionModel().selectLast();
+    }
+
+    @FXML
+    private void actionRunAllObjectOnAllProtokols(ActionEvent event) {
+        String output = "";
+        for (String protokolName : handlerGame.getProtocolNames()) {
+            int teamResult = 0;
+            for (String name : handlerGame.getObjectNames()) {
+                int result = handlerGame.evaluateProtokol(protokolName, name);
+                teamResult += result;
+            }
+
+            output += protokolName + " : " + teamResult + "\r\n";
+        }
+        writeOutput(output);
+    }
+
+    @FXML
+    private void actionEraseAll(ActionEvent event) {
+        ChoiceBox atributteBox[] = new ChoiceBox[]{
+            choiceObjectType,
+            choiceAttributeActive,
+            choiceAttributeBigger,
+            choiceAttributeComm,
+            choiceAttributeFast,
+            choiceAttributeLife,
+            choiceAttributeResources,
+            choiceAttributeWeapons};
+
+        for (ChoiceBox box : atributteBox) {
+            box.getSelectionModel().select(EAttributeStates.UNDEFINED.toString());
+        }
+        
+        
+    }
+
+    private void actionTextFieldChange(InputMethodEvent event) {
+        System.out.println("pes");
+        System.out.println(event.getCommitted());
+        int neco1 = 5;
+    }
 }

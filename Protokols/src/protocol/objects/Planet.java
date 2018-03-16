@@ -5,12 +5,12 @@
  */
 package protocol.objects;
 
-import protocol.enums.Action;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 import protocol.exceptions.InvalidActionException;
 import protocol.exceptions.InvalidObjectException;
 import java.util.List;
-import protocol.enums.Type;
+import protocol.enums.EType;
 
 /**
  *
@@ -18,7 +18,7 @@ import protocol.enums.Type;
  */
 public class Planet extends SpaceObject{
 
-    public Planet(List<Attributes> attrs, List<Attributes> missing) throws InvalidObjectException {
+    public Planet(List<EAttributes> attrs, List<EAttributes> missing) throws InvalidObjectException {
         super(attrs, missing);
         try {
             if(super.isWeapons()|| !(super.isBigger()) || super.isFast()){
@@ -30,12 +30,12 @@ public class Planet extends SpaceObject{
         }
     }
     @Override
-    public Type getType(){
-        return Type.PLANET;
+    public EType getType(){
+        return EType.PLANET;
     }
 
     @Override
-    public int doAction(Action action) throws InvalidActionException {
+    public int doAction(EAction action) throws InvalidActionException {
         try{
             switch(action){
                 case CONTACT:{

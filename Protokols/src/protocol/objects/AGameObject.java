@@ -7,9 +7,9 @@ package protocol.objects;
 
 import java.util.ArrayList;
 import java.util.List;
-import protocol.enums.Attributes;
-import protocol.enums.EAttributeState;
-import protocol.enums.Type;
+import protocol.enums.EAttributes;
+import protocol.enums.EAttributeStates;
+import protocol.enums.EType;
 
 /**
  *
@@ -19,31 +19,34 @@ public abstract class AGameObject implements IGameObject {
 
     private static int idGenerator = 1;
     
-    private final EAttributeState life;
-    private final EAttributeState comunicates;
-    private final EAttributeState resources;
-    private final EAttributeState bigger;
-    private final EAttributeState weapons;
-    private final EAttributeState actWeapons;
-    private final EAttributeState fast;
-    private final Type type;
+    private final EAttributeStates life;
+    private final EAttributeStates comunicates;
+    private final EAttributeStates resources;
+    private final EAttributeStates bigger;
+    private final EAttributeStates weapons;
+    private final EAttributeStates actWeapons;
+    private final EAttributeStates fast;
+    private final EType type;
+    private final EType givenType;
     private final String name;
     private final int id;
     
 
     public AGameObject(String name,
-            Type type,
-            EAttributeState life,
-            EAttributeState comunicates,
-            EAttributeState resources,
-            EAttributeState bigger,
-            EAttributeState weapons,
-            EAttributeState actWeapons,
-            EAttributeState fast) {
+            EType type,
+            EType givenType,
+            EAttributeStates life,
+            EAttributeStates comunicates,
+            EAttributeStates resources,
+            EAttributeStates bigger,
+            EAttributeStates weapons,
+            EAttributeStates actWeapons,
+            EAttributeStates fast) {
 
         id = idGenerator;
         idGenerator++;
         this.type = type;
+        this.givenType = givenType;
         this.name = name + "_" + id;
         this.life = life;
         this.comunicates = comunicates;
@@ -53,6 +56,8 @@ public abstract class AGameObject implements IGameObject {
         this.actWeapons = actWeapons;
         this.fast = fast;
         
+      //  this.fast = EAttributeStatesCustom.TRUE;
+        
     }
     
     protected void idGeneratorMinusOne(){
@@ -60,37 +65,42 @@ public abstract class AGameObject implements IGameObject {
     }
     
     @Override
-    public EAttributeState getLife() {
+    public EType getGivenType(){
+        return givenType;
+    }
+    
+    @Override
+    public EAttributeStates getLife() {
         return life;
     }
 
     @Override
-    public EAttributeState getComunicates() {
+    public EAttributeStates getComunicates() {
         return comunicates;
     }
 
     @Override
-    public EAttributeState getResources() {
+    public EAttributeStates getResources() {
         return resources;
     }
 
     @Override
-    public EAttributeState getBigger() {
+    public EAttributeStates getBigger() {
         return bigger;
     }
 
     @Override
-    public EAttributeState getWeapons() {
+    public EAttributeStates getWeapons() {
         return weapons;
     }
 
     @Override
-    public EAttributeState getActWeapons() {
+    public EAttributeStates getActWeapons() {
         return actWeapons;
     }
 
     @Override
-    public EAttributeState getFast() {
+    public EAttributeStates getFast() {
         return fast;
     }
 
@@ -98,47 +108,47 @@ public abstract class AGameObject implements IGameObject {
         return id;
     }
 
-    private List<Attributes> getAttributesWithState(EAttributeState state) {
-        List<Attributes> withState = new ArrayList<>();
+    private List<EAttributes> getAttributesWithState(EAttributeStates state) {
+        List<EAttributes> withState = new ArrayList<>();
         
         if(this.life == state){
-            withState.add(Attributes.LIFE);
+            withState.add(EAttributes.LIFE);
         }
         if(this.comunicates == state){
-            withState.add(Attributes.COMUNICATES);
+            withState.add(EAttributes.COMUNICATES);
         }
         if(this.resources == state){
-            withState.add(Attributes.RESOURCES);
+            withState.add(EAttributes.RESOURCES);
         }
         if(this.bigger == state){
-            withState.add(Attributes.BIGGER);
+            withState.add(EAttributes.BIGGER);
         }
         if(this.weapons == state){
-            withState.add(Attributes.WEAPONS);
+            withState.add(EAttributes.WEAPONS);
         }
         if(this.actWeapons == state){
-            withState.add(Attributes.ACT_WEAPON);
+            withState.add(EAttributes.ACT_WEAPON);
         }
         if(this.fast == state){
-            withState.add(Attributes.FAST);
+            withState.add(EAttributes.FAST);
         }
         
         return withState;
     }
 
     @Override
-    public List<Attributes> getTrueAttr() {
-       return getAttributesWithState(EAttributeState.TRUE);
+    public List<EAttributes> getTrueAttr() {
+       return getAttributesWithState(EAttributeStates.TRUE);
     }
 
     @Override
-    public List<Attributes> getMissingAttr() {
-        return getAttributesWithState(EAttributeState.UNDEFINED);
+    public List<EAttributes> getMissingAttr() {
+        return getAttributesWithState(EAttributeStates.UNDEFINED);
     }
 
     @Override
-    public List<Attributes> getFalseAttr() {
-        return getAttributesWithState(EAttributeState.FALSE);
+    public List<EAttributes> getFalseAttr() {
+        return getAttributesWithState(EAttributeStates.FALSE);
     }
 
     @Override
@@ -148,41 +158,41 @@ public abstract class AGameObject implements IGameObject {
 
     @Override
     public boolean isLife() {
-        return life == EAttributeState.TRUE;
+        return life == EAttributeStates.TRUE;
     }
 
     @Override
     public boolean isComunicates() {
-        return comunicates == EAttributeState.TRUE;
+        return comunicates == EAttributeStates.TRUE;
     }
 
     @Override
     public boolean isResources() {
-        return resources == EAttributeState.TRUE;
+        return resources == EAttributeStates.TRUE;
     }
 
     @Override
     public boolean isBigger() {
-        return bigger == EAttributeState.TRUE;
+        return bigger == EAttributeStates.TRUE;
     }
 
     @Override
     public boolean isWeapons() {
-        return weapons == EAttributeState.TRUE;
+        return weapons == EAttributeStates.TRUE;
     }
 
     @Override
     public boolean isActWeapons() {
-        return actWeapons == EAttributeState.TRUE;
+        return actWeapons == EAttributeStates.TRUE;
     }
 
     @Override
     public boolean isFast() {
-        return fast == EAttributeState.TRUE;
+        return fast == EAttributeStates.TRUE;
     }
 
     @Override
-    public Type getType() {
+    public EType getType() {
         return type;
     }
 

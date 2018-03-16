@@ -6,13 +6,15 @@
 package BussinesLogic;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import protocol.enums.Attributes;
+import protocol.enums.EAction;
+import protocol.enums.EAttributes;
 
 /**
  *
@@ -32,7 +34,7 @@ public class Protokol {
                 throw new IllegalArgumentException("No action for "+statementElse);
             } else if (Action.getValueOf(statementThen) == null) {
                 throw new IllegalArgumentException("No action for "+statementThen);
-            } else */if (Attributes.getValueOf(statementIf) == null) {
+            } else */if (EAttributes.getValueOf(statementIf) == null) {
                 throw new IllegalArgumentException("No attribute for "+statementIf);
             }
 
@@ -45,7 +47,7 @@ public class Protokol {
     }
     ///END CLASS RULE
 
-    Map<String, Rule> rules = new HashMap<>();
+    Map<String, Rule> rules = new LinkedHashMap<>();
     Rule startWith = null;
     String protocolName;
     private static int idGenerator = 1;
@@ -61,6 +63,10 @@ public class Protokol {
 
     public void addRule(String name, String statementIf, String statementElse, String statementThen) {
         rules.put(name, new Rule(name, statementIf, statementElse, statementThen));
+    }
+    
+     private void addFirstRule(String name, String statementIf, String statementElse, String statementThen) {
+        startWith = new Rule(name, statementIf, statementElse, statementThen);
     }
 
     public void createFromGroup(Group[] allGroups) {
@@ -121,22 +127,58 @@ public class Protokol {
 
         return rules.get(name) == null ? null : rules.get(name).statementElse;
     }
+    
+    
 
-    public String exportProtokol() {
+    public String exportProtokol(String teamName) {
         StringBuilder sb = new StringBuilder();
+        Map<String, String> renamedRules = new HashMap<>();
+        for(EAction act : EAction.values()){
+            renamedRules.put(act.toString(), act.toString());
+        }
+        
+        
 
         sb.append("protokol{\n");
 
         sb.append("name:");
-        sb.append(this.protocolName);
+        sb.append(teamName);
         sb.append(";\n");
 
+        int ids = 1;
         for (Map.Entry<String, Rule> entry : rules.entrySet()) {
+            String name = entry.getKey();
+            //\.[]{}()*+-?^$|
+            String nameWithoutSpecials = name
+                    .replaceAll("//", "")
+                    .replaceAll("\\\\", "")
+                    .replaceAll(Pattern.quote("["), "")
+                    .replaceAll(Pattern.quote("]"), "")
+                    .replaceAll(Pattern.quote("{"), "")
+                    .replaceAll(Pattern.quote("}"), "")
+                    .replaceAll(Pattern.quote("("), "")
+                    .replaceAll(Pattern.quote(")"), "")
+                    .replaceAll(Pattern.quote("*"), "")
+                    .replaceAll(Pattern.quote("-"), "")
+                    .replaceAll(Pattern.quote("?"), "")
+                    .replaceAll(Pattern.quote("^"), "")
+                    .replaceAll(Pattern.quote("$"), "")
+                    .replaceAll(Pattern.quote("|"), "");
+            
+            if(!renamedRules.containsKey(name)){
+                renamedRules.put(name, nameWithoutSpecials +String.valueOf(ids));
+                ids++;
+            }
+        }
+        
+        
+        for (Map.Entry<String, Rule> entry : rules.entrySet()) {
+           
             sb.append("rule").append("{\n");
-            sb.append("name:").append(entry.getKey()).append(";\n");
+            sb.append("name:").append((entry.getKey())).append(";\n");
             sb.append("if:").append(entry.getValue().statementIf).append(";\n");
-            sb.append("then:").append(entry.getValue().statementThen).append(";\n");
-            sb.append("else:").append(entry.getValue().statementElse).append(";\n");
+            sb.append("then:").append((entry.getValue().statementThen)).append(";\n");
+            sb.append("else:").append((entry.getValue().statementElse)).append(";\n");
 
             sb.append("}\n");
         }
@@ -150,9 +192,9 @@ public class Protokol {
 
         // Now create matcher object.
         Matcher m = r.matcher(toReturn);
-        if (!m.find()) {
+        /*if (!m.find()) {
             throw new IllegalArgumentException("Badly created protokol to export!");
-        }
+        }*/
 
         return sb.toString();
     }
@@ -163,20 +205,27 @@ public class Protokol {
 
         // Now create matcher object.
         Matcher m = r.matcher(pr);
-        if (!m.find()) {
+        /*if (!m.find()) {
             throw new IllegalArgumentException("Given string is not in correct state!");
-        }
+        }*/
 
         String[] splits = pr.split("\n");
         Protokol createdProtokol = new Protokol(splits[1].split(":")[1].replace(";", ""));
 
         for (int i = 2; i < splits.length - 1; i += 6) {
+            String name = splits[i + 1].split(":")[1].replace(";", "");
+            String staIf = splits[i + 2].split(":")[1].replace(";", "");
+            String staElse = splits[i + 4].split(":")[1].replace(";", "");
+            String staThen = splits[i + 3].split(":")[1].replace(";", "");
             createdProtokol.addRule(
-                    splits[i + 1].split(":")[1].replace(";", ""),
-                    splits[i + 2].split(":")[1].replace(";", ""),
-                    splits[i + 3].split(":")[1].replace(";", ""),
-                    splits[i + 4].split(":")[1].replace(";", "")
+                    name,
+                    staIf,
+                    staElse,
+                    staThen
             );
+             if (i == 2) {
+                createdProtokol.addFirstRule(name, staIf, staElse, staThen); 
+            }
         }
 
         return createdProtokol;

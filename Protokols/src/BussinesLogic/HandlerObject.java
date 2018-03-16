@@ -5,14 +5,15 @@
  */
 package BussinesLogic;
 
-import protocol.enums.Action;
-import protocol.enums.EAttributeState;
-import protocol.enums.Type;
+import java.util.ArrayList;
+import java.util.List;
+import protocol.enums.EAction;
+import protocol.enums.EAttributeStates;
+import protocol.enums.EType;
 import protocol.exceptions.InvalidObjectException;
 import protocol.objects.GameObjectAsteroid;
 import protocol.objects.GameObjectPlanet;
 import protocol.objects.GameObjectShip;
-import protocol.objects.GameObjectUnknown;
 import protocol.objects.IGameObject;
 
 /**
@@ -26,30 +27,50 @@ public final class HandlerObject {
 
     public static IGameObject createObject(
             String name,
-            Type type,
-            EAttributeState life,
-            EAttributeState comunicates,
-            EAttributeState resources,
-            EAttributeState bigger,
-            EAttributeState weapons,
-            EAttributeState actWeapons,
-            EAttributeState fast) {
+            EType type,
+            EAttributeStates life,
+            EAttributeStates comunicates,
+            EAttributeStates resources,
+            EAttributeStates bigger,
+            EAttributeStates weapons,
+            EAttributeStates actWeapons,
+            EAttributeStates fast) {
 
         IGameObject go;
 
         try {
-            switch (resolveType(type, life, comunicates, resources, bigger, weapons, actWeapons, fast)) {
+            switch (type) {
                 case ASTEROID:
-                    go = new GameObjectAsteroid(name, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                    go = new GameObjectAsteroid(name, type, life, comunicates, resources, bigger, weapons, actWeapons, fast);
                     break;
                 case PLANET:
-                    go = new GameObjectPlanet(name, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                    go = new GameObjectPlanet(name, type, life, comunicates, resources, bigger, weapons, actWeapons, fast);
                     break;
                 case SHIP:
-                    go = new GameObjectShip(name, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                    go = new GameObjectShip(name, type, life, comunicates, resources, bigger, weapons, actWeapons, fast);
                     break;
                 default:
-                    go = new GameObjectUnknown(name, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                    try {
+                        go = new GameObjectShip(name, type, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                    } catch (InvalidObjectException e) {
+                        go = null;
+                    }
+
+                    if (go == null) {
+                        try {
+                            go = new GameObjectPlanet(name, type, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                        } catch (InvalidObjectException e) {
+                            go = null;
+                        }
+                    }
+
+                    if (go == null) {
+                        try {
+                            go = new GameObjectAsteroid(name, type, life, comunicates, resources, bigger, weapons, actWeapons, fast);
+                        } catch (InvalidObjectException e) {
+                            go = null;
+                        }
+                    }
             }
         } catch (InvalidObjectException ex) {
             go = null;
@@ -58,36 +79,99 @@ public final class HandlerObject {
         return go;
     }
 
-    private static Type resolveType(
-            Type type,
-            EAttributeState life,
-            EAttributeState comunicates,
-            EAttributeState resources,
-            EAttributeState bigger,
-            EAttributeState weapons,
-            EAttributeState actWeapons,
-            EAttributeState fast) {
+    private static EType resolveType(
+            EType type,
+            EAttributeStates life,
+            EAttributeStates comunicates,
+            EAttributeStates resources,
+            EAttributeStates bigger,
+            EAttributeStates weapons,
+            EAttributeStates actWeapons,
+            EAttributeStates fast) {
 
-        if (type != Type.UNDEFINED) {
+        if (type != EType.UNDEFINED) {
             return type;
         }
 
         if (weapons.is() || (weapons.isUnknown() && fast.is() && life.is())) {
-            return Type.SHIP;
+            return EType.SHIP;
         }
 
         if (life.is() || comunicates.is()) {
-            return Type.PLANET;
+            return EType.PLANET;
         }
 
         if (fast.is()) {
-            return Type.ASTEROID;
+            return EType.ASTEROID;
         }
 
-        return Type.UNDEFINED;
+        return EType.UNDEFINED;
     }
 
-    public static int evalActionOnObject(IGameObject gameObject, Action action) {
+    public static int evalActionOnObject(IGameObject gameObject, EAction action) {
         return gameObject.doAction(action);
     }
+    
+    public static List<IGameObject> createAllObjects(){
+        List<IGameObject> objects = new ArrayList<>();
+        
+        for (EType t : new EType[]{EType.ASTEROID, EType.PLANET, EType.SHIP}) {
+            for (boolean fast : new boolean[]{true, false}) {
+                for (boolean bigger : new boolean[]{true, false}) {
+                    for (boolean communicates : new boolean[]{true, false}) {
+                        for (boolean resources : new boolean[]{true, false}) {
+                            for (boolean weapons : new boolean[]{true, false}) {
+                                for (boolean active_weapons : new boolean[]{true, false}) {
+                                    for (boolean life : new boolean[]{true, false}) {
+
+                                        String name = t.toString() + "_";
+
+                                        if (fast) {
+                                            name += "fast_";
+                                        }
+                                        if (bigger) {
+                                            name += "bigger_";
+                                        }
+                                        if (communicates) {
+                                            name += "communicates_";
+                                        }
+                                        if (resources) {
+                                            name += "resources_";
+                                        }
+                                        if (weapons) {
+                                            name += "weapons_";
+                                        }
+                                        if (active_weapons) {
+                                            name += "active_weapons_";
+                                        }
+                                        if (life) {
+                                            name += "life_";
+                                        }
+
+                                        IGameObject go = HandlerObject.createObject(name,
+                                                t,
+                                                EAttributeStates.get(life), //life
+EAttributeStates.get(communicates), //communicates
+EAttributeStates.get(resources), //resources
+EAttributeStates.get(bigger), //bigger
+EAttributeStates.get(weapons), //weapons
+EAttributeStates.get(active_weapons), //active weapons
+EAttributeStates.get(fast)); //fast
+
+                                        if (go != null) {
+                                            objects.add(go);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return objects;
+    }
+    
+    
 }
