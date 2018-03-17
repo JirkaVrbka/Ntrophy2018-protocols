@@ -3,6 +3,7 @@ package protocols_app;
 import BussinesLogic.HanderImportExport;
 import BussinesLogic.HandlerGame;
 import BussinesLogic.HandlerObject;
+import BussinesLogic.HandlerTextFieldChanged;
 import BussinesLogic.Protokol;
 import java.io.IOException;
 import java.net.URL;
@@ -259,59 +260,75 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void initTextFieldChangedListeners() {
+
         ChangeListener<String> textFieldListener = new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                     String oldValue, String newValue) {
-/*
-                System.out.println(oldValue);
-                System.out.println(newValue + "\n");
-                */
-                int oldNameCount = 0;
-                for(int i = 0; i < lastGroupID; i++){
-                    TextField statementIf = getTextFieldOfGroup(i);
-                    //System.out.println(statementIf.toString());
-                    if(statementIf.toString().equals(newValue)){
-                        
-                        return;
+
+                if (HandlerTextFieldChanged.shouldFocus) {
+                    HandlerTextFieldChanged.shouldFocus = false;
+                    for (int i = 0; i < 42; i++) {
+                        ComboBox<String> statementThen = getChoiceBoxesOfGroup(i)[1];
+                        ComboBox<String> statementElse = getChoiceBoxesOfGroup(i)[2];
+
+                        if (statementThen.getSelectionModel().getSelectedItem().equals(oldValue)) {
+                            HandlerTextFieldChanged.focusedThen.put(i, true);
+                        }else{
+                            HandlerTextFieldChanged.focusedThen.put(i, false);
+                        }
+                        if (statementElse.getSelectionModel().getSelectedItem().equals(oldValue)) {
+                            HandlerTextFieldChanged.focusedElse.put(i, true);
+                        }else{
+                            HandlerTextFieldChanged.focusedElse.put(i, false);
+                        }
                     }
                 }
-                
-                
+
                 for (int i = 0; i < 42; i++) {
                     ComboBox<String> statementThen = getChoiceBoxesOfGroup(i)[1];
                     ComboBox<String> statementElse = getChoiceBoxesOfGroup(i)[2];
-
-                    boolean selectedOldThen = false;
-                    boolean selectedOldElse = false;
-
-                    if (statementThen.getValue().equals(oldValue)) {
-                        selectedOldThen = true;
-                    }
-
-                    if (statementElse.getValue().equals(oldValue)) {
-                        selectedOldElse = true;
-                    }
-
+                    
+                    String oldSelectedThen = statementThen.getSelectionModel().getSelectedItem();
+                    String oldSelectedElse = statementElse.getSelectionModel().getSelectedItem();
+                    
                     if (statementThen.getItems().remove(oldValue)) {
                         statementThen.getItems().add(newValue);
-                        if (selectedOldThen) {
-                            statementThen.getSelectionModel().select(newValue);
+                        if (HandlerTextFieldChanged.focusedThen.get(i)) {
+                            getChoiceBoxesOfGroup(i)[1].getSelectionModel().select(newValue);
                         }
                     }
 
                     if (statementElse.getItems().remove(oldValue)) {
                         statementElse.getItems().add(newValue);
-                        if (selectedOldElse) {
-                            statementElse.getSelectionModel().select(newValue);
+                        if (HandlerTextFieldChanged.focusedElse.get(i)) {
+                            getChoiceBoxesOfGroup(i)[2].getSelectionModel().select(newValue);
                         }
+                    }
+                    
+                    if(!HandlerTextFieldChanged.focusedThen.get(i)){
+                        getChoiceBoxesOfGroup(i)[1].getSelectionModel().select(oldSelectedThen);
+                    }
+                    
+                    if(!HandlerTextFieldChanged.focusedElse.get(i)){
+                        getChoiceBoxesOfGroup(i)[2].getSelectionModel().select(oldSelectedElse);
                     }
                 }
             }
         };
-        
+
         for (int i = 0; i < 42; i++) {
             getTextFieldOfGroup(i).textProperty().addListener(textFieldListener);
+            getTextFieldOfGroup(i).focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (!newValue) {
+                        HandlerTextFieldChanged.focusedThen.clear();
+                        HandlerTextFieldChanged.focusedElse.clear();
+                        HandlerTextFieldChanged.shouldFocus = true;
+                    }
+                }
+            });
         }
     }
 
@@ -644,18 +661,16 @@ public class FXMLDocumentController implements Initializable {
             output += String.valueOf(result) + ", ";
             globalResult += result;
         }
-        
-        
 
         output += "\r\n-------------"
                 + "\r\nResult: " + globalResult;
-        
-        if(globalResult < -500){
+
+        if (globalResult < -500) {
             output += " Spatne zkonstruovany protokol";
         }
-        
+
         writeOutput(output);
-        
+
     }
 
     @FXML
@@ -682,11 +697,11 @@ public class FXMLDocumentController implements Initializable {
         int result = handlerGame.evaluateProtokol(activeProtokol, getActiveObjectName());
 
         String output = String.valueOf(result);
-        
-        if(result < -500){
+
+        if (result < -500) {
             output += " Spatne zkonstruovany protokol";
         }
-        
+
         writeOutput(output);
     }
 
@@ -714,10 +729,10 @@ public class FXMLDocumentController implements Initializable {
 
         //write protocol into panel
         protokol.writeToGroup(allGroups, true);
-        lastGroupID = protokol.getRulesCount() -1;
+        lastGroupID = protokol.getRulesCount() - 1;
         addRulesName();
         updateAllThenElseChoices();
-        
+
     }
 
     @FXML
@@ -749,30 +764,29 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void actionRunAllObjectOnAllProtokols(ActionEvent event) {
         int longestNameSize = 0;
-        for (String protokolName : handlerGame.getProtocolNames()){
-            if(longestNameSize < protokolName.length()){
+        for (String protokolName : handlerGame.getProtocolNames()) {
+            if (longestNameSize < protokolName.length()) {
                 longestNameSize = protokolName.length();
             }
         }
         longestNameSize++;
-        
+
         String output = "";
         for (String protokolName : handlerGame.getProtocolNames()) {
             int teamResult = 0;
-            
-            
+
             for (String name : handlerGame.getObjectNames()) {
                 int result = handlerGame.evaluateProtokol(protokolName, name);
                 teamResult += result;
             }
 
             output += protokolName + " :";
-            for(int i = 0; i < (longestNameSize - protokolName.length()); i++){
+            for (int i = 0; i < (longestNameSize - protokolName.length()); i++) {
                 output += " ";
             }
             output += teamResult + "\r\n";
         }
-        
+
         writeOutput(output);
     }
 
@@ -791,8 +805,7 @@ public class FXMLDocumentController implements Initializable {
         for (ChoiceBox box : atributteBox) {
             box.getSelectionModel().select(EAttributeStates.UNDEFINED.toString());
         }
-        
-        
+
     }
 
 }
