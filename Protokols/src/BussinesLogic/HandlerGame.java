@@ -19,22 +19,21 @@ import protocol.objects.IGameObject;
  * @author Jirka
  */
 public class HandlerGame {
-    
+
     Map<String, IGameObject> defaultObjects = new LinkedHashMap<>();
     Map<String, IGameObject> customObjects = new LinkedHashMap<>();
     Map<String, Protokol> customProtocols = new LinkedHashMap<>();
     String currentProtocolName;
-    
-    
-    public HandlerGame(){
+
+    public HandlerGame() {
         createDefaultObjects();
     }
-    
-    public Set<String> getProtocolNames(){
+
+    public Set<String> getProtocolNames() {
         return customProtocols.keySet();
     }
-    
-    public List<String> getObjectNames(){
+
+    public List<String> getObjectNames() {
         List<String> allObjects = new ArrayList<>();
         customObjects.keySet().forEach(name -> {
             allObjects.add(name);
@@ -43,66 +42,69 @@ public class HandlerGame {
             allObjects.add(name);
         });
         //allObjects.addAll(defaultObjects.keySet());
-        
+
         return allObjects;
     }
-    
-    public Protokol getProtokol(String name){
+
+    public Protokol getProtokol(String name) {
         return customProtocols.get(name);
     }
-    
-    public IGameObject getCustomObject(String name){
+
+    public IGameObject getCustomObject(String name) {
         return customObjects.get(name);
     }
-    
-    public IGameObject getObject(String name){
+
+    public IGameObject getObject(String name) {
         IGameObject toReturn;
-        if((toReturn = customObjects.get(name)) == null && (toReturn = defaultObjects.get(name)) == null){
+        if ((toReturn = customObjects.get(name)) == null && (toReturn = defaultObjects.get(name)) == null) {
             return null;
         }
-        
+
         return toReturn;
     }
-    
-    public boolean removeCustomObject(String name){
+
+    public boolean removeCustomObject(String name) {
         boolean isThere = customObjects.remove(name) != null;
         return isThere;
     }
-    
-    public boolean removeProtocol(String name){
+
+    public boolean removeProtocol(String name) {
         return customProtocols.remove(name) != null;
     }
-    
-    public void addProtokol(Protokol protokol){
+
+    public void addProtokol(Protokol protokol) {
         customProtocols.put(protokol.getName(), protokol);
     }
-    
-    public void addCustomObject(IGameObject go){
-        customObjects.put(go.getName(),go);
+
+    public void addCustomObject(IGameObject go) {
+        customObjects.put(go.getName(), go);
     }
-    
-    public int evaluateProtokol(String protokolName, String objectName){
+
+    public int evaluateProtokol(String protokolName, String objectName) {
         IGameObject gameObject;
         Protokol protokol;
-        
-        if((gameObject = getObject(objectName)) == null ){
-            throw new IllegalArgumentException("No object in database with name "+ objectName);
+
+        if ((gameObject = getObject(objectName)) == null) {
+            throw new IllegalArgumentException("No object in database with name " + objectName);
         }
-        
-        if((protokol = getProtokol(protokolName)) == null ){
-            throw new IllegalArgumentException("No protokol in database with name "+ protokolName);
+
+        if ((protokol = getProtokol(protokolName)) == null) {
+            throw new IllegalArgumentException("No protokol in database with name " + protokolName);
         }
-        
-        return HandlerProtocol.evalProtokol(protokol, gameObject);
+
+        try {
+            return HandlerProtocol.evalProtokol(protokol, gameObject);
+        } catch (NullPointerException ex) {
+            return -999;
+        }
     }
-    
-    
-    private void createDefaultObjects(){
+
+    private void createDefaultObjects() {
         IGameObject go;
-        
+
         //obj 1 asteroid
         go = HandlerObject.createObject("Default obj",
-                EType.ASTEROID, 
+                EType.ASTEROID,
                 EAttributeStates.FALSE, //life
                 EAttributeStates.FALSE, //communicates
                 EAttributeStates.FALSE, //resources
@@ -110,15 +112,15 @@ public class HandlerGame {
                 EAttributeStates.FALSE, //weapons
                 EAttributeStates.FALSE, //active weapons
                 EAttributeStates.TRUE); //fast
-        
-        if(go == null){
+
+        if (go == null) {
             throw new IllegalArgumentException("Cannot create default object");
         }
         defaultObjects.put(go.getName(), go);
-        
+
         // obj 2 enemy live ship
         go = HandlerObject.createObject("Default obj",
-                EType.SHIP, 
+                EType.SHIP,
                 EAttributeStates.TRUE, //life
                 EAttributeStates.TRUE, //communicates
                 EAttributeStates.TRUE, //resources
@@ -126,15 +128,15 @@ public class HandlerGame {
                 EAttributeStates.TRUE, //weapons
                 EAttributeStates.TRUE, //active weapons
                 EAttributeStates.FALSE); //fast
-        
-        if(go == null){
+
+        if (go == null) {
             throw new IllegalArgumentException("Cannot create default object");
         }
         defaultObjects.put(go.getName(), go);
-        
+
         // obj 3 anship
         go = HandlerObject.createObject("Default obj",
-                EType.SHIP, 
+                EType.SHIP,
                 EAttributeStates.FALSE, //life
                 EAttributeStates.TRUE, //communicates
                 EAttributeStates.TRUE, //resources
@@ -142,15 +144,15 @@ public class HandlerGame {
                 EAttributeStates.TRUE, //weapons
                 EAttributeStates.TRUE, //active weapons
                 EAttributeStates.FALSE); //fast
-        
-        if(go == null){
+
+        if (go == null) {
             throw new IllegalArgumentException("Cannot create default object");
         }
         defaultObjects.put(go.getName(), go);
-        
+
         //obj 4 vrak
         go = HandlerObject.createObject("Default obj",
-                EType.SHIP, 
+                EType.SHIP,
                 EAttributeStates.FALSE, //life
                 EAttributeStates.FALSE, //communicates
                 EAttributeStates.TRUE, //resources
@@ -158,15 +160,15 @@ public class HandlerGame {
                 EAttributeStates.TRUE, //weapons
                 EAttributeStates.FALSE, //active weapons
                 EAttributeStates.FALSE); //fast
-        
-        if(go == null){
+
+        if (go == null) {
             throw new IllegalArgumentException("Cannot create default object");
         }
         defaultObjects.put(go.getName(), go);
-        
+
         // obj 5 planet
         go = HandlerObject.createObject("Default obj",
-                EType.PLANET, 
+                EType.PLANET,
                 EAttributeStates.TRUE, //life
                 EAttributeStates.TRUE, //communicates
                 EAttributeStates.TRUE, //resources
@@ -174,13 +176,12 @@ public class HandlerGame {
                 EAttributeStates.FALSE, //weapons
                 EAttributeStates.FALSE, //active weapons
                 EAttributeStates.FALSE); //fast
-        
-        if(go == null){
+
+        if (go == null) {
             throw new IllegalArgumentException("Cannot create default object");
         }
         defaultObjects.put(go.getName(), go);
-        
+
     }
-    
-    
+
 }

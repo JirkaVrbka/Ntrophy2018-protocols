@@ -107,6 +107,8 @@ public class GameObjectShip extends AGameObject{
             }
             if (super.isComunicates()){
                 return 0;
+            }else{
+                return 3;
             }
         }else{
             if(super.isComunicates()){

@@ -5,8 +5,10 @@
  */
 package BussinesLogic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,9 +54,20 @@ public class Protokol {
     String protocolName;
     private static int idGenerator = 1;
 
+    
     public Protokol(String name) {
         this.protocolName = name + "_" + idGenerator;
         idGenerator++;
+    }
+    
+    public List<String> getRulesNames(){
+        List<String> rulesNames = new ArrayList<>();
+        rulesNames.addAll(rules.keySet());
+        return  rulesNames;
+    }
+    
+    public int getRulesCount(){
+        return rules.size();
     }
     
     public void setName(String name){

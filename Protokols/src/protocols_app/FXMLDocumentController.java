@@ -263,7 +263,21 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable,
                     String oldValue, String newValue) {
-
+/*
+                System.out.println(oldValue);
+                System.out.println(newValue + "\n");
+                */
+                int oldNameCount = 0;
+                for(int i = 0; i < lastGroupID; i++){
+                    TextField statementIf = getTextFieldOfGroup(i);
+                    //System.out.println(statementIf.toString());
+                    if(statementIf.toString().equals(newValue)){
+                        
+                        return;
+                    }
+                }
+                
+                
                 for (int i = 0; i < 42; i++) {
                     ComboBox<String> statementThen = getChoiceBoxesOfGroup(i)[1];
                     ComboBox<String> statementElse = getChoiceBoxesOfGroup(i)[2];
@@ -480,6 +494,8 @@ public class FXMLDocumentController implements Initializable {
         if (lastGroupID < 42) {
             showGroup(lastGroupID + 1);
             lastGroupID++;
+            addRulesName();
+            updateAllThenElseChoices();
             //getTextFieldOfGroup(lastGroupID).setText(Integer.toString(lastGroupID +1));
         }
     }
@@ -628,10 +644,18 @@ public class FXMLDocumentController implements Initializable {
             output += String.valueOf(result) + ", ";
             globalResult += result;
         }
+        
+        
 
         output += "\r\n-------------"
                 + "\r\nResult: " + globalResult;
+        
+        if(globalResult < -500){
+            output += " Spatne zkonstruovany protokol";
+        }
+        
         writeOutput(output);
+        
     }
 
     @FXML
@@ -657,7 +681,13 @@ public class FXMLDocumentController implements Initializable {
 
         int result = handlerGame.evaluateProtokol(activeProtokol, getActiveObjectName());
 
-        writeOutput(String.valueOf(result));
+        String output = String.valueOf(result);
+        
+        if(result < -500){
+            output += " Spatne zkonstruovany protokol";
+        }
+        
+        writeOutput(output);
     }
 
     @FXML
@@ -684,6 +714,10 @@ public class FXMLDocumentController implements Initializable {
 
         //write protocol into panel
         protokol.writeToGroup(allGroups, true);
+        lastGroupID = protokol.getRulesCount() -1;
+        addRulesName();
+        updateAllThenElseChoices();
+        
     }
 
     @FXML
@@ -761,9 +795,4 @@ public class FXMLDocumentController implements Initializable {
         
     }
 
-    private void actionTextFieldChange(InputMethodEvent event) {
-        System.out.println("pes");
-        System.out.println(event.getCommitted());
-        int neco1 = 5;
-    }
 }

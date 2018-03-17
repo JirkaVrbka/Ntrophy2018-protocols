@@ -77,6 +77,9 @@ public class GameObjectPlanet extends AGameObject {
         if (!isLife() && !isResources()) {
             return 3;
         }
+        if (!isComunicates() && isLife()){
+            return 3;
+        }
         //TODO 3 life and doesnt comm
         return 0;
     }
